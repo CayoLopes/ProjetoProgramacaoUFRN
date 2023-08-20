@@ -12,12 +12,14 @@ Discente: Cayo César da Costa Lopes
 
 void menu_inicial(void);
 void menu_sobre(void);
+void menu_equipe(void);
 
 int main(void){
     setlocale(LC_ALL,"Portuguese");
 
     menu_inicial();
     menu_sobre();
+    menu_equipe();
     return 0;
 }
 
@@ -50,10 +52,26 @@ void menu_sobre(void){
     printf("** do de 2023.2 na matéria de programação (DCT1106) do curso de Sistemas de    ** \n");
     printf("** Informação. O programa deve conter os módulos e funcionalidades que serão   ** \n");
     printf("** exigidas no decorrer da disciplina de programação. Qualquer alteração será  ** \n");
-    printf("** registrada no repositório do projeto, no perfil do aluno que o desenvolveu.  ** \n");
+    printf("** registrada no repositório do projeto, no perfil do aluno que o desenvolveu. ** \n");
     printf("** É possivel visualizar esse programa no link HTTPS abaixo.                   ** \n");
     printf("** https://github.com/CayoLopes/ProjetoProgramacaoUFRN.git                     ** \n");
     printf("*****************************                     ******************************* \n");
     printf("********************************************************************************* \n");
     
 }
+
+void menu_equipe(void){
+
+
+    printf("********************************************************************************* \n");
+    printf("*****************************                     ******************************* \n");
+    printf("**                                                                             ** \n");   
+    printf("**              Este projeto foi desenvolvido por:                             ** \n");
+    printf("**                                                                             ** \n");
+    printf("**              Discente: Cayo César da Costa Lopes                            ** \n");
+    printf("**              E-mail: cayocesarlopes@gmail.com                               ** \n");
+    printf("**              Perfil git: https://github.com/CayoLopes                       ** \n");
+    printf("**                                                                             ** \n");
+    printf("*****************************                     ******************************* \n");
+    printf("********************************************************************************* \n");
+} 
