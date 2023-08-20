@@ -11,12 +11,13 @@ Discente: Cayo César da Costa Lopes
 
 
 void menu_inicial(void);
+void menu_sobre(void);
 
 int main(void){
     setlocale(LC_ALL,"Portuguese");
 
     menu_inicial();
-
+    menu_sobre();
     return 0;
 }
 
@@ -38,4 +39,21 @@ void menu_inicial(void){
     printf("**                      0 - Sair                                               ** \n");
     printf("********************************************************************************* \n");
 
+}
+
+void menu_sobre(void){
+
+
+    printf("********************************************************************************* \n");    
+    printf("*****************************                     ******************************* \n");
+    printf("**      O programa apresentado servirá como um meio de avaliação para o perío- ** \n");
+    printf("** do de 2023.2 na matéria de programação (DCT1106) do curso de Sistemas de    ** \n");
+    printf("** Informação. O programa deve conter os módulos e funcionalidades que serão   ** \n");
+    printf("** exigidas no decorrer da disciplina de programação. Qualquer alteração será  ** \n");
+    printf("** registrada no repositório do projeto, no perfil do aluno que o desenvolveu.  ** \n");
+    printf("** É possivel visualizar esse programa no link HTTPS abaixo.                   ** \n");
+    printf("** https://github.com/CayoLopes/ProjetoProgramacaoUFRN.git                     ** \n");
+    printf("*****************************                     ******************************* \n");
+    printf("********************************************************************************* \n");
+    
 }
