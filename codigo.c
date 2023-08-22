@@ -13,11 +13,13 @@ Discente: Cayo César da Costa Lopes
 void menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
+void sub_menu_produto(void);
 
 int main(void){
     setlocale(LC_ALL,"Portuguese");
 
     menu_inicial();
+    sub_menu_produto();
     menu_sobre();
     menu_equipe();
     return 0;
@@ -26,7 +28,7 @@ int main(void){
 
 void menu_inicial(void){
 
-
+    printf("\n");
     printf("********************************************************************************* \n");    
     printf("**********************                                     ********************** \n");
     printf("***********                 F A R M Á C I A   E M   C                 *********** \n");
@@ -40,12 +42,33 @@ void menu_inicial(void){
     printf("**                      6 - Menu Sobre o Programador                           ** \n");
     printf("**                      0 - Sair                                               ** \n");
     printf("********************************************************************************* \n");
-
+    printf("\n");
 }
+
+
+void sub_menu_produto(void){
+
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************                                     ********************** \n");
+    printf("***********                 F A R M Á C I A   E M   C                 *********** \n");
+    printf("**********************                                     ********************** \n");
+    printf("********************************************************************************* \n"); 
+    printf("********************************************************************************* \n");
+    printf("**                      1 - Produtos cadastrados                               ** \n");
+    printf("**                      2 - Cadastar produto                                   ** \n");
+    printf("**                      3 - Informações de produtos                            ** \n");
+    printf("**                      4 - Editar/Apagar produto                              ** \n");
+    printf("**                      0 - Voltar                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");
+}
+
+
 
 void menu_sobre(void){
 
-
+    printf("\n");
     printf("********************************************************************************* \n");    
     printf("*****************************                     ******************************* \n");
     printf("**      O programa apresentado servirá como um meio de avaliação para o perío- ** \n");
@@ -57,12 +80,12 @@ void menu_sobre(void){
     printf("** https://github.com/CayoLopes/ProjetoProgramacaoUFRN.git                     ** \n");
     printf("*****************************                     ******************************* \n");
     printf("********************************************************************************* \n");
-    
+    printf("\n");
 }
 
 void menu_equipe(void){
 
-
+    printf("\n");
     printf("********************************************************************************* \n");
     printf("*****************************                     ******************************* \n");
     printf("**                                                                             ** \n");   
@@ -74,4 +97,5 @@ void menu_equipe(void){
     printf("**                                                                             ** \n");
     printf("*****************************                     ******************************* \n");
     printf("********************************************************************************* \n");
+    printf("\n");
 } 
