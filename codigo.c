@@ -15,6 +15,7 @@ void menu_sobre(void);
 void menu_equipe(void);
 void sub_menu_produto(void);
 void sub_menu_funcionario(void);
+void sub_menu_cliente(void);
 
 int main(void){
     setlocale(LC_ALL,"Portuguese");
@@ -22,9 +23,10 @@ int main(void){
     menu_inicial();
     sub_menu_produto();
     sub_menu_funcionario();
+    sub_menu_cliente();
     menu_sobre();
     menu_equipe();
-    
+
     return 0;
 }
 
@@ -59,7 +61,7 @@ void sub_menu_produto(void){
     printf("********************************************************************************* \n"); 
     printf("********************************************************************************* \n");
     printf("**                      1 - Produtos cadastrados                               ** \n");
-    printf("**                      2 - Cadastar produto                                   ** \n");
+    printf("**                      2 - Cadastrar produto                                  ** \n");
     printf("**                      3 - Informações de produtos                            ** \n");
     printf("**                      4 - Editar/Apagar produto                              ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -79,7 +81,7 @@ void sub_menu_funcionario(void){
     printf("********************************************************************************* \n"); 
     printf("********************************************************************************* \n");
     printf("**                      1 - Funcionários cadastrados                           ** \n");
-    printf("**                      2 - Cadastar funcionário                               ** \n");
+    printf("**                      2 - Cadastrar funcionário                              ** \n");
     printf("**                      3 - Ficha do funcionário                               ** \n");
     printf("**                      4 - Editar/Apagar ficha do funcionário                 ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -89,13 +91,32 @@ void sub_menu_funcionario(void){
 
 
 
+void sub_menu_cliente(void){
+
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************                                     ********************** \n");
+    printf("***********                 F A R M Á C I A   E M   C                 *********** \n");
+    printf("**********************                                     ********************** \n");
+    printf("********************************************************************************* \n"); 
+    printf("********************************************************************************* \n");
+    printf("**                      1 - Clientes cadastrados                               ** \n");
+    printf("**                      2 - Cadastrar cliente                                  ** \n");
+    printf("**                      3 - Ficha do cliente                                   ** \n");
+    printf("**                      4 - Editar/Apagar ficha do cliente                     ** \n");
+    printf("**                      0 - Voltar                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");
+}
+
+
 void menu_sobre(void){
 
     printf("\n");
     printf("********************************************************************************* \n");    
     printf("*****************************                     ******************************* \n");
     printf("**      O programa apresentado servirá como um meio de avaliação para o perío- ** \n");
-    printf("** do de 2023.2 na matíria de programação (DCT1106) do curso de Sistemas de    ** \n");
+    printf("** do de 2023.2 na matéria de programação (DCT1106) do curso de Sistemas de    ** \n");
     printf("** Informação. O programa deve conter os módulos e funcionalidades que serão   ** \n");
     printf("** exigidas no decorrer da disciplina de programação. Qualquer alteração será  ** \n");
     printf("** registrada no repositório do projeto, no perfil do aluno que o desenvolveu. ** \n");
@@ -105,6 +126,7 @@ void menu_sobre(void){
     printf("********************************************************************************* \n");
     printf("\n");
 }
+
 
 void menu_equipe(void){
 
