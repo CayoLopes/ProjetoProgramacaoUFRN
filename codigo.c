@@ -16,6 +16,7 @@ void menu_equipe(void);
 void sub_menu_produto(void);
 void sub_menu_funcionario(void);
 void sub_menu_cliente(void);
+void sub_menu_venda(void);
 
 int main(void){
     setlocale(LC_ALL,"Portuguese");
@@ -24,6 +25,7 @@ int main(void){
     sub_menu_produto();
     sub_menu_funcionario();
     sub_menu_cliente();
+    sub_menu_venda();
     menu_sobre();
     menu_equipe();
 
@@ -104,6 +106,24 @@ void sub_menu_cliente(void){
     printf("**                      2 - Cadastrar cliente                                  ** \n");
     printf("**                      3 - Ficha do cliente                                   ** \n");
     printf("**                      4 - Editar/Apagar ficha do cliente                     ** \n");
+    printf("**                      0 - Voltar                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");
+}
+
+
+void sub_menu_venda(){
+
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************                                     ********************** \n");
+    printf("***********                 F A R M Á C I A   E M   C                 *********** \n");
+    printf("**********************                                     ********************** \n");
+    printf("********************************************************************************* \n"); 
+    printf("********************************************************************************* \n");
+    printf("**                      1 - Realizar uma venda                                 ** \n");
+    printf("**                      2 - Relatório de vendas                                ** \n");
+    printf("**                      3 - Editar/Apagar uma venda                            ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
