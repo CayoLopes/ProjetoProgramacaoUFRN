@@ -34,7 +34,7 @@ int main(void){
 
 
 void menu_inicial(void){
-
+    char op;
     printf("\n");
     printf("********************************************************************************* \n");    
     printf("**********************                                     ********************** \n");
@@ -47,9 +47,15 @@ void menu_inicial(void){
     printf("**                      4 - Menu Vendas                                        ** \n");
     printf("**                      5 - Menu Sobre o Programa                              ** \n");
     printf("**                      6 - Menu Sobre o Programador                           ** \n");
-    printf("**                      0 - Sair                                               ** \n");
+    printf("**                      0 - Sair                                               ** \n");  
+    printf("**                                                                             ** \n");
+    printf("*************           Escolha a opção desejada:                   ************* \n");
+    printf("*****************                                               ***************** \n");
     printf("********************************************************************************* \n");
     printf("\n");
+    scanf("%c", &op);
+    getchar();
+   
 }
 
 
