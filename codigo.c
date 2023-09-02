@@ -10,6 +10,18 @@ Discente: Cayo César da Costa Lopes
 #include <locale.h>
 
 
+
+/*Essa função foi gerada pelo CHATGPT para limpar as telas dos menus*/
+void clearScreen() {
+#ifdef _WIN32
+    system("cls"); // Limpa a tela no Windows
+#else
+    system("clear"); // Limpa a tela em sistemas Unix/Linux
+#endif
+}
+
+
+
 void menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
@@ -35,6 +47,7 @@ int main(void){
 
 void menu_inicial(void){
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");    
     printf("**********************                                     ********************** \n");
@@ -62,6 +75,7 @@ void menu_inicial(void){
 void sub_menu_produto(void){
 
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("**********************                                     ********************** \n");
@@ -85,6 +99,7 @@ void sub_menu_produto(void){
 void sub_menu_funcionario(void){
 
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("**********************                                     ********************** \n");
@@ -109,6 +124,7 @@ void sub_menu_funcionario(void){
 void sub_menu_cliente(void){
     
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("**********************                                     ********************** \n");
@@ -132,6 +148,7 @@ void sub_menu_cliente(void){
 void sub_menu_venda(){
 
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("**********************                                     ********************** \n");
@@ -154,6 +171,7 @@ void sub_menu_venda(){
 void menu_sobre(void){
 
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");    
     printf("*****************************                     ******************************* \n");
@@ -175,6 +193,7 @@ void menu_sobre(void){
 void menu_equipe(void){
 
     char op;
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("*****************************                     ******************************* \n");
