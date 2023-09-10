@@ -7,7 +7,7 @@ Discente: Cayo César da Costa Lopes
 
 
 #include <stdio.h>
-
+#include <stdlib.h>
 
 
 /*Essa função foi gerada pelo CHATGPT para limpar as telas dos menus*/
@@ -21,7 +21,7 @@ void clearScreen() {
 
 
 
-void menu_inicial(void);
+char menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
 void sub_menu_produto(void);
@@ -30,20 +30,37 @@ void sub_menu_cliente(void);
 void sub_menu_venda(void);
 
 int main(void){
+   char opcao;
 
-    menu_inicial();
-    sub_menu_produto();
-    sub_menu_funcionario();
-    sub_menu_cliente();
-    sub_menu_venda();
-    menu_sobre();
-    menu_equipe();
+    do {
+        opcao = menu_inicial();
+        switch(opcao) {
+            case '1':
+                     sub_menu_produto();
+                     break;
+            case '2':
+                     sub_menu_funcionario();
+                     break;
+            case '3':
+                     sub_menu_cliente();
+                     break;
+            case '4':
+                     sub_menu_venda();
+                     break;
+            case '5':
+                     menu_sobre();
+                     break;    
+            case '6':
+                     menu_equipe();
+                     break;
+        }
+      }while (opcao != '0');
 
     return 0;
 }
 
 
-void menu_inicial(void){
+char menu_inicial(void){
     char op;
     clearScreen();
     printf("\n");
@@ -66,7 +83,8 @@ void menu_inicial(void){
     printf("\n");
     scanf("%c", &op);
     getchar();
-   
+    return op;   
+
 }
 
 
@@ -156,7 +174,7 @@ void sub_menu_venda(){
     printf("**********************      M E N U  D E  V E N D A S      ********************** \n");
     printf("********************************************************************************* \n");
     printf("**                      1 - Realizar uma venda                                 ** \n");
-    printf("**                      2 - Relatório de vendas                                ** \n");
+    printf("**                      2 - Relatorio de vendas                                ** \n");
     printf("**                      3 - Editar/Apagar uma venda                            ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
@@ -182,6 +200,7 @@ void menu_sobre(void){
     printf("** https://github.com/CayoLopes/ProjetoProgramacaoUFRN.git                     ** \n");
     printf("*****************************                     ******************************* \n");
     printf("********************************************************************************* \n");
+    printf("Selecione 0 para voltar \n");
     printf("\n");
     scanf("%c", &op);
     getchar();
@@ -204,6 +223,7 @@ void menu_equipe(void){
     printf("**                                                                             ** \n");
     printf("*****************************                     ******************************* \n");
     printf("********************************************************************************* \n");
+    printf("Selecione 0 para voltar \n");
     printf("\n");
     scanf("%c", &op);
     getchar();
