@@ -7,7 +7,7 @@ void clearScreen();
 
 
 
-void sub_menu_venda(){
+void sub_menu_venda(void){
 
     char op;
     clearScreen();
