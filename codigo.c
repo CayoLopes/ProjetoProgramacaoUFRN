@@ -27,7 +27,6 @@ void clearScreen() {
 char menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
-void sub_menu_venda(void);
 
 int main(void){
    char opcao;
@@ -90,29 +89,6 @@ char menu_inicial(void){
 
 
 
-
-
-void sub_menu_venda(){
-
-    char op;
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("**********************                                     ********************** \n");
-    printf("***********                 F A R M A C I A   E M   C                 *********** \n");
-    printf("**********************                                     ********************** \n");
-    printf("********************************************************************************* \n");
-    printf("**********************      M E N U  D E  V E N D A S      ********************** \n");
-    printf("********************************************************************************* \n");
-    printf("**                      1 - Realizar uma venda                                 ** \n");
-    printf("**                      2 - Relatorio de vendas                                ** \n");
-    printf("**                      3 - Editar/Apagar uma venda                            ** \n");
-    printf("**                      0 - Voltar                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
-    getchar();
-}
 
 
 void menu_sobre(void){
