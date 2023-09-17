@@ -14,6 +14,7 @@ Discente: Cayo César da Costa Lopes
 #include "clientes.h"
 #include "vendas.h"
 #include "sobres.h"
+#include "equipe.h"
 
 /*Essa função foi gerada pelo CHATGPT para limpar as telas dos menus*/
 void clearScreen() {
@@ -27,7 +28,7 @@ void clearScreen() {
 
 
 char menu_inicial(void);
-void menu_equipe(void);
+
 
 int main(void){
    char opcao;
@@ -92,24 +93,3 @@ char menu_inicial(void){
 
 
 
-void menu_equipe(void){
-
-    char op;
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("*****************************                     ******************************* \n");
-    printf("**                                                                             ** \n");   
-    printf("**              Este projeto foi desenvolvido por:                             ** \n");
-    printf("**                                                                             ** \n");
-    printf("**              Discente: Cayo Cesar da Costa Lopes                            ** \n");
-    printf("**              E-mail: cayocesarlopes@gmail.com                               ** \n");
-    printf("**              Perfil git: https://github.com/CayoLopes                       ** \n");
-    printf("**                                                                             ** \n");
-    printf("*****************************                     ******************************* \n");
-    printf("********************************************************************************* \n");
-    printf("Selecione 0 para voltar \n");
-    printf("\n");
-    scanf("%c", &op);
-    getchar();
-} 
