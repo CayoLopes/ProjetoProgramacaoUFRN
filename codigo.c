@@ -1,16 +1,17 @@
 /* 
-Projeto: Sistema de Gest„o para Farm·cias
+Projeto: Sistema de Gest√£o para Farm√°cias
 UFRN|CERES|BSI
-ProgramaÁ„o|2023.2|Prof:Flavius Gorgonio
-Discente: Cayo CÈsar da Costa Lopes
+Programa√ß√£o|2023.2|Prof:Flavius Gorgonio
+Discente: Cayo C√©sar da Costa Lopes
  */
 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include "produtos.h"
 
-
-/*Essa funÁ„o foi gerada pelo CHATGPT para limpar as telas dos menus*/
+/*Essa fun√ß√£o foi gerada pelo CHATGPT para limpar as telas dos menus*/
 void clearScreen() {
 #ifdef _WIN32
     system("cls"); // Limpa a tela no Windows
@@ -24,7 +25,7 @@ void clearScreen() {
 char menu_inicial(void);
 void menu_sobre(void);
 void menu_equipe(void);
-void sub_menu_produto(void);
+
 void sub_menu_funcionario(void);
 void sub_menu_cliente(void);
 void sub_menu_venda(void);
@@ -86,31 +87,6 @@ char menu_inicial(void){
     return op;   
 
 }
-
-
-void sub_menu_produto(void){
-
-    char op;
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("**********************                                     ********************** \n");
-    printf("***********                 F A R M A C I A   E M   C                 *********** \n");
-    printf("**********************                                     ********************** \n");
-    printf("********************************************************************************* \n"); 
-    printf("**********************    M E N U  D E  P R O D U T O S    ********************** \n");
-    printf("********************************************************************************* \n");
-    printf("**                      1 - Produtos cadastrados                               ** \n");
-    printf("**                      2 - Cadastrar produto                                  ** \n");
-    printf("**                      3 - Informacoes de produtos                            ** \n");
-    printf("**                      4 - Editar/Apagar produto                              ** \n");
-    printf("**                      0 - Voltar                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
-    getchar();
-}
-
 
 void sub_menu_funcionario(void){
 
