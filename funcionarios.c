@@ -12,6 +12,8 @@ void modulo_funcionario(void) {
         switch(opcao) {
             case '1': 	funcio_ja_cad();
                         break;
+            case '2':   cadas_func();
+                        break;
             case '3':   ficha_func();
                         break; 
         }
@@ -70,7 +72,28 @@ char funcio_ja_cad(){
 
 }
 
+char cadas_func(){
 
+    char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Digite o nome:...                                                  ** \n");
+    printf("**          Digite o CPF:...                                                   ** \n");
+    printf("**          Digite o cargo/função:...                                          ** \n");
+    printf("**          Digite o email:...                                                 ** \n");
+    printf("**          Digite o endereço:...                                              ** \n");
+    printf("**          Outras informações:...                                             ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+}
 
 
 
