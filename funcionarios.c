@@ -10,8 +10,10 @@ void modulo_funcionario(void) {
     do {
         opcao = sub_menu_funcionario();
         switch(opcao) {
-            case '1': 	funcio_ja_cadas();
+            case '1': 	funcio_ja_cad();
                         break;
+            case '3':   ficha_func();
+                        break; 
         }
     } while (opcao != '0');
 }
@@ -41,13 +43,45 @@ char sub_menu_funcionario(){
     return op;
 }
 
-char funcio_ja_cadas(){
+
+char funcio_ja_cad(){
+    char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF                                                                ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+
+
+}
+
+
+
+
+
+
+char ficha_func(){
 
   char op;
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
-    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n"); 
+    printf("*******************   F I C H A  D E  F U N C I O N A R I O   ******************* \n"); 
     printf("********************************************************************************* \n");
     printf("**          Nome:                                                              ** \n");
     printf("**          CPF:                                                               ** \n");
@@ -61,7 +95,4 @@ char funcio_ja_cadas(){
     scanf(" %c", &op);
     getchar();
     return op;
-
-
-
 }
