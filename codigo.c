@@ -40,7 +40,7 @@ int main(void){
                      sub_menu_produto();
                      break;
             case '2':
-                     sub_menu_funcionario();
+                     modulo_funcionario();
                      break;
             case '3':
                      sub_menu_cliente();

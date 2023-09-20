@@ -5,9 +5,19 @@
 
 void clearScreen();
 
+void modulo_funcionario(void) {
+    char opcao;
+    do {
+        opcao = sub_menu_funcionario();
+        switch(opcao) {
+            case '1': 	funcio_ja_cadas();
+                        break;
+        }
+    } while (opcao != '0');
+}
 
 
-void sub_menu_funcionario(void){
+char sub_menu_funcionario(){
 
     char op;
     clearScreen();
@@ -28,4 +38,30 @@ void sub_menu_funcionario(void){
     printf("\n");    
     scanf("%c", &op);
     getchar();
+    return op;
+}
+
+char funcio_ja_cadas(){
+
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**          Cargo:                                                             ** \n");
+    printf("**          Email:                                                             ** \n");
+    printf("**          Endereço:                                                          ** \n");
+    printf("**          Outros:                                                            ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+
+
 }
