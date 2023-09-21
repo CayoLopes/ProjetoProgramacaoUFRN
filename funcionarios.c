@@ -16,6 +16,8 @@ void modulo_funcionario(void) {
                         break;
             case '3':   ficha_func();
                         break; 
+            case '4':   edit_fun();
+                        break;
         }
     } while (opcao != '0');
 }
@@ -118,4 +120,28 @@ char ficha_func(){
     scanf(" %c", &op);
     getchar();
     return op;
+}
+
+
+char edit_fun(){
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("*********************   E D I T A R  F U N C I O N A R I O   ******************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Novo nome:...                                                      ** \n");
+    printf("**          Novo CPF:...                                                       ** \n");
+    printf("**          Novo cargo/função:...                                              ** \n");
+    printf("**          Novo email:...                                                     ** \n");
+    printf("**          Novo endereço:...                                                  ** \n");
+    printf("**          Outras informações:...                                             ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+  
 }
