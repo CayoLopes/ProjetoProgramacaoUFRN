@@ -6,8 +6,26 @@
 void clearScreen();
 
 
+void modulo_produto(void){
+  char opcao;
+    do {
+        opcao = sub_menu_produto();
+        switch(opcao) {
+            case '1': 	produto_cads();
+                        break;
+            case '2':   cadas_produto();
+                        break;
+            case '3':   info_produto();
+                        break; 
+            case '4':   edit_produto();
+                        break;
+        }
+    } while (opcao != '0');
 
-void sub_menu_produto(void){
+    
+}
+
+char sub_menu_produto(){
 
     char op;
     clearScreen();
@@ -28,6 +46,7 @@ void sub_menu_produto(void){
     printf("\n");
     scanf("%c", &op);
     getchar();
+    return op;
 }
 
 char produto_cads(){
@@ -55,7 +74,7 @@ char produto_cads(){
     printf("\n");
     scanf("%c", &op);
     getchar();
-
+    return op;
   
 }
 
@@ -78,7 +97,7 @@ char cadas_produto(){
     printf("\n");
     scanf("%c", &op);
     getchar();
-
+    return op;
   
 
 
@@ -103,7 +122,7 @@ char info_produto(){
     printf("\n");
     scanf("%c", &op);
     getchar();
-
+    return op;
   
 
 
@@ -129,5 +148,7 @@ char edit_produto(){
     printf("\n");
     scanf("%c", &op);
     getchar();
+    return op;
+
 }
 

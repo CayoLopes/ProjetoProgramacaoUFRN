@@ -37,7 +37,7 @@ int main(void){
         opcao = menu_inicial();
         switch(opcao) {
             case '1':
-                     sub_menu_produto();
+                     modulo_produto();
                      break;
             case '2':
                      modulo_funcionario();
