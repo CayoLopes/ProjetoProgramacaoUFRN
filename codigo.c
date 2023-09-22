@@ -43,7 +43,7 @@ int main(void){
                      modulo_funcionario();
                      break;
             case '3':
-                     sub_menu_cliente();
+                     modulo_cliente();
                      break;
             case '4':
                      sub_menu_venda();

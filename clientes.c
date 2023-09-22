@@ -6,8 +6,26 @@
 void clearScreen();
 
 
+void modulo_cliente(void) {
+    char opcao;
+    do {
+        opcao = sub_menu_cliente();
+        switch(opcao) {
+            case '1': 	cliente_ja_cad();
+                        break;
+            case '2':   cadas_cliente();
+                        break;
+            case '3':   ficha_cliente();
+                        break; 
+            case '4':   edit_cliente();
+                        break;
+        }
+    } while (opcao != '0');
+}
 
-void sub_menu_cliente(void){
+
+
+char sub_menu_cliente(){
     
     char op;
     clearScreen();
