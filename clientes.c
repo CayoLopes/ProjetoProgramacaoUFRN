@@ -6,7 +6,7 @@
 void clearScreen();
 
 
-void modulo_cliente(void) {
+void modulo_cliente(void){
     char opcao;
     do {
         opcao = sub_menu_cliente();
@@ -46,6 +46,7 @@ char sub_menu_cliente(){
     printf("\n");
     scanf("%c", &op);
     getchar();
+    return op;
 }
 
 char cliente_ja_cad(){

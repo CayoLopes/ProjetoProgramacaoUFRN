@@ -1,4 +1,4 @@
-void modulo_cliente(void)
+void modulo_cliente(void);
 char sub_menu_cliente();
 char cliente_ja_cad();
 char ficha_cliente();
