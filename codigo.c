@@ -46,7 +46,7 @@ int main(void){
                      modulo_cliente();
                      break;
             case '4':
-                     sub_menu_venda();
+                     modulo_venda();
                      break;
             case '5':
                      menu_sobre();

@@ -5,9 +5,23 @@
 
 void clearScreen();
 
+void modulo_venda(void) {
+    char opcao;
+    do {
+        opcao = sub_menu_venda();
+        switch(opcao) {
+            case '1': 	venda();
+                        break;
+            case '2':   relatorio_venda();
+                        break;
+            case '3':   edit_venda();
+                        break; 
+        }
+    } while (opcao != '0');
+}
 
 
-void sub_menu_venda(void){
+char sub_menu_venda(){
 
     char op;
     clearScreen();
