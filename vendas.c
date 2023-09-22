@@ -54,7 +54,7 @@ char venda(){
     printf("**               Digite o código:                                              ** \n");
     printf("**               Digite o número da venda:                                     ** \n");
     printf("**               Digite a quantidade:                                          ** \n");
-    printf("**               Digite o CPF do cliente:                                       ** \n");
+    printf("**               Digite o CPF do cliente:                                      ** \n");
     printf("**               Sobre a venda:                                                ** \n");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
