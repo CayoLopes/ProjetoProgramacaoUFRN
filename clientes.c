@@ -29,3 +29,93 @@ void sub_menu_cliente(void){
     scanf("%c", &op);
     getchar();
 }
+
+char cliente_ja_cad(){
+    char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF                                                                ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+}
+
+
+char cadas_cliente(){
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************   C A D A S T R A R  C L I E N T E   ********************* \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Digite o nome:...                                                  ** \n");
+    printf("**          Digite o CPF:...                                                   ** \n");
+    printf("**          Digite o email:...                                                 ** \n");
+    printf("**          Digite o endereço:...                                              ** \n");
+    printf("**          Outras informações:...                                             ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+  
+}
+
+char ficha_cliente(){
+
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("***********************   F I C H A  D E  C L I E N T E   *********************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Nome:                                                              ** \n");
+    printf("**          CPF:                                                               ** \n");
+    printf("**          Email:                                                             ** \n");
+    printf("**          Endereço:                                                          ** \n");
+    printf("**          Outros:                                                            ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+}
+
+
+char edit_cliente(){
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("*************************   E D I T A R  C L I E N T E   ************************ \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Novo nome:...                                                      ** \n");
+    printf("**          Novo CPF:...                                                       ** \n");
+    printf("**          Novo email:...                                                     ** \n");
+    printf("**          Novo endereço:...                                                  ** \n");
+    printf("**          Nova informações:...                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+  
+}
