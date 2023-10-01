@@ -19,6 +19,8 @@ void modulo_cliente(void){
                         break; 
             case '4':   edit_cliente();
                         break;
+            case '5':   apaga_cliente();
+                        break;
         }
     } while (opcao != '0');
 }
@@ -40,7 +42,8 @@ char sub_menu_cliente(){
     printf("**                      1 - Clientes cadastrados                               ** \n");
     printf("**                      2 - Cadastrar cliente                                  ** \n");
     printf("**                      3 - Ficha do cliente                                   ** \n");
-    printf("**                      4 - Editar/Apagar ficha do cliente                     ** \n");
+    printf("**                      4 - Editar ficha do cliente                            ** \n");
+    printf("**                      5 - Apagar ficha do cliente                            ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -137,4 +140,26 @@ char edit_cliente(){
     return op;
 
   
+}
+
+char apaga_cliente(){
+  char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("************************   D E L E T A R  C L I E N T E   *********************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Para apagar a ficha:                                               ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Digite o CPF:...                                                   ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Deseja realmente deletar a ficha? (s/S|n/N)                        ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
+
 }

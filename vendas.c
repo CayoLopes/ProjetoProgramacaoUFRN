@@ -35,7 +35,7 @@ char sub_menu_venda(){
     printf("********************************************************************************* \n");
     printf("**                      1 - Realizar uma venda                                 ** \n");
     printf("**                      2 - Relatorio de vendas                                ** \n");
-    printf("**                      3 - Editar/Apagar uma venda                            ** \n");
+    printf("**                      3 - Cancelar venda                                     ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -93,14 +93,13 @@ char edit_venda(){
     char op;
     clearScreen();
     printf("********************************************************************************* \n");
-    printf("************************      E D I T A R  V E N D A      *********************** \n");
+    printf("************************    C A N C E L A R  V E N D A    *********************** \n");
     printf("********************************************************************************* \n");
-    printf("**               Novo produto                                                  ** \n");
-    printf("**               Novo código:                                                  ** \n");
-    printf("**               Nova quantidade:                                              ** \n");
-    printf("**               CPF do cliente:                                               ** \n");
-    printf("**               Motivo da edição:                                             ** \n");
+    printf("**                                                                             ** \n");
     printf("**               Sobre a venda:                                                ** \n");
+    printf("**               Digite o código:                                              ** \n");
+    printf("**                                                                             ** \n");
+    printf("**               Deseja realmente cancelar a venda? (s/S|n/N)                  ** \n");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");

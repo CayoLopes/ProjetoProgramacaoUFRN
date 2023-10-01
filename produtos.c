@@ -19,6 +19,8 @@ void modulo_produto(void){
                         break; 
             case '4':   edit_produto();
                         break;
+            case '5':   apaga_produto();
+                        break;            
         }
     } while (opcao != '0');
 
@@ -40,7 +42,8 @@ char sub_menu_produto(){
     printf("**                      1 - Produtos cadastrados                               ** \n");
     printf("**                      2 - Cadastrar produto                                  ** \n");
     printf("**                      3 - Informacoes de produtos                            ** \n");
-    printf("**                      4 - Editar/Apagar produto                              ** \n");
+    printf("**                      4 - Editar produto                                     ** \n");
+    printf("**                      5 - Apagar produto                                     ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -149,6 +152,28 @@ char edit_produto(){
     scanf("%c", &op);
     getchar();
     return op;
+
+}
+
+char apaga_produto(){
+    char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("************************   D E L E T A R  P R O D U T O   *********************** \n"); 
+    printf("********************************************************************************* \n");
+    printf("**          Para apagar o produto:                                             ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Digite o código:...                                                ** \n");
+    printf("**                                                                             ** \n");
+    printf("**          Deseja realmente deletar o produto? (s/S|n/N)                      ** \n");
+    printf("**                                                                             ** \n");
+    printf("********************************************************************************* \n");
+    printf("\n");    
+    scanf(" %c", &op);
+    getchar();
+    return op;
+
 
 }
 

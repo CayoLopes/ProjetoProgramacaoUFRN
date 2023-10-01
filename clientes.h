@@ -4,3 +4,4 @@ char cliente_ja_cad();
 char ficha_cliente();
 char cadas_cliente();
 char edit_cliente();
+char apaga_cliente();
