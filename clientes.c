@@ -77,6 +77,11 @@ char cliente_ja_cad(){
 
 
 char cadas_cliente(){
+  char cpf[12];
+  char nome[100];
+  char email[100];
+  char ender[100];
+  
   char op;
     clearScreen();
     printf("\n");
@@ -84,10 +89,13 @@ char cadas_cliente(){
     printf("**********************   C A D A S T R A R  C L I E N T E   ********************* \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:...                                                  ** \n");
+    scanf(" %s", &nome);
     printf("**          Digite o CPF:...                                                   ** \n");
+    scanf(" %s", &cpf);
     printf("**          Digite o email:...                                                 ** \n");
+    scanf(" %s", &email);
     printf("**          Digite o endereço:...                                              ** \n");
-    printf("**          Outras informações:...                                             ** \n");
+    scanf(" %s", &ender);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    

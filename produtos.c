@@ -82,19 +82,25 @@ char produto_cads(){
 }
 
 char cadas_produto(){
-    char op;
+  char nome[30];
+  char codigo[10];
+  char preco[10];
+  char estoq[10];
+  char op;
     clearScreen();
     printf("\n");
-
     printf("********************************************************************************* \n"); 
     printf("**********************  C A D A S T R A R  P R O D U T O S  ********************* \n");
     printf("********************************************************************************* \n");
     printf("**                                                                             ** \n");
     printf("**                 Digite o nome:                                              ** \n");
+    scanf("%s", &nome);
     printf("**                 Digite o código:                                            ** \n");
+    scanf("%s", &codigo);
     printf("**                 Digite o preço:                                             ** \n");
+    scanf("%s", &preco);
     printf("**                 Digite o estoque:                                           ** \n");
-    printf("**                 Digite a descrição:                                         ** \n");
+    scanf("%s", &estoq);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");

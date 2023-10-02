@@ -79,18 +79,28 @@ char funcio_ja_cad(){
 
 char cadas_func(){
 
-    char op;
+  char cpf[12];
+  char cargo[50];
+  char nome[100];
+  char email[100];
+  char ender[100];
+
+  char op;
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Digite o nome:...                                                  ** \n");
-    printf("**          Digite o CPF:...                                                   ** \n");
-    printf("**          Digite o cargo/função:...                                          ** \n");
-    printf("**          Digite o email:...                                                 ** \n");
-    printf("**          Digite o endereço:...                                              ** \n");
-    printf("**          Outras informações:...                                             ** \n");
+    printf("**          Digite o nome:                                                     ** \n");
+    scanf(" %s", &nome);
+    printf("**          Digite o CPF:                                                      ** \n");
+    scanf(" %s", &cpf);
+    printf("**          Digite o cargo/função:                                             ** \n");
+    scanf(" %s", &cargo);
+    printf("**          Digite o email:                                                    ** \n");
+    scanf(" %s", &email);
+    printf("**          Digite o endereço:                                                 ** \n");
+    scanf(" %s", &ender);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    

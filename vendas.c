@@ -45,17 +45,25 @@ char sub_menu_venda(){
 }
 
 char venda(){
-    char op;
+  char codigo[10];
+  char nunvend[10];
+  char quant[10];
+  char cpf[12];
+     
+  char op;
     clearScreen();
     printf("********************************************************************************* \n");
     printf("**********************      R E A L I Z A R  V E N D A      ********************* \n");
     printf("********************************************************************************* \n");
     printf("**               Sobre o produto                                               ** \n");
     printf("**               Digite o código:                                              ** \n");
+    scanf("%s", &codigo);
     printf("**               Digite o número da venda:                                     ** \n");
+    scanf("%s", &nunvend);
     printf("**               Digite a quantidade:                                          ** \n");
+    scanf("%s", &quant);
     printf("**               Digite o CPF do cliente:                                      ** \n");
-    printf("**               Sobre a venda:                                                ** \n");
+    scanf("%s", &cpf);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
