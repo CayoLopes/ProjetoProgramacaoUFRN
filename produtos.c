@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "produtos.h"
+#include "util.h"
+
 
 void clearScreen();
 
@@ -95,6 +97,11 @@ char cadas_produto(){
     printf("**                                                                             ** \n");
     printf("**                 Digite o nome:                                              ** \n");
     scanf("%s", &nome);
+    if (validarNome(nome)) {
+        printf("\n");
+     } else {
+        printf("Nome inválido.\n");  
+     } 
     printf("**                 Digite o código:                                            ** \n");
     scanf("%s", &codigo);
     printf("**                 Digite o preço:                                             ** \n");

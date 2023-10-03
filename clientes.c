@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "clientes.h"
+#include "util.h"
 
 void clearScreen();
 
@@ -90,6 +91,11 @@ char cadas_cliente(){
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:...                                                  ** \n");
     scanf(" %s", &nome);
+    if (validarNome(nome)) {
+        printf("\n");
+     } else {
+        printf("Nome inválido.\n");  
+     } 
     printf("**          Digite o CPF:...                                                   ** \n");
     scanf(" %s", &cpf);
     printf("**          Digite o email:...                                                 ** \n");

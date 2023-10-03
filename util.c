@@ -7,13 +7,14 @@
 
 // Valida letra 
 // Feito com ajuda do CHATGPT
-int testaLetra(char c){
-  if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' ' || (c >= 'À' && c <= 'ü')){
+int testaLetra(char c) {
+  if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' ' || (c >= 192 && c <= 252)) {
     return 1;
   } else {
     return 0;
   }
 }
+
 
 
 // Valida nome 
