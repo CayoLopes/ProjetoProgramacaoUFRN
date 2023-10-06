@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "clientes.h"
+#include <string.h>
 #include "util.h"
 
 void clearScreen();
@@ -84,13 +85,15 @@ char cadas_cliente(){
   char ender[100];
   
   char op;
+    fflush(stdin);
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("**********************   C A D A S T R A R  C L I E N T E   ********************* \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:...                                                  ** \n");
-    scanf(" %s", &nome);
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")] = '\0';
     if (validarNome(nome)) {
         printf("\n");
      } else {
@@ -98,10 +101,24 @@ char cadas_cliente(){
      } 
     printf("**          Digite o CPF:...                                                   ** \n");
     scanf(" %s", &cpf);
+    getchar();
+    if (validarCPF(cpf)) {
+        printf("\n");
+    } else{
+       printf("CPF inválido.\n" );
+    }
     printf("**          Digite o email:...                                                 ** \n");
     scanf(" %s", &email);
+    getchar();
+    if (verificar_email(email)){
+        printf("\n");
+    } else {
+       printf("E-mail inválido\n");
+    }
+    getchar();
     printf("**          Digite o endereço:...                                              ** \n");
-    scanf(" %s", &ender);
+    fgets(ender, sizeof(ender), stdin);
+    ender[strcspn(ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
