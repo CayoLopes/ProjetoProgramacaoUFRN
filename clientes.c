@@ -115,7 +115,6 @@ char cadas_cliente(){
     } else {
        printf("E-mail inválido\n");
     }
-    getchar();
     printf("**          Digite o endereço:...                                              ** \n");
     fgets(ender, sizeof(ender), stdin);
     ender[strcspn(ender, "\n")] = '\0';

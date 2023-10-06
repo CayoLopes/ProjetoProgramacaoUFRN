@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "funcionarios.h"
 #include "util.h"
 
@@ -87,13 +88,15 @@ char cadas_func(){
   char ender[100];
 
   char op;
+    fflush(stdin);
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:                                                     ** \n");
-    scanf(" %s", &nome);
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome, "\n")] = '\0';
     if (validarNome(nome)) {
         printf("\n");
      } else {
@@ -101,12 +104,26 @@ char cadas_func(){
      } 
     printf("**          Digite o CPF:                                                      ** \n");
     scanf(" %s", &cpf);
+    getchar();
+    if (validarCPF(cpf)) {
+        printf("\n");
+    } else{
+       printf("CPF inválido.\n" );
+    }
     printf("**          Digite o cargo/função:                                             ** \n");
     scanf(" %s", &cargo);
+    getchar();
     printf("**          Digite o email:                                                    ** \n");
     scanf(" %s", &email);
+    getchar();
+    if (verificar_email(email)){
+        printf("\n");
+    } else {
+       printf("E-mail inválido\n");
+    }
     printf("**          Digite o endereço:                                                 ** \n");
-    scanf(" %s", &ender);
+    fgets(ender, sizeof(ender), stdin);
+    ender[strcspn(ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
