@@ -81,12 +81,7 @@ char funcio_ja_cad(){
 
 char cadas_func(){
 
-  char cpf[12];
-  char cargo[50];
-  char nome[100];
-  char email[100];
-  char ender[100];
-
+  struct funcionario Funcionario;
   char op;
     fflush(stdin);
     clearScreen();
@@ -95,35 +90,35 @@ char cadas_func(){
     printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:                                                     ** \n");
-    fgets(nome, sizeof(nome), stdin);
-    nome[strcspn(nome, "\n")] = '\0';
-    if (validarNome(nome)) {
+    fgets(Funcionario.nome, sizeof(Funcionario.nome), stdin);
+    Funcionario.nome[strcspn(Funcionario.nome, "\n")] = '\0';
+    if (validarNome(Funcionario.nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**          Digite o CPF:                                                      ** \n");
-    scanf(" %s", &cpf);
+    scanf(" %s", Funcionario.cpf);
     getchar();
-    if (validarCPF(cpf)) {
+    if (validarCPF(Funcionario.cpf)) {
         printf("\n");
     } else{
        printf("CPF inválido.\n" );
     }
     printf("**          Digite o cargo/função:                                             ** \n");
-    scanf(" %s", &cargo);
+    scanf(" %s",Funcionario.cargo);
     getchar();
     printf("**          Digite o email:                                                    ** \n");
-    scanf(" %s", &email);
+    scanf(" %s", Funcionario.email);
     getchar();
-    if (verificar_email(email)){
+    if (verificar_email(Funcionario.email)){
         printf("\n");
     } else {
        printf("E-mail inválido\n");
     }
     printf("**          Digite o endereço:                                                 ** \n");
-    fgets(ender, sizeof(ender), stdin);
-    ender[strcspn(ender, "\n")] = '\0';
+    fgets(Funcionario.ender, sizeof(Funcionario.ender), stdin);
+    Funcionario.ender[strcspn(Funcionario.ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
