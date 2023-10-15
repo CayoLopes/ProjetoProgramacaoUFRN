@@ -84,10 +84,7 @@ char produto_cads(){
 }
 
 char cadas_produto(){
-  char nome[30];
-  char codigo[10];
-  char preco[10];
-  char estoq[10];
+  struct produto Produto;
   char op;
     clearScreen();
     printf("\n");
@@ -96,18 +93,18 @@ char cadas_produto(){
     printf("********************************************************************************* \n");
     printf("**                                                                             ** \n");
     printf("**                 Digite o nome:                                              ** \n");
-    scanf("%s", &nome);
-    if (validarNome(nome)) {
+    scanf("%s", Produto.nome);
+    if (validarNome(Produto.nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**                 Digite o código:                                            ** \n");
-    scanf("%s", &codigo);
+    scanf("%s", Produto.codigo);
     printf("**                 Digite o preço:                                             ** \n");
-    scanf("%s", &preco);
+    scanf("%s", Produto.preco);
     printf("**                 Digite o estoque:                                           ** \n");
-    scanf("%s", &estoq);
+    scanf("%s", Produto.estoq);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");

@@ -5,3 +5,9 @@ char cadas_produto(); //Faz o cadastro de novos produtos
 char info_produto(); //Mostra as informações de um produto
 char edit_produto(); //Faz a edição do produto
 char apaga_produto(); //Apaga o produto do estoque
+struct produto {
+  char nome[30];
+  char codigo[10];
+  char preco[10];
+  char estoq[10];
+};
