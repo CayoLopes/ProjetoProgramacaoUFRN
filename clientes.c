@@ -79,10 +79,7 @@ char cliente_ja_cad(){
 
 
 char cadas_cliente(){
-  char cpf[12];
-  char nome[100];
-  char email[100];
-  char ender[100];
+  struct cliente Cliente;
   
   char op;
     fflush(stdin);
@@ -92,32 +89,32 @@ char cadas_cliente(){
     printf("**********************   C A D A S T R A R  C L I E N T E   ********************* \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:...                                                  ** \n");
-    fgets(nome, sizeof(nome), stdin);
-    nome[strcspn(nome, "\n")] = '\0';
-    if (validarNome(nome)) {
+    fgets(Cliente.nome, sizeof(Cliente.nome), stdin);
+    Cliente.nome[strcspn(Cliente.nome, "\n")] = '\0';
+    if (validarNome(Cliente.nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**          Digite o CPF:...                                                   ** \n");
-    scanf(" %s", &cpf);
+    scanf(" %s", Cliente.cpf);
     getchar();
-    if (validarCPF(cpf)) {
+    if (validarCPF(Cliente.cpf)) {
         printf("\n");
     } else{
        printf("CPF inválido.\n" );
     }
     printf("**          Digite o email:...                                                 ** \n");
-    scanf(" %s", &email);
+    scanf(" %s", Cliente.email);
     getchar();
-    if (verificar_email(email)){
+    if (verificar_email(Cliente.email)){
         printf("\n");
     } else {
        printf("E-mail inválido\n");
     }
     printf("**          Digite o endereço:...                                              ** \n");
-    fgets(ender, sizeof(ender), stdin);
-    ender[strcspn(ender, "\n")] = '\0';
+    fgets(Cliente.ender, sizeof(Cliente.ender), stdin);
+    Cliente.ender[strcspn(Cliente.ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
