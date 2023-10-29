@@ -9,19 +9,22 @@ void clearScreen();
 
 
 void modulo_produto(void){
+  Produto* produto;
+  struct produto Produto;
   char opcao;
     do {
         opcao = sub_menu_produto();
         switch(opcao) {
-            case '1': 	produto_cads();
+            case '1': 	produtos_cads(produto);
                         break;
-            case '2':   cadas_produto();
+            case '2':    produto = cadas_produto();
+                        gravar_produto(produto);
                         break;
-            case '3':   info_produto();
+            case '3':   info_produto(&Produto);
                         break; 
-            case '4':   edit_produto();
+            case '4':   edit_produto(&Produto);
                         break;
-            case '5':   apaga_produto();
+            case '5':   apaga_produto(&Produto);
                         break;            
         }
     } while (opcao != '0');
@@ -54,38 +57,42 @@ char sub_menu_produto(){
     return op;
 }
 
-char produto_cads(){
-  char op;
+void produtos_cads(Produto* produto) {
     clearScreen();
-    printf("\n");
 
-    printf("********************************************************************************* \n"); 
-    printf("********************  P R O D U T O S  C A D A S T R A D O S  ******************* \n");
     printf("********************************************************************************* \n");
-    printf("**                                                                             ** \n");
-    printf("**                 Nome:                                                       ** \n");
-    printf("**                 Código:                                                     ** \n");
-    printf("**                 Estoque:                                                    ** \n");
-    printf("**                                                                             ** \n");
-    printf("**                 Nome:                                                       ** \n");
-    printf("**                 Código:                                                     ** \n");
-    printf("**                 Estoque:                                                    ** \n");
-    printf("**                                                                             ** \n");
-    printf("**                 Nome:                                                       ** \n");
-    printf("**                 Código:                                                     ** \n");
-    printf("**                 Estoque:                                                    ** \n");
-    printf("**                                                                             ** \n");
+    printf("**********************  P R O D U T O S  C A D A S T R A D O S  ******************* \n");
     printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
+
+    FILE* fp;
+    Produto prd;
+
+    fp = fopen("produtos.dat", "rb"); // Abra o arquivo para leitura binária
+
+    if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
+
+    while (fread(&prd, sizeof(Produto), 1, fp) == 1) {
+        printf("Nome: %s\n", prd.nome);
+        printf("Código: %s\n", prd.codigo);
+        printf("Preço: %s\n", prd.preco);
+        printf("Estoque: %s\n", prd.estoq);
+        printf("\n");
+    }
+
+    fclose(fp);
+
+    printf("Pressione Enter para retornar ao menu principal...");
     getchar();
-    return op;
-  
 }
 
-char cadas_produto(){
-  struct produto Produto;
-  char op;
+
+Produto* cadas_produto(void){
+  Produto* prd;
+  prd = (Produto*) malloc(sizeof(Produto));
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n"); 
@@ -93,25 +100,39 @@ char cadas_produto(){
     printf("********************************************************************************* \n");
     printf("**                                                                             ** \n");
     printf("**                 Digite o nome:                                              ** \n");
-    scanf("%s", Produto.nome);
-    if (validarNome(Produto.nome)) {
+    scanf("%s", prd->nome);
+    if (validarNome(prd->nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**                 Digite o código:                                            ** \n");
-    scanf("%s", Produto.codigo);
+    scanf("%s", prd->codigo);
     printf("**                 Digite o preço:                                             ** \n");
-    scanf("%s", Produto.preco);
+    scanf("%s", prd->preco);
     printf("**                 Digite o estoque:                                           ** \n");
-    scanf("%s", Produto.estoq);
+    scanf("%s", prd->estoq);
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
-    scanf("%c", &op);
     getchar();
-    return op;
-  
+    return prd;
+
+
+
+}
+
+void gravar_produto(Produto* prd){
+  FILE* fp;
+   fp = fopen("produtos.dat", "ab");
+      if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+      }
+      fwrite(prd, sizeof(Produto), 1, fp);
+      fclose(fp);
+
 
 
 }
