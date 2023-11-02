@@ -8,13 +8,16 @@
 void clearScreen();
 
 void modulo_funcionario(void) {
+  Funcionario* funcionario;
+  struct funcionario Funcionario;
     char opcao;
     do {
         opcao = sub_menu_funcionario();
         switch(opcao) {
-            case '1': 	funcio_ja_cad();
+            case '1': 	funcio_ja_cad(funcionario);
                         break;
-            case '2':   cadas_func();
+            case '2':   funcionario = cadas_func();
+                        gravar_func(funcionario);
                         break;
             case '3':   ficha_func();
                         break; 
@@ -53,36 +56,43 @@ char sub_menu_funcionario(){
 }
 
 
-char funcio_ja_cad(){
+char funcio_ja_cad(Funcionario* funcionario){
     char op;
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF                                                                ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
-    getchar();
-    return op;
+    FILE* fp;
+    Funcionario func;
+    fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
+
+    if (fp == NULL) {
+         printf("Ops! Erro na abertura do arquivo!\n");
+         printf("Não é possível continuar...\n");
+         exit(1);
+     }
+
+    while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
+        printf("Nome: %s\n", func.nome);
+        printf("CPF: %s\n", func.cpf);
+        printf("Cargo: %s\n", func.cargo);
+        printf("E-mail: %s\n", func.email);
+        printf("Endereço: %s\n", func.ender);
+        printf("\n");
+       }
+
+     fclose(fp);
+
+     printf("Pressione Enter para retornar ao menu principal...");
+     getchar();
+    }
 
 
+Funcionario* cadas_func(void){
+  Funcionario* func;
+  func = (Funcionario*) malloc(sizeof(Funcionario));
 
-}
-
-char cadas_func(){
-
-  struct funcionario Funcionario;
-  char op;
     fflush(stdin);
     clearScreen();
     printf("\n");
@@ -90,44 +100,58 @@ char cadas_func(){
     printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:                                                     ** \n");
-    fgets(Funcionario.nome, sizeof(Funcionario.nome), stdin);
-    Funcionario.nome[strcspn(Funcionario.nome, "\n")] = '\0';
-    if (validarNome(Funcionario.nome)) {
+    fgets(func->nome, sizeof(func->nome), stdin);
+    func->nome[strcspn(func->nome, "\n")] = '\0';
+    if (validarNome(func->nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**          Digite o CPF:                                                      ** \n");
-    scanf(" %s", Funcionario.cpf);
+    scanf(" %s", func->cpf);
     getchar();
-    if (validarCPF(Funcionario.cpf)) {
+    if (validarCPF(func->cpf)) {
         printf("\n");
     } else{
        printf("CPF inválido.\n" );
     }
     printf("**          Digite o cargo/função:                                             ** \n");
-    scanf(" %s",Funcionario.cargo);
+    scanf(" %s",func->cargo);
     getchar();
-    printf("**          Digite o email:                                                    ** \n");
-    scanf(" %s", Funcionario.email);
+    printf("**          Digite o email:                                 funcionarios                   ** \n");
+    scanf(" %s", func->email);
     getchar();
-    if (verificar_email(Funcionario.email)){
+    if (verificar_email(func->email)){
         printf("\n");
     } else {
        printf("E-mail inválido\n");
     }
     printf("**          Digite o endereço:                                                 ** \n");
-    fgets(Funcionario.ender, sizeof(Funcionario.ender), stdin);
-    Funcionario.ender[strcspn(Funcionario.ender, "\n")] = '\0';
+    fgets(func->ender, sizeof(func->ender), stdin);
+    func->ender[strcspn(func->ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
-    scanf(" %c", &op);
     getchar();
-    return op;
+    return func;
 
 }
 
+
+void gravar_func(Funcionario* func){
+  FILE* fp;
+   fp = fopen("funcionarios.dat", "ab");
+      if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+      }
+      fwrite(func, sizeof(Funcionario), 1, fp);
+      fclose(fp);
+
+
+
+}
 
 
 
