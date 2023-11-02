@@ -9,13 +9,16 @@ void clearScreen();
 
 
 void modulo_cliente(void){
+  Cliente* cliente;
+  struct cliente Cliente;
     char opcao;
     do {
         opcao = sub_menu_cliente();
         switch(opcao) {
-            case '1': 	cliente_ja_cad();
+            case '1': 	cliente_ja_cad(cliente);
                         break;
-            case '2':   cadas_cliente();
+            case '2':   cliente = cadas_cliente();
+                        gravar_cliente(cliente);
                         break;
             case '3':   ficha_cliente();
                         break; 
@@ -54,34 +57,42 @@ char sub_menu_cliente(){
     return op;
 }
 
-char cliente_ja_cad(){
-    char op;
+char cliente_ja_cad(Cliente* cliente){
+  
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF                                                                ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
-    getchar();
-    return op;
+    FILE* fp;
+    Cliente clien;
+    fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
+  
+    if (fp == NULL) {
+         printf("Ops! Erro na abertura do arquivo!\n");
+         printf("Não é possível continuar...\n");
+         exit(1);
+     }
+  
+    while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
+        printf("Nome: %s\n", clien.nome);
+        printf("CPF: %s\n", clien.cpf);
+        printf("E-mail: %s\n", clien.email);
+        printf("Endereço: %s\n", clien.ender);
+        printf("\n");
+       }
+  
+     fclose(fp);
+  
+     printf("Pressione Enter para retornar ao menu principal...");
+     getchar();
 }
 
 
-char cadas_cliente(){
-  struct cliente Cliente;
+Cliente* cadas_cliente(void){
+  Cliente* clien;
+  clien = (Cliente*) malloc(sizeof(Cliente));
   
-  char op;
     fflush(stdin);
     clearScreen();
     printf("\n");
@@ -89,41 +100,54 @@ char cadas_cliente(){
     printf("**********************   C A D A S T R A R  C L I E N T E   ********************* \n"); 
     printf("********************************************************************************* \n");
     printf("**          Digite o nome:...                                                  ** \n");
-    fgets(Cliente.nome, sizeof(Cliente.nome), stdin);
-    Cliente.nome[strcspn(Cliente.nome, "\n")] = '\0';
-    if (validarNome(Cliente.nome)) {
+    fgets(clien->nome, sizeof(clien->nome), stdin);
+    clien->nome[strcspn(clien->nome, "\n")] = '\0';
+    if (validarNome(clien->nome)) {
         printf("\n");
      } else {
         printf("Nome inválido.\n");  
      } 
     printf("**          Digite o CPF:...                                                   ** \n");
-    scanf(" %s", Cliente.cpf);
+    scanf(" %s", clien->cpf);
     getchar();
-    if (validarCPF(Cliente.cpf)) {
+    if (validarCPF(clien->cpf)) {
         printf("\n");
     } else{
        printf("CPF inválido.\n" );
     }
     printf("**          Digite o email:...                                                 ** \n");
-    scanf(" %s", Cliente.email);
+    scanf(" %s", clien->email);
     getchar();
-    if (verificar_email(Cliente.email)){
+    if (verificar_email(clien->email)){
         printf("\n");
     } else {
        printf("E-mail inválido\n");
     }
     printf("**          Digite o endereço:...                                              ** \n");
-    fgets(Cliente.ender, sizeof(Cliente.ender), stdin);
-    Cliente.ender[strcspn(Cliente.ender, "\n")] = '\0';
+    fgets(clien->ender, sizeof(clien->ender), stdin);
+    clien->ender[strcspn(clien->ender, "\n")] = '\0';
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
-    scanf(" %c", &op);
     getchar();
-    return op;
-
+    return clien;
   
 }
+
+void gravar_cliente(Cliente* clien){
+  FILE* fp;
+   fp = fopen("clientes.dat", "ab");
+      if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+      }
+      fwrite(clien, sizeof(Cliente), 1, fp);
+      fclose(fp);
+
+}
+
+
 
 char ficha_cliente(){
 
