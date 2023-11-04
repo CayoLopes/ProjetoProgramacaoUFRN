@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include "produtos.h"
 #include "util.h"
+#include <string.h>
 
 
 void clearScreen();
@@ -20,7 +21,7 @@ void modulo_produto(void){
             case '2':    produto = cadas_produto();
                         gravar_produto(produto);
                         break;
-            case '3':   info_produto(&Produto);
+            case '3':   pesquisa_produto(produto);
                         break; 
             case '4':   edit_produto(&Produto);
                         break;
@@ -46,7 +47,7 @@ char sub_menu_produto(){
     printf("********************************************************************************* \n");
     printf("**                      1 - Produtos cadastrados                               ** \n");
     printf("**                      2 - Cadastrar produto                                  ** \n");
-    printf("**                      3 - Informacoes de produtos                            ** \n");
+    printf("**                      3 - Pesquisar produto                                  ** \n");
     printf("**                      4 - Editar produto                                     ** \n");
     printf("**                      5 - Apagar produto                                     ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -137,30 +138,53 @@ void gravar_produto(Produto* prd){
 
 }
 
-char info_produto(){
-    char op;
-    clearScreen();
-    printf("\n");
+void pesquisa_produto(const Produto* produto) {
+    char codigo[10];  // Variável para buscar o código do produto
+    Produto produtoEncontrado;  // Armazena os dados do produto encontrado
+    int produtoEncontradoFlag = 0;  // Flag de rastreamento de produto
 
-    printf("********************************************************************************* \n"); 
-    printf("*******************  I N F O R M A C O E S  D O  P R O D U T O  ***************** \n");
-    printf("********************************************************************************* \n");
-    printf("**                                                                             ** \n");
-    printf("**                 nome:                                                       ** \n");
-    printf("**                 Código:                                                     ** \n");
-    printf("**                 Preço:                                                      ** \n");
-    printf("**                 Estoque:                                                    ** \n");
-    printf("**                 Descrição:                                                  ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
+    clearScreen();  // Limpa a tela
+
+  printf("********************************************************************************* \n");
+  printf("*********************   P E S Q U I S A R  P R O D U T O   ********************* \n");
+  printf("********************************************************************************* \n");
+  printf("Digite o código do produto a ser pesquisado: ");
+  scanf("%s", codigo);
+
+    FILE* file = fopen("produtos.dat", "rb");  // Abre o arquivo (rb == modo leitura)
+
+    if (file == NULL) {  // Se o arquivo for NULL, dá erro na abertura
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
+
+    while (fread(&produtoEncontrado, sizeof(Produto), 1, file) == 1) {  // Lê os produtos cadastrados no sistema
+        if (strcmp(produtoEncontrado.codigo, codigo) == 0) {  // Confere se o código é igual
+            printf("\n");
+            printf("Código: %s\n", produtoEncontrado.codigo);  // Printa as informações do produto encontrado
+            printf("Nome: %s\n", produtoEncontrado.nome);
+            printf("Preço: %s\n", produtoEncontrado.preco);
+            printf("Estoque: %s\n" , produtoEncontrado.estoq);
+            printf("\n");
+            printf("********************************************************************************* \n");
+            produtoEncontradoFlag = 1;  // Flag que sai do loop (semelhante ao que você fez na função de cadastro)
+            break; // Não é necessário continuar a busca
+        }
+    }
+
+    if (!produtoEncontradoFlag) {  // Se o código não estiver no arquivo, dá erro
+        printf("Produto com código %s não encontrado.\n", codigo);
+        printf("********************************************************************************* \n");
+    }
+
+    fclose(file);  // Fecha o arquivo
+
     getchar();
-    return op;
-  
-
-
+    printf("\n");
+    printf("Pressione Enter para retornar\n");
+    getchar();
 }
+
 
 
 char edit_produto(){

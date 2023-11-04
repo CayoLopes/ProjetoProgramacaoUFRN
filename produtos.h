@@ -11,6 +11,7 @@ char sub_menu_produto(); //Menu dos produtos
 Produto* cadas_produto(void); //Faz o cadastro de novos produtos
 void gravar_produto(Produto*);
 void produtos_cads(Produto*);
+void pesquisa_produto(const Produto* produto);
 char info_produto(); //Mostra as informações de um produto
 char edit_produto(); //Faz a edição do produto
 char apaga_produto(); //Apaga o produto do estoque
