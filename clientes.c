@@ -154,7 +154,7 @@ void pesquisa_cliente(const Cliente* cliente) {
     Cliente clienteEncontrado;  
     int clienteEncontradoFlag = 0;  
 
-    clearScreen();  // Limpa a tela
+    clearScreen();  
 
   printf("********************************************************************************* \n");
   printf("*********************   P E S Q U I S A R  C L I E N T E   ********************** \n");
@@ -162,15 +162,15 @@ void pesquisa_cliente(const Cliente* cliente) {
   printf("Digite o CPF do cliente a ser pesquisado: ");
   scanf("%s", cpf);
 
-    FILE* file = fopen("clientes.dat", "rb");  // Abre o arquivo (rb == modo leitura)
+    FILE* file = fopen("clientes.dat", "rb");  
 
-    if (file == NULL) {  // Se o arquivo for NULL, dá erro na abertura
+    if (file == NULL) {  
         printf("Erro ao abrir o arquivo para leitura.\n");
         return;
     }
 
     while (fread(&clienteEncontrado, sizeof(Cliente), 1, file) == 1) {  
-        if (strcmp(clienteEncontrado.cpf, cpf) == 0) {  // Confere se o código é igual
+        if (strcmp(clienteEncontrado.cpf, cpf) == 0) {  
             printf("\n");
             printf("Nome: %s\n", clienteEncontrado.nome);
             printf("CPF: %s\n", clienteEncontrado.cpf); 
@@ -179,16 +179,16 @@ void pesquisa_cliente(const Cliente* cliente) {
             printf("\n");
             printf("********************************************************************************* \n");
             clienteEncontradoFlag = 1;  
-            break; // Não é necessário continuar a busca
+            break; 
         }
     }
 
-    if (!clienteEncontradoFlag) {  // Se o código não estiver no arquivo, dá erro
+    if (!clienteEncontradoFlag) {  
         printf("Cliente com CPF %s não encontrado.\n", cpf);
         printf("********************************************************************************* \n");
     }
 
-    fclose(file);  // Fecha o arquivo
+    fclose(file);  
 
     getchar();
     printf("\n");

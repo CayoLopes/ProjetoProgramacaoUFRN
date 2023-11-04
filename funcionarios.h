@@ -9,9 +9,9 @@ struct funcionario {
 
 void modulo_funcionario(void);
 char sub_menu_funcionario();
-char ficha_func();
 Funcionario* cadas_func(void);
 void gravar_func(Funcionario*);
 char funcio_ja_cad(Funcionario*); 
+void pesquisa_func(const Funcionario* funcionario);
 char edit_fun();
 char apaga_fun();

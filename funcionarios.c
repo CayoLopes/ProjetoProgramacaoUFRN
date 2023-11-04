@@ -19,7 +19,7 @@ void modulo_funcionario(void) {
             case '2':   funcionario = cadas_func();
                         gravar_func(funcionario);
                         break;
-            case '3':   ficha_func();
+            case '3':   pesquisa_func(funcionario);
                         break; 
             case '4':   edit_fun();
                         break;
@@ -44,7 +44,7 @@ char sub_menu_funcionario(){
     printf("********************************************************************************* \n");
     printf("**                      1 - Funcionarios cadastrados                           ** \n");
     printf("**                      2 - Cadastrar funcionario                              ** \n");
-    printf("**                      3 - Ficha do funcionario                               ** \n");
+    printf("**                      3 - Pesquisar funcionario                              ** \n");
     printf("**                      4 - Editar ficha do funcionario                        ** \n");
     printf("**                      5 - Apagar ficha do funcionario                        ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -155,26 +155,52 @@ void gravar_func(Funcionario* func){
 
 
 
-char ficha_func(){
+void pesquisa_func(const Funcionario* funcionario) {
+    char cpf[12];  
+    Funcionario funcionarioEncontrado;  
+    int funcionarioEncontradoFlag = 0;  
 
-  char op;
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("*******************   F I C H A  D E  F U N C I O N A R I O   ******************* \n"); 
-    printf("********************************************************************************* \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**          Cargo:                                                             ** \n");
-    printf("**          Email:                                                             ** \n");
-    printf("**          Endereço:                                                          ** \n");
-    printf("**          Outros:                                                            ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
+    clearScreen();  
+
+  printf("********************************************************************************* \n");
+  printf("*****************   P E S Q U I S A R  F U N C I O N A R I O   ****************** \n");
+  printf("********************************************************************************* \n");
+  printf("Digite CPF do funcionário a ser pesquisado: ");
+  scanf("%s", cpf);
+
+    FILE* file = fopen("funcionarios.dat", "rb");  
+
+    if (file == NULL) { 
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
+
+    while (fread(&funcionarioEncontrado, sizeof(Funcionario), 1, file) == 1) {  
+        if (strcmp(funcionarioEncontrado.cpf, cpf) == 0) {  
+            printf("\n");
+            printf("Nome: %s\n", funcionarioEncontrado.nome);
+            printf("CPF: %s\n", funcionarioEncontrado.cpf); 
+            printf("Cargo: %s\n", funcionarioEncontrado.cargo);
+            printf("E-mail: %s\n" , funcionarioEncontrado.email);
+            printf("Endereço: %s\n" , funcionarioEncontrado.ender);
+            printf("\n");
+            printf("********************************************************************************* \n");
+            funcionarioEncontradoFlag = 1;  
+            break; 
+        }
+    }
+
+    if (!funcionarioEncontradoFlag) {  
+        printf("Funcionário com CPF %s não encontrado.\n", cpf);
+        printf("********************************************************************************* \n");
+    }
+
+    fclose(file);  
+
     getchar();
-    return op;
+    printf("\n");
+    printf("Pressione Enter para retornar\n");
+    getchar();
 }
 
 
