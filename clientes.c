@@ -20,7 +20,7 @@ void modulo_cliente(void){
             case '2':   cliente = cadas_cliente();
                         gravar_cliente(cliente);
                         break;
-            case '3':   ficha_cliente();
+            case '3':   pesquisa_cliente(cliente);
                         break; 
             case '4':   edit_cliente();
                         break;
@@ -46,7 +46,7 @@ char sub_menu_cliente(){
     printf("********************************************************************************* \n");
     printf("**                      1 - Clientes cadastrados                               ** \n");
     printf("**                      2 - Cadastrar cliente                                  ** \n");
-    printf("**                      3 - Ficha do cliente                                   ** \n");
+    printf("**                      3 - Pesquisar cliente                                   ** \n");
     printf("**                      4 - Editar ficha do cliente                            ** \n");
     printf("**                      5 - Apagar ficha do cliente                            ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -149,25 +149,51 @@ void gravar_cliente(Cliente* clien){
 
 
 
-char ficha_cliente(){
+void pesquisa_cliente(const Cliente* cliente) {
+    char cpf[12];  
+    Cliente clienteEncontrado;  
+    int clienteEncontradoFlag = 0;  
 
-  char op;
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("***********************   F I C H A  D E  C L I E N T E   *********************** \n"); 
-    printf("********************************************************************************* \n");
-    printf("**          Nome:                                                              ** \n");
-    printf("**          CPF:                                                               ** \n");
-    printf("**          Email:                                                             ** \n");
-    printf("**          Endereço:                                                          ** \n");
-    printf("**          Outros:                                                            ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
+    clearScreen();  // Limpa a tela
+
+  printf("********************************************************************************* \n");
+  printf("*********************   P E S Q U I S A R  C L I E N T E   ********************** \n");
+  printf("********************************************************************************* \n");
+  printf("Digite o CPF do cliente a ser pesquisado: ");
+  scanf("%s", cpf);
+
+    FILE* file = fopen("clientes.dat", "rb");  // Abre o arquivo (rb == modo leitura)
+
+    if (file == NULL) {  // Se o arquivo for NULL, dá erro na abertura
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return;
+    }
+
+    while (fread(&clienteEncontrado, sizeof(Cliente), 1, file) == 1) {  
+        if (strcmp(clienteEncontrado.cpf, cpf) == 0) {  // Confere se o código é igual
+            printf("\n");
+            printf("Nome: %s\n", clienteEncontrado.nome);
+            printf("CPF: %s\n", clienteEncontrado.cpf); 
+            printf("E-mail: %s\n" , clienteEncontrado.email);
+            printf("Endereço: %s\n" , clienteEncontrado.ender);
+            printf("\n");
+            printf("********************************************************************************* \n");
+            clienteEncontradoFlag = 1;  
+            break; // Não é necessário continuar a busca
+        }
+    }
+
+    if (!clienteEncontradoFlag) {  // Se o código não estiver no arquivo, dá erro
+        printf("Cliente com CPF %s não encontrado.\n", cpf);
+        printf("********************************************************************************* \n");
+    }
+
+    fclose(file);  // Fecha o arquivo
+
     getchar();
-    return op;
+    printf("\n");
+    printf("Pressione Enter para retornar\n");
+    getchar();
 }
 
 
