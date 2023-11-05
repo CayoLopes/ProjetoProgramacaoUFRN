@@ -13,5 +13,6 @@ Funcionario* cadas_func(void);
 void gravar_func(Funcionario*);
 char funcio_ja_cad(Funcionario*); 
 void pesquisa_func(const Funcionario* funcionario);
-char edit_fun();
+int editar_func(char *termo_busca);
+void edit_func();
 char apaga_fun();

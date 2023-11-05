@@ -21,7 +21,7 @@ void modulo_funcionario(void) {
                         break;
             case '3':   pesquisa_func(funcionario);
                         break; 
-            case '4':   edit_fun();
+            case '4':   edit_func();
                         break;
             case '5':   apaga_fun();
                         break;
@@ -204,27 +204,101 @@ void pesquisa_func(const Funcionario* funcionario) {
 }
 
 
-char edit_fun(){
-  char op;
+int editar_func(char *termo_busca) {
+    FILE *file = fopen("funcionarios.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Funcionario funcionario;
+
+    while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
+        if (strcmp(funcionario.cpf, termo_busca) == 0 || strcmp(funcionario.nome, termo_busca) == 0) {
+
+            printf("Funcionario encontrado. Edite as informações:\n");
+
+            // Solicite as edições aos campos necessários
+            printf("Novo nome: ");
+            limparBuffer();
+            fgets(funcionario.nome, sizeof(funcionario.nome), stdin);
+            funcionario.nome[strcspn(funcionario.nome, "\n")] = '\0';
+
+            if (validarNome(funcionario.nome)) {
+                printf("\n");
+            } else {
+                printf("Nome inválido.\n");
+            }
+
+
+            printf("Novo CPF: ");
+            scanf(" %s", funcionario.cpf);
+            getchar();
+
+            if (validarCPF(funcionario.cpf)) {
+                printf("\n");
+            } else {
+                printf("CPF inválido.\n");
+            }
+
+            printf("Novo cargo: ");
+            scanf(" %s", funcionario.cargo);
+            getchar();
+
+
+          
+            printf("Novo email: ");
+            scanf(" %s", funcionario.email);
+            getchar();
+
+            if (verificar_email(funcionario.email)) {
+                printf("\n");
+            } else {
+                printf("E-mail inválido\n");
+            }
+
+            printf("Novo endereço: ");
+            fgets(funcionario.ender, sizeof(funcionario.ender), stdin);
+            funcionario.ender[strcspn(funcionario.ender, "\n")] = '\0';
+
+            printf("Informações atualizadas com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Funcionario), SEEK_CUR); 
+            fwrite(&funcionario, sizeof(Funcionario), 1, file); 
+            fclose(file);
+
+            return 1;
+        }
+    }
+
+    fclose(file);
+
+    return 0; 
+}
+
+
+
+void edit_func() {
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
-    printf("*********************   E D I T A R  F U N C I O N A R I O   ******************** \n"); 
+    printf("*********************   E D I T A R  F U N C I O N A R I O   ******************** \n");
     printf("********************************************************************************* \n");
-    printf("**          Novo nome:...                                                      ** \n");
-    printf("**          Novo CPF:...                                                       ** \n");
-    printf("**          Novo cargo/função:...                                              ** \n");
-    printf("**          Novo email:...                                                     ** \n");
-    printf("**          Novo endereço:...                                                  ** \n");
-    printf("**          Outras informações:...                                             ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
-    getchar();
-    return op;
 
-  
+    char termo_busca[50];
+    printf("Digite o nome ou CPF do funcionário a ser editado: ");
+    scanf(" %s", termo_busca);
+
+    if (editar_func(termo_busca)) {
+        printf("Funcionário editado com sucesso!\n");
+    } else {
+        printf("Funcionário não encontrado ou erro na edição.\n");
+    }
+
+    printf("Pressione Enter para retornar\n");
+    getchar();
 }
 
 char apaga_fun(){
