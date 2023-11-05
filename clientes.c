@@ -197,27 +197,99 @@ void pesquisa_cliente(const Cliente* cliente) {
 }
 
 
-char edit_cliente(){
-  char op;
+int editar_cliente(char *termo_busca) {
+    FILE *file = fopen("clientes.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Cliente cliente;
+
+    while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
+        if (strcmp(cliente.cpf, termo_busca) == 0 || strcmp(cliente.nome, termo_busca) == 0) {
+            
+            printf("Cliente encontrado. Edite as informações:\n");
+
+            // Solicite as edições aos campos necessários
+            printf("Novo nome: ");
+            limparBuffer();
+            fgets(cliente.nome, sizeof(cliente.nome), stdin);
+            cliente.nome[strcspn(cliente.nome, "\n")] = '\0';
+
+            if (validarNome(cliente.nome)) {
+                printf("\n");
+            } else {
+                printf("Nome inválido.\n");
+            }
+
+
+            printf("Novo CPF: ");
+            scanf(" %s", cliente.cpf);
+            getchar();
+
+            if (validarCPF(cliente.cpf)) {
+                printf("\n");
+            } else {
+                printf("CPF inválido.\n");
+            }
+
+          
+            printf("Novo email: ");
+            scanf(" %s", cliente.email);
+            getchar();
+
+            if (verificar_email(cliente.email)) {
+                printf("\n");
+            } else {
+                printf("E-mail inválido\n");
+            }
+
+            printf("Novo endereço: ");
+            fgets(cliente.ender, sizeof(cliente.ender), stdin);
+            cliente.ender[strcspn(cliente.ender, "\n")] = '\0';
+
+            printf("Informações atualizadas com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Cliente), SEEK_CUR); // Retroceder o ponteiro no arquivo
+            fwrite(&cliente, sizeof(Cliente), 1, file); // Gravar as informações editadas
+            fclose(file);
+
+            return 1; // Sucesso na edição
+        }
+    }
+
+    fclose(file);
+
+    return 0; // Cliente não encontrado
+}
+
+
+
+void edit_cliente() {
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
-    printf("*************************   E D I T A R  C L I E N T E   ************************ \n"); 
+    printf("*************************   E D I T A R  C L I E N T E   ************************ \n");
     printf("********************************************************************************* \n");
-    printf("**          Novo nome:...                                                      ** \n");
-    printf("**          Novo CPF:...                                                       ** \n");
-    printf("**          Novo email:...                                                     ** \n");
-    printf("**          Novo endereço:...                                                  ** \n");
-    printf("**          Nova informações:...                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
-    getchar();
-    return op;
 
-  
+    char termo_busca[50];
+    printf("Digite o nome ou CPF do cliente a ser editado: ");
+    scanf(" %s", termo_busca);
+
+    if (editar_cliente(termo_busca)) {
+        printf("Cliente editado com sucesso!\n");
+    } else {
+        printf("Cliente não encontrado ou erro na edição.\n");
+    }
+
+    printf("Pressione Enter para retornar\n");
+    getchar();
 }
+
+
 
 char apaga_cliente(){
   char op;

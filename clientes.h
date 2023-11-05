@@ -12,5 +12,6 @@ Cliente* cadas_cliente(void);
 void gravar_cliente(Cliente*);
 char cliente_ja_cad(Cliente*);
 void pesquisa_cliente(const Cliente* cliente);
-char edit_cliente();
+int editar_cliente(char *termo_busca);
+void edit_cliente();
 char apaga_cliente();
