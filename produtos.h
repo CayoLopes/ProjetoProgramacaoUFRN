@@ -13,5 +13,6 @@ void gravar_produto(Produto*);
 void produtos_cads(Produto*);
 void pesquisa_produto(const Produto* produto);
 char info_produto(); //Mostra as informações de um produto
-char edit_produto(); //Faz a edição do produto
+int editar_produto(char *termo_busca);
+void edit_produto(); //Faz a edição do produto
 char apaga_produto(); //Apaga o produto do estoque

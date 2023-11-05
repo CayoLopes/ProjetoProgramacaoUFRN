@@ -23,9 +23,9 @@ void modulo_produto(void){
                         break;
             case '3':   pesquisa_produto(produto);
                         break; 
-            case '4':   edit_produto(&Produto);
+            case '4':   edit_produto();
                         break;
-            case '5':   apaga_produto(&Produto);
+            case '5':   apaga_produto();
                         break;            
         }
     } while (opcao != '0');
@@ -187,28 +187,89 @@ void pesquisa_produto(const Produto* produto) {
 
 
 
-char edit_produto(){
-    char op;
+int editar_produto(char *termo_busca) {
+    FILE *file = fopen("produtos.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Produto produto;
+
+    while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+        if (strcmp(produto.codigo, termo_busca) == 0 || strcmp(produto.nome, termo_busca) == 0) {
+
+            printf("Produto encontrado. Edite as informações:\n");
+
+            // Solicite as edições aos campos necessários
+            printf("Novo nome: ");
+           scanf("%s", produto.nome);
+
+            if (validarNome(produto.nome)) {
+                printf("\n");
+            } else {
+                printf("Nome inválido.\n");
+            }
+
+
+            printf("Novo código: ");
+            scanf(" %s", produto.codigo);
+            getchar();
+
+
+            printf("Novo preço: ");
+            scanf(" %s", produto.preco);
+            getchar();
+
+
+
+            printf("Novo estoque: ");
+            scanf(" %s", produto.estoq);
+            getchar();
+
+            
+
+            printf("Informações atualizadas com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Produto), SEEK_CUR); 
+            fwrite(&produto, sizeof(Produto), 1, file); 
+            fclose(file);
+
+            return 1;
+        }
+    }
+
+    fclose(file);
+
+    return 0; 
+}
+
+
+
+void edit_produto() {
     clearScreen();
     printf("\n");
+    printf("********************************************************************************* \n");
+    printf("*************************   E D I T A R  P R O D U T O   ************************ \n");
+    printf("********************************************************************************* \n");
 
-    printf("********************************************************************************* \n"); 
-    printf("*************************  E D I T A R  P R O D U T O  ************************* \n");
-    printf("********************************************************************************* \n");
-    printf("**                                                                             ** \n");
-    printf("**                 Novo nome:                                                  ** \n");
-    printf("**                 Novo código:                                                ** \n");
-    printf("**                 Novo preço:                                                 ** \n");
-    printf("**                 Novo estoque:                                               ** \n");
-    printf("**                 Nova descrição:                                             ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
+    char termo_busca[50];
+    printf("Digite o nome ou código do produto a ser editado: ");
+    scanf(" %s", termo_busca);
+
+    if (editar_produto(termo_busca)) {
+        printf("Produto editado com sucesso!\n");
+    } else {
+        printf("Produto não encontrado ou erro na edição.\n");
+    }
+
+    printf("Pressione Enter para retornar\n");
     getchar();
-    return op;
-
 }
+
+
 
 char apaga_produto(){
     char op;
