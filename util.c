@@ -103,3 +103,8 @@ int verificar_email(char *email) {
     }
     return 0;
 }
+
+void limparBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
