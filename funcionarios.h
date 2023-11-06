@@ -15,4 +15,5 @@ char funcio_ja_cad(Funcionario*);
 void pesquisa_func(const Funcionario* funcionario);
 int editar_func(char *termo_busca);
 void edit_func();
-char apaga_fun();
+int deletar_func(char *termo_busca);
+void apaga_func();

@@ -23,7 +23,7 @@ void modulo_funcionario(void) {
                         break; 
             case '4':   edit_func();
                         break;
-            case '5':   apaga_fun();
+            case '5':   apaga_func();
                         break;
         }
     } while (opcao != '0');
@@ -301,24 +301,67 @@ void edit_func() {
     getchar();
 }
 
-char apaga_fun(){
-    char op;
+
+int deletar_func(char *termo_busca) {
+    FILE *file = fopen("funcionarios.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Funcionario funcionario;
+
+    while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
+        if (strcmp(funcionario.cpf, termo_busca) == 0 || strcmp(funcionario.nome, termo_busca) == 0) {
+            printf("Funcionario encontrado. Os dados do funcionario serão substituidos por \"xxxx\":\n");
+
+
+            strcpy(funcionario.nome, "xxxx");
+            strcpy(funcionario.cpf, "xxxx");
+            strcpy(funcionario.cargo, "xxxx");
+            strcpy(funcionario.email, "xxxx");
+            strcpy(funcionario.ender, "xxxx");
+            getchar();
+
+            printf("Dados substituídas por \"xxxx\" com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Funcionario), SEEK_CUR); // Retroceder o ponteiro no arquivo
+            fwrite(&funcionario, sizeof(Funcionario), 1, file); // Gravar as informações editadas
+            fclose(file);
+
+            return 1; // Sucesso na edição
+        }
+    }
+
+    fclose(file);
+
+    return 0; // Cliente não encontrado
+}
+
+
+void apaga_func(){
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("********************   D E L E T A R  F U N C I O N A R I O   ******************* \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Para apagar a ficha:                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Digite o CPF:...                                                   ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Deseja realmente deletar a ficha? (s/S|n/N)                        ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
-    getchar();
-    return op;
+    char termo_busca[50];
+        printf("Digite o nome ou CPF do funcionário a ser deletado: ");
+        scanf(" %s", termo_busca);
+
+        if (deletar_func(termo_busca)) {
+            printf("\n");
+            printf("Funcionário deletado com sucesso!\n"); 
+
+        } else {
+            printf("Funcionário não encontrado ou erro na exclusão.\n"); 
+        }
+
+        printf("Pressione Enter para retornar\n");
+        getchar();
+     }
 
 
-}
+  
