@@ -15,4 +15,5 @@ void pesquisa_produto(const Produto* produto);
 char info_produto(); //Mostra as informações de um produto
 int editar_produto(char *termo_busca);
 void edit_produto(); //Faz a edição do produto
-char apaga_produto(); //Apaga o produto do estoque
+int deletar_produto(char *termo_busca);
+void apaga_produto(); //Apaga o produto do estoque
