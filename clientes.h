@@ -14,4 +14,5 @@ char cliente_ja_cad(Cliente*);
 void pesquisa_cliente(const Cliente* cliente);
 int editar_cliente(char *termo_busca);
 void edit_cliente();
-char apaga_cliente();
+int apagar_cliente(char *termo_busca);
+void apaga_cliente();

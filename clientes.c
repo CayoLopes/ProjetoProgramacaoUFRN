@@ -291,24 +291,65 @@ void edit_cliente() {
 
 
 
-char apaga_cliente(){
-  char op;
+
+int deletar_cliente(char *termo_busca) {
+    FILE *file = fopen("clientes.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Cliente cliente;
+
+    while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
+        if (strcmp(cliente.cpf, termo_busca) == 0 || strcmp(cliente.nome, termo_busca) == 0) {
+            printf("Cliente encontrado. Os dados do cliente serão substituidos por \"xxxx\":\n");
+
+            
+            strcpy(cliente.nome, "xxxx");
+            strcpy(cliente.cpf, "xxxx");
+            strcpy(cliente.email, "xxxx");
+            strcpy(cliente.ender, "xxxx");
+            getchar();
+
+            printf("Dados substituídas por \"xxxx\" com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Cliente), SEEK_CUR); // Retroceder o ponteiro no arquivo
+            fwrite(&cliente, sizeof(Cliente), 1, file); // Gravar as informações editadas
+            fclose(file);
+
+            return 1; // Sucesso na edição
+        }
+    }
+
+    fclose(file);
+
+    return 0; // Cliente não encontrado
+}
+
+
+
+void apaga_cliente() {
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("************************   D E L E T A R  C L I E N T E   *********************** \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Para apagar a ficha:                                               ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Digite o CPF:...                                                   ** \n");
-    printf("**                                                                             ** \n");
-    printf("**          Deseja realmente deletar a ficha? (s/S|n/N)                        ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");    
-    scanf(" %c", &op);
+    char termo_busca[50];
+    printf("Digite o nome ou CPF do cliente a ser deletado: ");
+    scanf(" %s", termo_busca);
+
+    if (deletar_cliente(termo_busca)) {
+        printf("\n");
+        printf("Cliente deletado com sucesso!\n"); 
+        
+    } else {
+        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+    }
+
+    printf("Pressione Enter para retornar\n");
     getchar();
-    return op;
-
-
 }
+
