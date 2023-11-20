@@ -15,7 +15,8 @@ void modulo_cliente(void){
     do {
         opcao = sub_menu_cliente();
         switch(opcao) {
-            case '1': 	cliente_ja_cad(cliente);
+            case '1':   sub_menu_cliente_cads(cliente);                    
+                        //cliente_ja_cad(cliente);
                         break;
             case '2':   cliente = cadas_cliente();
                         gravar_cliente(cliente);
@@ -46,7 +47,7 @@ char sub_menu_cliente(){
     printf("********************************************************************************* \n");
     printf("**                      1 - Clientes cadastrados                               ** \n");
     printf("**                      2 - Cadastrar cliente                                  ** \n");
-    printf("**                      3 - Pesquisar cliente                                   ** \n");
+    printf("**                      3 - Pesquisar cliente                                  ** \n");
     printf("**                      4 - Editar ficha do cliente                            ** \n");
     printf("**                      5 - Apagar ficha do cliente                            ** \n");
     printf("**                      0 - Voltar                                             ** \n");
@@ -56,6 +57,36 @@ char sub_menu_cliente(){
     getchar();
     return op;
 }
+
+
+char sub_menu_cliente_cads(Cliente* cliente){
+  
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("**********************                                     ********************** \n");
+  printf("***********                 F A R M A C I A   E M   C                 *********** \n");
+  printf("**********************                                     ********************** \n");
+  printf("********************************************************************************* \n");
+  printf("*******************   C L I E N T E S  C A D A S T R A D O S  ******************* \n");
+  printf("********************************************************************************* \n");
+  printf("**                      1 - Dos mais antigos                                   ** \n");
+  printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      0 - Voltar                                             ** \n");
+  printf("********************************************************************************* \n");
+  printf("\n");
+  scanf("%c", &op);
+  getchar();
+  if (op == '1')
+    cliente_ja_cad(cliente);
+  else if (op == '2')
+    cliente_ja_cad_contr(cliente);
+ 
+  
+}
+
+
 
 char cliente_ja_cad(Cliente* cliente){
   
@@ -87,6 +118,60 @@ char cliente_ja_cad(Cliente* cliente){
      printf("Pressione Enter para retornar ao menu principal...");
      getchar();
 }
+
+
+char cliente_ja_cad_contr(Cliente* cliente){
+
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n");
+  printf("********************************************************************************* \n");
+
+  FILE* fp;
+  Cliente clien;
+  fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+  }
+
+  Cliente* clientes = NULL;  // Ponteiro para armazenar os clientes dinamicamente
+  int numClientes = 0;       // Número atual de clientes
+
+  // Leitura dinâmica dos clientes do arquivo
+  while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
+      // Aloca mais memória para um cliente adicional
+      clientes = realloc(clientes, (numClientes + 1) * sizeof(Cliente));
+
+      if (clientes == NULL) {
+          printf("Erro ao alocar memória!\n");
+          exit(1);
+      }
+
+      // Adiciona o cliente ao vetor
+      clientes[numClientes] = clien;
+      numClientes++;
+  }
+
+  fclose(fp);
+
+  // Exibe os clientes na ordem inversa
+  for (int i = numClientes - 1; i >= 0; i--) {
+      printf("Nome: %s\n", clientes[i].nome);
+      printf("CPF: %s\n", clientes[i].cpf);
+      printf("E-mail: %s\n", clientes[i].email);
+      printf("Endereço: %s\n", clientes[i].ender);
+      printf("\n");
+  }
+
+  free(clientes);  // Libera a memória alocada dinamicamente
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}
+
 
 
 Cliente* cadas_cliente(void){
