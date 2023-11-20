@@ -8,9 +8,11 @@ struct produto {
 
 void modulo_produto(void); //Modulo que apareçe no menu principal liga as outras páginas
 char sub_menu_produto(); //Menu dos produtos
+char sub_menu_produto_cads(Produto*);
 Produto* cadas_produto(void); //Faz o cadastro de novos produtos
 void gravar_produto(Produto*);
 void produtos_cads(Produto*);
+void produtos_cads_contr(Produto*);
 void pesquisa_produto(const Produto* produto);
 char info_produto(); //Mostra as informações de um produto
 int editar_produto(char *termo_busca);

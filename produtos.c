@@ -16,7 +16,7 @@ void modulo_produto(void){
     do {
         opcao = sub_menu_produto();
         switch(opcao) {
-            case '1': 	produtos_cads(produto);
+            case '1': 	sub_menu_produto_cads(produto);
                         break;
             case '2':    produto = cadas_produto();
                         gravar_produto(produto);
@@ -58,6 +58,47 @@ char sub_menu_produto(){
     return op;
 }
 
+
+
+
+
+
+
+
+
+
+char sub_menu_produto_cads(Produto* produto){
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("**********************                                     ********************** \n");
+  printf("***********                 F A R M A C I A   E M   C                 *********** \n");
+  printf("**********************                                     ********************** \n");
+  printf("********************************************************************************* \n");
+  printf("***********************   M E N U  D E  P R O D U T O S   *********************** \n");
+  printf("********************************************************************************* \n");
+  printf("**                      1 - Dos mais antigos                                   ** \n");
+  printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      0 - Voltar                                             ** \n");
+  printf("********************************************************************************* \n");
+  printf("\n");
+  scanf("%c", &op);
+  getchar();
+  if (op == '1')
+    produtos_cads(produto);
+  else if (op == '2')
+    produtos_cads_contr(produto);
+
+
+  
+}
+
+
+
+
+
+
 void produtos_cads(Produto* produto) {
     clearScreen();
 
@@ -89,6 +130,60 @@ void produtos_cads(Produto* produto) {
     printf("Pressione Enter para retornar ao menu principal...");
     getchar();
 }
+
+
+
+
+void produtos_cads_contr(Produto* produto) {
+  clearScreen();
+      printf("\n");
+      printf("********************************************************************************* \n");
+      printf("***************   R E G I S T R O  D E  P R O D U T O S   *************** \n");
+      printf("********************************************************************************* \n");
+
+      FILE* fp;
+      Produto prod;
+      fp = fopen("produtos.dat", "rb"); // Abra o arquivo para leitura binária
+
+      if (fp == NULL) {
+          printf("Ops! Erro na abertura do arquivo!\n");
+          printf("Não é possível continuar...\n");
+          exit(1);
+      }
+
+      Produto* produtosArray = NULL;
+      int numProdutos = 0;
+
+      while (fread(&prod, sizeof(Produto), 1, fp) == 1) {
+          produtosArray = realloc(produtosArray, (numProdutos + 1) * sizeof(Produto));
+
+          if (produtosArray == NULL) {
+              printf("Erro ao alocar memória!\n");
+              exit(1);
+          }
+
+          produtosArray[numProdutos] = prod;
+          numProdutos++;
+      }
+
+      fclose(fp);
+
+      for (int i = numProdutos - 1; i >= 0; i--) {
+          printf("Nome: %s\n", produtosArray[i].nome);
+          printf("Código: %s\n", produtosArray[i].codigo);
+          printf("Preço: %s\n", produtosArray[i].preco);
+          printf("Estoque: %s\n", produtosArray[i].estoq);
+          printf("\n");
+      }
+
+      free(produtosArray);
+      printf("Pressione Enter para retornar ao menu principal...");
+      getchar();
+  }
+
+
+
+     
 
 
 Produto* cadas_produto(void){
