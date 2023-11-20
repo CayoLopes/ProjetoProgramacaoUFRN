@@ -14,7 +14,7 @@ void modulo_funcionario(void) {
     do {
         opcao = sub_menu_funcionario();
         switch(opcao) {
-            case '1': 	funcio_ja_cad(funcionario);
+            case '1': 	sub_menu_funcionario_cads(funcionario);
                         break;
             case '2':   funcionario = cadas_func();
                         gravar_func(funcionario);
@@ -55,6 +55,35 @@ char sub_menu_funcionario(){
     return op;
 }
 
+char sub_menu_funcionario_cads(Funcionario* funcionario){
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("**********************                                     ********************** \n");
+  printf("***********                 F A R M A C I A   E M   C                 *********** \n");
+  printf("**********************                                     ********************** \n");
+  printf("********************************************************************************* \n");
+  printf("*******************   M E N U  D E  F U N C I O N A R I O S   ******************* \n");
+  printf("********************************************************************************* \n");
+  printf("**                      1 - Dos mais antigos                                   ** \n");
+  printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      0 - Voltar                                             ** \n");
+  printf("********************************************************************************* \n");
+  printf("\n");
+  scanf("%c", &op);
+  getchar();
+  if (op == '1')
+    funcio_ja_cad(funcionario);
+  else if (op == '2')
+    funcio_ja_cad_contr(funcionario);
+
+
+  
+}
+
+
+
 
 char funcio_ja_cad(Funcionario* funcionario){
     char op;
@@ -89,6 +118,60 @@ char funcio_ja_cad(Funcionario* funcionario){
     }
 
 
+char funcio_ja_cad_contr(Funcionario* funcionario){
+
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
+  printf("********************************************************************************* \n");
+
+  FILE* fp;
+  Funcionario func;
+  fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+  }
+
+  Funcionario* funcionarios = NULL;  
+  int numFuncionario = 0;      
+
+
+  while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
+      
+      funcionario = realloc(funcionario, (numFuncionario + 1) * sizeof(Funcionario));
+
+      if (funcionario == NULL) {
+          printf("Erro ao alocar memória!\n");
+          exit(1);
+      }
+
+      // Adiciona o cliente ao vetor
+      funcionario[numFuncionario] = func;
+      numFuncionario++;
+  }
+
+  fclose(fp);
+
+  // Exibe os funcionario na ordem inversa
+  for (int i = numFuncionario - 1; i >= 0; i--) {
+      printf("Nome: %s\n", funcionario[i].nome);
+      printf("CPF: %s\n", funcionario[i].cpf);
+      printf("Cargo: %s\n,", funcionario[i].cargo);
+      printf("E-mail: %s\n", funcionario[i].email);
+      printf("Endereço: %s\n", funcionario[i].ender);
+      printf("\n");
+  }
+
+  free(funcionario);  // Libera a memória alocada dinamicamente
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}
+
+
 Funcionario* cadas_func(void){
   Funcionario* func;
   func = (Funcionario*) malloc(sizeof(Funcionario));
@@ -118,7 +201,7 @@ Funcionario* cadas_func(void){
     printf("**          Digite o cargo/função:                                             ** \n");
     scanf(" %s",func->cargo);
     getchar();
-    printf("**          Digite o email:                                 funcionarios                   ** \n");
+    printf("**          Digite o email:                                                    ** \n");
     scanf(" %s", func->email);
     getchar();
     if (verificar_email(func->email)){
@@ -337,7 +420,7 @@ int deletar_func(char *termo_busca) {
 
     fclose(file);
 
-    return 0; // Cliente não encontrado
+    return 0; // Funcionario não encontrado
 }
 
 
