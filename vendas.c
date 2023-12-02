@@ -6,6 +6,7 @@
 #include "produtos.h"
 #include "clientes.h"
 #include "funcionarios.h"
+#include "util.h"
 void clearScreen();
 
 void modulo_venda(void) {
@@ -193,24 +194,40 @@ char* obterNomeFuncionario(const char *cpf) {
 
 
 
+
+void gravar_venda(Venda* vend){
+   FILE* fp;
+   fp = fopen("vendas.dat", "ab");
+   if (fp == NULL) {
+       printf("Ops! Erro na abertura do arquivo!\n");
+       printf("Não é possível continuar...\n");
+       exit(1);
+   }
+
+   // Gravar a estrutura Venda completa no arquivo
+   fwrite(vend, sizeof(Venda), 1, fp);
+
+   fclose(fp);
+
+
+}
+
+
+
+
  
 char realizar_venda(Venda* venda) {
-  char nomef[100];
-  char nomec[100];
-  char cpff[12];
-  char cpfc[12];
-  char nomep[30];
-  char codigo[10];
-  char preco_str[10];
-  char quant_str[10];
   double preco, quant, valor;
-  char status[11];
+  char preco_str[10];
+  char valort[10];
   char op;
     clearScreen();
     printf("********************************************************************************* \n");
     printf("**********************      R E A L I Z A R  V E N D A      ********************* \n");
     printf("********************************************************************************* \n");
-    
+
+    printf("Digite o número da venda:");
+    scanf("%s", venda->codigov);
     printf("Digite CPF do funcionário:                                                     ** \n");
     scanf(" %s", venda->cpff);
     getchar();
@@ -248,7 +265,7 @@ char realizar_venda(Venda* venda) {
         printf("\n");
     } else{
        printf("Produto inválido.\n" );
-    }
+     }
      printf("Digite a quantidade:                                                          ** \n");
      scanf("%s", venda->quant_str);
 
@@ -258,56 +275,85 @@ char realizar_venda(Venda* venda) {
          venda->preco = atof(precoProduto);
          free(precoProduto);
      }
-
+     char *precoUniProduto = obterValorProduto(venda->codigo);
+      if (precoProduto != NULL) {
+          // Converta o preço do produto para double
+          strcpy(venda->preco_str, precoUniProduto);
+          free(precoProduto);
+      }
+      
      quant = atof(venda->quant_str);
+     sprintf(preco_str, "%.2lf", preco);
      valor = quant * venda->preco; // Agora use venda->preco como valor numérico
 
-     venda->valor = valor;
-    printf("Valor: %.2lf\n", valor);
-    printf("Deseja finalizar a venda? (S/N)\n");
-    scanf(" %c", &op);
-    if (op == 'S' || op == 's') {
+     sprintf(valort, "%.2lf", venda->preco);
+     printf("Valor: %.2lf\n",valor);
+     sprintf(venda->valort,"%.2lf", valor);
+     printf("Deseja finalizar a venda? (S/N)\n");
+     scanf(" %c", &op);
+     if (op == 'S' || op == 's') {
      // Subtrair a quantidade vendida do estoque
-    subtrairQuantidadeEstoque(venda->codigo, (int)quant);
-    printf("Estoque atualizado com sucesso.\n"); 
-      strcpy(venda->status, "OK");
-      printf("Status da venda: %s\n", venda->status);
-     }
-    else {
-      printf("Venda não realizada.\n");
-    }
+     subtrairQuantidadeEstoque(venda->codigo, (int)quant);
+     printf("Estoque atualizado com sucesso.\n"); 
+       strcpy(venda->status, "OK");
+       printf("Status da venda: %s\n", venda->status);
+       gravar_venda(venda);
+      }
+     else {
+       printf("Venda não realizada.\n");
+      }
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
     scanf("%c", &op);
     getchar();
+    limparBuffer();
     return op;
   
 }
 
-char relatorio_venda(Venda *venda) {
-  char op;
-    clearScreen();
-    printf("********************************************************************************* \n");
-    printf("*******************     R E L A T Ó R I O  D E  V E N D A S    ****************** \n");
-    printf("********************************************************************************* \n");
-    printf("**               Sobre a venda                                                 ** \n");
-    printf("**               Digite número da venda:                                       ** \n");
-    printf("********************************************************************************* \n");
-    printf("**               Nome do cliente:                                              ** \n");
-    printf("**               Produto:                                                      ** \n");
-    printf("**               Quantidade:                                                   ** \n");
-    printf("**               Valor total:                                                  ** \n");
-    printf("**               Sobre a venda:                                                ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
-    getchar();
-    return op;
+char relatorio_venda(Venda* venda) {
+
+  FILE* fp;
+  Venda vend;
+
+  fp = fopen("vendas.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+  }
+
+  while (fread(&vend, sizeof(Venda), 1, fp) == 1) {
+      printf("Código da venda: %s\n", vend.codigov);
+      printf("Vendedor: %s\n", vend.nomef);
+      printf("CPF do vendedor: %s\n", vend.cpff);
+      printf("Cliente: %s\n", vend.nomec);
+      printf("CPF do cliente: %s\n", vend.cpfc);
+      printf("Produto comprado: %s\n", vend.nomep);
+      printf("Código do produto: %s\n", vend.codigo);
+      printf("Preço unitário: R$ %s\n", vend.preco_str);
+      printf("Quantidade comprada: %s\n", vend.quant_str);
+      printf("Total da compra: R$ %s\n", vend.valort);
+      
+      printf("\n");
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+
   
-  
+ 
 }
+
+
+
+
+
+
 
 char edit_venda(Venda *venda) {
     char op;
