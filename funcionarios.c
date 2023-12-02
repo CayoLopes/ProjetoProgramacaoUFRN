@@ -121,54 +121,58 @@ char funcio_ja_cad(Funcionario* funcionario){
 char funcio_ja_cad_contr(Funcionario* funcionario){
 
   clearScreen();
-  printf("\n");
-  printf("********************************************************************************* \n");
-  printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
-  printf("********************************************************************************* \n");
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
+    printf("********************************************************************************* \n");
 
-  FILE* fp;
-  Funcionario func;
-  fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
+    FILE* fp;
+    Funcionario func;
 
-  if (fp == NULL) {
-      printf("Ops! Erro na abertura do arquivo!\n");
-      printf("Não é possível continuar...\n");
-      exit(1);
-  }
+    fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
 
-  Funcionario* funcionarios = NULL;  
-  int numFuncionario = 0;      
+    if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
 
+    // Alocar memória dinâmica para armazenar funcionários
+    Funcionario* funcionarios = NULL;
+    int numFuncionario = 0;
 
-  while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
-      
-      funcionario = realloc(funcionario, (numFuncionario + 1) * sizeof(Funcionario));
+    while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
+        // Realocar memória para armazenar o próximo funcionário
+        funcionarios = (Funcionario*)realloc(funcionarios, (numFuncionario + 1) * sizeof(Funcionario));
 
-      if (funcionario == NULL) {
-          printf("Erro ao alocar memória!\n");
-          exit(1);
-      }
+        if (funcionarios == NULL) {
+            printf("Erro ao alocar memória!\n");
+            fclose(fp);
+            exit(1);
+        }
 
-      // Adiciona o cliente ao vetor
-      funcionario[numFuncionario] = func;
-      numFuncionario++;
-  }
+        // Adicionar o funcionário ao vetor
+        funcionarios[numFuncionario] = func;
+        numFuncionario++;
+    }
 
-  fclose(fp);
+    fclose(fp);
 
-  // Exibe os funcionario na ordem inversa
-  for (int i = numFuncionario - 1; i >= 0; i--) {
-      printf("Nome: %s\n", funcionario[i].nome);
-      printf("CPF: %s\n", funcionario[i].cpf);
-      printf("Cargo: %s\n,", funcionario[i].cargo);
-      printf("E-mail: %s\n", funcionario[i].email);
-      printf("Endereço: %s\n", funcionario[i].ender);
-      printf("\n");
-  }
+    // Exibir os funcionários na ordem inversa
+    for (int i = numFuncionario - 1; i >= 0; i--) {
+        printf("Nome: %s\n", funcionarios[i].nome);
+        printf("CPF: %s\n", funcionarios[i].cpf);
+        printf("Cargo: %s\n", funcionarios[i].cargo);
+        printf("E-mail: %s\n", funcionarios[i].email);
+        printf("Endereço: %s\n", funcionarios[i].ender);
+        printf("\n");
+    }
 
-  free(funcionario);  // Libera a memória alocada dinamicamente
-  printf("Pressione Enter para retornar ao menu principal...");
-  getchar();
+    // Liberar a memória alocada dinamicamente
+    free(funcionarios);
+
+    printf("Pressione Enter para retornar ao menu principal...");
+    getchar();
 }
 
 
