@@ -196,12 +196,14 @@ Produto* cadas_produto(void){
     printf("********************************************************************************* \n");
     printf("**                                                                             ** \n");
     printf("**                 Digite o nome:                                              ** \n");
-    scanf("%s", prd->nome);
-    if (validarNome(prd->nome)) {
-        printf("\n");
-     } else {
-        printf("Nome inválido.\n");  
-     } 
+    do{
+      scanf("%s", prd->nome);
+      if (validarNome(prd->nome)) {
+          printf("\n");
+       } else {
+          printf("Nome inválido.\n");  
+       } 
+    } while (!validarNome(prd->nome));
     printf("**                 Digite o código:                                            ** \n");
     scanf("%s", prd->codigo);
     printf("**                 Digite o preço:                                             ** \n");
