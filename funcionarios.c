@@ -186,33 +186,39 @@ Funcionario* cadas_func(void){
     printf("********************************************************************************* \n");
     printf("******************   C A D A S T R A R  F U N C I O N A R I O   ***************** \n"); 
     printf("********************************************************************************* \n");
-    printf("**          Digite o nome:                                                     ** \n");
-    fgets(func->nome, sizeof(func->nome), stdin);
-    func->nome[strcspn(func->nome, "\n")] = '\0';
-    if (validarNome(func->nome)) {
-        printf("\n");
-     } else {
-        printf("Nome inválido.\n");  
-     } 
-    printf("**          Digite o CPF:                                                      ** \n");
-    scanf(" %s", func->cpf);
-    getchar();
-    if (validarCPF(func->cpf)) {
-        printf("\n");
-    } else{
-       printf("CPF inválido.\n" );
-    }
+    do{
+      printf("**          Digite o nome:                                                     ** \n");
+      fgets(func->nome, sizeof(func->nome), stdin);
+      func->nome[strcspn(func->nome, "\n")] = '\0';
+      if (validarNome(func->nome)) {
+          printf("\n");
+       } else {
+          printf("Nome inválido.\n");  
+       }
+    } while (!validarNome(func->nome));
+    do{
+      printf("**          Digite o CPF:                                                      ** \n");
+      scanf(" %s", func->cpf);
+      getchar();
+      if (validarCPF(func->cpf)) {
+          printf("\n");
+      } else{
+         printf("CPF inválido.\n" );
+      }
+    } while (!validarCPF(func->cpf));
     printf("**          Digite o cargo/função:                                             ** \n");
     scanf(" %s",func->cargo);
     getchar();
-    printf("**          Digite o email:                                                    ** \n");
-    scanf(" %s", func->email);
-    getchar();
-    if (verificar_email(func->email)){
-        printf("\n");
-    } else {
-       printf("E-mail inválido\n");
-    }
+    do{
+      printf("**          Digite o email:                                                    ** \n");
+      scanf(" %s", func->email);
+      getchar();
+      if (verificar_email(func->email)){
+          printf("\n");
+      } else {
+         printf("E-mail inválido\n");
+      }
+    } while (!verificar_email(func->email));
     printf("**          Digite o endereço:                                                 ** \n");
     fgets(func->ender, sizeof(func->ender), stdin);
     func->ender[strcspn(func->ender, "\n")] = '\0';
