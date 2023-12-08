@@ -16,7 +16,6 @@ void modulo_cliente(void){
         opcao = sub_menu_cliente();
         switch(opcao) {
             case '1':   sub_menu_cliente_cads(cliente);                    
-                        //cliente_ja_cad(cliente);
                         break;
             case '2':   cliente = cadas_cliente();
                         gravar_cliente(cliente);
@@ -90,33 +89,36 @@ char sub_menu_cliente_cads(Cliente* cliente){
 
 char cliente_ja_cad(Cliente* cliente){
   
-    clearScreen();
-    printf("\n");
-    printf("********************************************************************************* \n");
-    printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n"); 
-    printf("********************************************************************************* \n");
-    FILE* fp;
-    Cliente clien;
-    fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
-  
-    if (fp == NULL) {
-         printf("Ops! Erro na abertura do arquivo!\n");
-         printf("Não é possível continuar...\n");
-         exit(1);
-     }
-  
-    while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
-        printf("Nome: %s\n", clien.nome);
-        printf("CPF: %s\n", clien.cpf);
-        printf("E-mail: %s\n", clien.email);
-        printf("Endereço: %s\n", clien.ender);
-        printf("\n");
-       }
-  
-     fclose(fp);
-  
-     printf("Pressione Enter para retornar ao menu principal...");
-     getchar();
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n"); 
+  printf("********************************************************************************* \n");
+  FILE* fp;
+  Cliente clien;
+  fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+       printf("Ops! Erro na abertura do arquivo!\n");
+       printf("Não é possível continuar...\n");
+       exit(1);
+   }
+
+  while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
+      if (strcmp(clien.cpf, "xxxx") != 0) { // Adicione esta condição
+          printf("Nome: %s\n", clien.nome);
+          printf("CPF: %s\n", clien.cpf);
+          printf("E-mail: %s\n", clien.email);
+          printf("Endereço: %s\n", clien.ender);
+          printf("\n");
+      }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
 }
 
 
@@ -125,11 +127,12 @@ char cliente_ja_cad_contr(Cliente* cliente){
   clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
-  printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n");
+  printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n"); 
   printf("********************************************************************************* \n");
 
   FILE* fp;
   Cliente clien;
+
   fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
 
   if (fp == NULL) {
@@ -138,27 +141,29 @@ char cliente_ja_cad_contr(Cliente* cliente){
       exit(1);
   }
 
-  Cliente* clientes = NULL;  // Ponteiro para armazenar os clientes dinamicamente
-  int numClientes = 0;       // Número atual de clientes
+  // Alocar memória dinâmica para armazenar clientes
+  Cliente* clientes = NULL;
+  int numClientes = 0;
 
-  // Leitura dinâmica dos clientes do arquivo
   while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
-      // Aloca mais memória para um cliente adicional
-      clientes = realloc(clientes, (numClientes + 1) * sizeof(Cliente));
+      // Adicionar o cliente ao vetor apenas se o CPF for diferente de "xxxx"
+      if (strcmp(clien.cpf, "xxxx") != 0) {
+          clientes = (Cliente*)realloc(clientes, (numClientes + 1) * sizeof(Cliente));
 
-      if (clientes == NULL) {
-          printf("Erro ao alocar memória!\n");
-          exit(1);
+          if (clientes == NULL) {
+              printf("Erro ao alocar memória!\n");
+              fclose(fp);
+              exit(1);
+          }
+
+          clientes[numClientes] = clien;
+          numClientes++;
       }
-
-      // Adiciona o cliente ao vetor
-      clientes[numClientes] = clien;
-      numClientes++;
   }
 
   fclose(fp);
 
-  // Exibe os clientes na ordem inversa
+  // Exibir os clientes na ordem inversa
   for (int i = numClientes - 1; i >= 0; i--) {
       printf("Nome: %s\n", clientes[i].nome);
       printf("CPF: %s\n", clientes[i].cpf);
@@ -167,7 +172,9 @@ char cliente_ja_cad_contr(Cliente* cliente){
       printf("\n");
   }
 
-  free(clientes);  // Libera a memória alocada dinamicamente
+  // Liberar a memória alocada dinamicamente
+  free(clientes);
+
   printf("Pressione Enter para retornar ao menu principal...");
   getchar();
 }
