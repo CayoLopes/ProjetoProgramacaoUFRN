@@ -72,6 +72,7 @@ char sub_menu_cliente_cads(Cliente* cliente){
   printf("********************************************************************************* \n");
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      3 - Clientes inativos                                  ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -81,6 +82,8 @@ char sub_menu_cliente_cads(Cliente* cliente){
     cliente_ja_cad(cliente);
   else if (op == '2')
     cliente_ja_cad_contr(cliente);
+  else if (op == '3')
+    cliente_inativo(cliente);
  
   
 }
@@ -106,11 +109,47 @@ char cliente_ja_cad(Cliente* cliente){
    }
 
   while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
-      if (strcmp(clien.cpf, "xxxx") != 0) { // Adicione esta condição
+      if (strcmp(clien.status, "NO") != 0) { // Adicione esta condição
           printf("Nome: %s\n", clien.nome);
           printf("CPF: %s\n", clien.cpf);
           printf("E-mail: %s\n", clien.email);
           printf("Endereço: %s\n", clien.ender);
+          printf("****************************************\n");
+          printf("\n");
+      }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}
+
+char cliente_inativo(Cliente* cliente){
+
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*********************   C L I E N T E S   I N A T I V O S   ********************* \n"); 
+  printf("********************************************************************************* \n");
+  FILE* fp;
+  Cliente clien;
+  fp = fopen("clientes.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+       printf("Ops! Erro na abertura do arquivo!\n");
+       printf("Não é possível continuar...\n");
+       exit(1);
+   }
+
+  while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
+      if (strcmp(clien.status, "OK") != 0) { // Adicione esta condição
+          printf("Nome: %s\n", clien.nome);
+          printf("CPF: %s\n", clien.cpf);
+          printf("E-mail: %s\n", clien.email);
+          printf("Endereço: %s\n", clien.ender);
+          printf("****************************************\n");
           printf("\n");
       }
   }
@@ -147,7 +186,7 @@ char cliente_ja_cad_contr(Cliente* cliente){
 
   while (fread(&clien, sizeof(Cliente), 1, fp) == 1) {
       // Adicionar o cliente ao vetor apenas se o CPF for diferente de "xxxx"
-      if (strcmp(clien.cpf, "xxxx") != 0) {
+      if (strcmp(clien.status, "NO") != 0) {
           clientes = (Cliente*)realloc(clientes, (numClientes + 1) * sizeof(Cliente));
 
           if (clientes == NULL) {
@@ -169,6 +208,7 @@ char cliente_ja_cad_contr(Cliente* cliente){
       printf("CPF: %s\n", clientes[i].cpf);
       printf("E-mail: %s\n", clientes[i].email);
       printf("Endereço: %s\n", clientes[i].ender);
+      printf("****************************************\n");
       printf("\n");
   }
 
@@ -224,6 +264,7 @@ Cliente* cadas_cliente(void){
     printf("**          Digite o endereço:...                                              ** \n");
     fgets(clien->ender, sizeof(clien->ender), stdin);
     clien->ender[strcspn(clien->ender, "\n")] = '\0';
+    strcpy(clien->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
@@ -273,7 +314,8 @@ void pesquisa_cliente(const Cliente* cliente) {
             printf("Nome: %s\n", clienteEncontrado.nome);
             printf("CPF: %s\n", clienteEncontrado.cpf); 
             printf("E-mail: %s\n" , clienteEncontrado.email);
-            printf("Endereço: %s\n" , clienteEncontrado.ender);
+            printf("Endereço: %s\n" , clienteEncontrado.ender);\
+            printf("Status: %s\n" , clienteEncontrado.status);
             printf("\n");
             printf("********************************************************************************* \n");
             clienteEncontradoFlag = 1;  
@@ -402,16 +444,14 @@ int deletar_cliente(char *termo_busca) {
 
     while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
         if (strcmp(cliente.cpf, termo_busca) == 0 || strcmp(cliente.nome, termo_busca) == 0) {
-            printf("Cliente encontrado. Os dados do cliente serão substituidos por \"xxxx\":\n");
+            printf("Cliente encontrado. Os status do cliente serão substituidos por \"NO\":\n");
 
             
-            strcpy(cliente.nome, "xxxx");
-            strcpy(cliente.cpf, "xxxx");
-            strcpy(cliente.email, "xxxx");
-            strcpy(cliente.ender, "xxxx");
+            strcpy(cliente.status, "NO");
+           
             getchar();
 
-            printf("Dados substituídas por \"xxxx\" com sucesso!\n");
+            printf("Dados alterados com sucesso!\n");
             printf("********************************************************************************* \n");
 
             fseek(file, -sizeof(Cliente), SEEK_CUR); // Retroceder o ponteiro no arquivo

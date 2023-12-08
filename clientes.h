@@ -4,6 +4,7 @@ struct cliente {
   char nome[100];
   char email[100];
   char ender[100];
+  char status[3];
 };
 void modulo_cliente(void);
 char sub_menu_cliente();
@@ -13,6 +14,7 @@ Cliente* cadas_cliente(void);
 void gravar_cliente(Cliente*);
 char cliente_ja_cad(Cliente*);
 char cliente_ja_cad_contr(Cliente*);
+char cliente_inativo(Cliente* cliente);
 void pesquisa_cliente(const Cliente* cliente);
 int editar_cliente(char *termo_busca);
 void edit_cliente();
