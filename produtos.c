@@ -80,6 +80,7 @@ char sub_menu_produto_cads(Produto* produto){
   printf("********************************************************************************* \n");
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      3 - Inativos                                           ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -89,6 +90,8 @@ char sub_menu_produto_cads(Produto* produto){
     produtos_cads(produto);
   else if (op == '2')
     produtos_cads_contr(produto);
+  else if (op == '3')
+    produtos_inativos(produto);
 
 
   
@@ -114,15 +117,53 @@ void produtos_cads(Produto* produto) {
     if (fp == NULL) {
         printf("Ops! Erro na abertura do arquivo!\n");
         printf("Não é possível continuar...\n");
-        exit(1);
+        return;
     }
 
     while (fread(&prd, sizeof(Produto), 1, fp) == 1) {
-        if (strcmp(prd.codigo, "xxxx") != 0) { // Adicione esta condição
+        if (strcmp(prd.status, "NO") != 0) { // Adicione esta condição
             printf("Nome: %s\n", prd.nome);
             printf("Código: %s\n", prd.codigo);
             printf("Preço: %s\n", prd.preco);
             printf("Estoque: %s\n", prd.estoq);
+            printf("****************************************\n");
+            printf("\n");
+        }
+    }
+
+    fclose(fp);
+
+    printf("Pressione Enter para retornar ao menu principal...");
+    getchar();
+}
+
+
+
+void produtos_inativos(Produto* produto) {
+    clearScreen();
+
+    printf("********************************************************************************* \n");
+    printf("************************  P R O D U T O S  I N A T I V O S  ********************* \n");
+    printf("********************************************************************************* \n");
+
+    FILE* fp;
+    Produto prd;
+
+    fp = fopen("produtos.dat", "rb"); // Abra o arquivo para leitura binária
+
+    if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        return;
+    }
+
+    while (fread(&prd, sizeof(Produto), 1, fp) == 1) {
+        if (strcmp(prd.status, "OK") != 0) { // Adicione esta condição
+            printf("Nome: %s\n", prd.nome);
+            printf("Código: %s\n", prd.codigo);
+            printf("Preço: %s\n", prd.preco);
+            printf("Estoque: %s\n", prd.estoq);
+            printf("****************************************\n");
             printf("\n");
         }
     }
@@ -150,14 +191,14 @@ void produtos_cads_contr(Produto* produto) {
   if (fp == NULL) {
       printf("Ops! Erro na abertura do arquivo!\n");
       printf("Não é possível continuar...\n");
-      exit(1);
+      return;
   }
 
   Produto* produtosArray = NULL;
   int numProdutos = 0;
 
   while (fread(&prod, sizeof(Produto), 1, fp) == 1) {
-      if (strcmp(prod.codigo, "xxxx") != 0) { // Adicione esta condição
+      if (strcmp(prod.status, "NO") != 0) { // Adicione esta condição
           produtosArray = realloc(produtosArray, (numProdutos + 1) * sizeof(Produto));
 
           if (produtosArray == NULL) {
@@ -177,6 +218,7 @@ void produtos_cads_contr(Produto* produto) {
       printf("Código: %s\n", produtosArray[i].codigo);
       printf("Preço: %s\n", produtosArray[i].preco);
       printf("Estoque: %s\n", produtosArray[i].estoq);
+      printf("****************************************\n");
       printf("\n");
   }
 
@@ -214,6 +256,7 @@ Produto* cadas_produto(void){
     scanf("%s", prd->preco);
     printf("**                 Digite o estoque:                                           ** \n");
     scanf("%s", prd->estoq);
+    strcpy(prd->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -266,6 +309,7 @@ void pesquisa_produto(const Produto* produto) {
             printf("Nome: %s\n", produtoEncontrado.nome);
             printf("Preço: %s\n", produtoEncontrado.preco);
             printf("Estoque: %s\n" , produtoEncontrado.estoq);
+            printf("Status: %s\n", produtoEncontrado.status);
             printf("\n");
             printf("********************************************************************************* \n");
             produtoEncontradoFlag = 1;  // Flag que sai do loop (semelhante ao que você fez na função de cadastro)
@@ -383,16 +427,13 @@ int deletar_produto(char *termo_busca) {
 
     while (fread(&produto, sizeof(Produto), 1, file) == 1) {
         if (strcmp(produto.codigo, termo_busca) == 0 || strcmp(produto.nome, termo_busca) == 0) {
-            printf("Produto encontrado. Os dados do produto serão substituidos por \"xxxx\":\n");
+            printf("Produto encontrado. Os status do produto serão substituidos por \"NO\":\n");
 
 
-            strcpy(produto.nome, "xxxx");
-            strcpy(produto.codigo, "xxxx");
-            strcpy(produto.preco, "xxxx");
-            strcpy(produto.estoq, "xxxx");
+            strcpy(produto.status, "NO");
             getchar();
 
-            printf("Dados substituídas por \"xxxx\" com sucesso!\n");
+            printf("Dados alterados com sucesso!\n");
             printf("********************************************************************************* \n");
 
             fseek(file, -sizeof(Produto), SEEK_CUR); // Retroceder o ponteiro no arquivo
