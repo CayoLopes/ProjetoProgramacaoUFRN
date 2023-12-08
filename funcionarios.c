@@ -68,6 +68,7 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
   printf("********************************************************************************* \n");
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
+  printf("**                      3 - Funcionarios nativos                               ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -77,6 +78,8 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
     funcio_ja_cad(funcionario);
   else if (op == '2')
     funcio_ja_cad_contr(funcionario);
+  else if (op == '3')
+    funcio_inativo(funcionario);
 
 
   
@@ -99,16 +102,17 @@ char funcio_ja_cad(Funcionario* funcionario){
     if (fp == NULL) {
         printf("Ops! Erro na abertura do arquivo!\n");
         printf("Não é possível continuar...\n");
-        exit(1);
+        return 1 ;
     }
 
     while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
-        if (strcmp(func.cpf, "xxxx") != 0) { // Adicione esta condição
+        if (strcmp(func.status, "NO") != 0) { // Adicione esta condição
             printf("Nome: %s\n", func.nome);
             printf("CPF: %s\n", func.cpf);
             printf("Cargo: %s\n", func.cargo);
             printf("E-mail: %s\n", func.email);
             printf("Endereço: %s\n", func.ender);
+            printf("****************************************\n");
             printf("\n");
         }
     }
@@ -137,7 +141,7 @@ char funcio_ja_cad_contr(Funcionario* funcionario){
     if (fp == NULL) {
         printf("Ops! Erro na abertura do arquivo!\n");
         printf("Não é possível continuar...\n");
-        exit(1);
+        return 1;
     }
 
     // Alocar memória dinâmica para armazenar funcionários
@@ -162,12 +166,13 @@ char funcio_ja_cad_contr(Funcionario* funcionario){
 
     // Exibir os funcionários na ordem inversa
     for (int i = numFuncionarios - 1; i >= 0; i--) {
-        if (strcmp(funcionarios[i].cpf, "xxxx") != 0) { // Adicione esta condição
+        if (strcmp(funcionarios[i].status, "NO") != 0) { // Adicione esta condição
             printf("Nome: %s\n", funcionarios[i].nome);
             printf("CPF: %s\n", funcionarios[i].cpf);
             printf("Cargo: %s\n", funcionarios[i].cargo);
             printf("E-mail: %s\n", funcionarios[i].email);
             printf("Endereço: %s\n", funcionarios[i].ender);
+            printf("****************************************\n");
             printf("\n");
         }
     }
@@ -178,6 +183,49 @@ char funcio_ja_cad_contr(Funcionario* funcionario){
     printf("Pressione Enter para retornar ao menu principal...");
     getchar();
 }
+
+
+
+
+char funcio_inativo(Funcionario* funcionario){
+  char op;
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("******************  F U N C I O N A R I O S  I N A T I V O S   ****************** \n");
+  printf("********************************************************************************* \n");
+  FILE* fp;
+  Funcionario func;
+  fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      return 1;
+  }
+
+  while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
+      if (strcmp(func.status, "OK") != 0) { // Adicione esta condição
+          printf("Nome: %s\n", func.nome);
+          printf("CPF: %s\n", func.cpf);
+          printf("Cargo: %s\n", func.cargo);
+          printf("E-mail: %s\n", func.email);
+          printf("Endereço: %s\n", func.ender);
+          printf("****************************************\n");
+          printf("\n");
+      }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+
+  }
+
+
+
+
 
 
 Funcionario* cadas_func(void){
@@ -226,6 +274,7 @@ Funcionario* cadas_func(void){
     printf("**          Digite o endereço:                                                 ** \n");
     fgets(func->ender, sizeof(func->ender), stdin);
     func->ender[strcspn(func->ender, "\n")] = '\0';
+    strcpy(func->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
@@ -280,6 +329,7 @@ void pesquisa_func(const Funcionario* funcionario) {
             printf("Cargo: %s\n", funcionarioEncontrado.cargo);
             printf("E-mail: %s\n" , funcionarioEncontrado.email);
             printf("Endereço: %s\n" , funcionarioEncontrado.ender);
+            printf("Status: %s\n", funcionarioEncontrado.status);
             printf("\n");
             printf("********************************************************************************* \n");
             funcionarioEncontradoFlag = 1;  
@@ -411,17 +461,14 @@ int deletar_func(char *termo_busca) {
 
     while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
         if (strcmp(funcionario.cpf, termo_busca) == 0 || strcmp(funcionario.nome, termo_busca) == 0) {
-            printf("Funcionario encontrado. Os dados do funcionario serão substituidos por \"xxxx\":\n");
+            printf("Funcionario encontrado. Os status do funcionario serão substituidos por \"NO\":\n");
 
 
-            strcpy(funcionario.nome, "xxxx");
-            strcpy(funcionario.cpf, "xxxx");
-            strcpy(funcionario.cargo, "xxxx");
-            strcpy(funcionario.email, "xxxx");
-            strcpy(funcionario.ender, "xxxx");
+            strcpy(funcionario.status, "NO");
+            
             getchar();
 
-            printf("Dados substituídas por \"xxxx\" com sucesso!\n");
+            printf("Dados alterados com sucesso!\n");
             printf("********************************************************************************* \n");
 
             fseek(file, -sizeof(Funcionario), SEEK_CUR); // Retroceder o ponteiro no arquivo

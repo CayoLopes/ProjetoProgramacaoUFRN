@@ -5,6 +5,7 @@ struct funcionario {
   char nome[100];
   char email[100];
   char ender[100];
+  char status[3];
 };
 
 void modulo_funcionario(void);
@@ -14,6 +15,7 @@ Funcionario* cadas_func(void);
 void gravar_func(Funcionario*);
 char funcio_ja_cad(Funcionario*); 
 char funcio_ja_cad_contr(Funcionario*);
+char funcio_inativo(Funcionario* funcionario);
 void pesquisa_func(const Funcionario* funcionario);
 int editar_func(char *termo_busca);
 void edit_func();
