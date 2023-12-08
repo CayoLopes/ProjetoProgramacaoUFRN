@@ -19,8 +19,10 @@ void modulo_venda(void) {
                    break;
           case '2': relatorio_venda(venda);
                    break;
-          case '3': edit_venda(venda);
+          case '3': apaga_venda(venda);
                    break; 
+          case '4': relatorio_vendaFil(venda);
+                   break;
       }
   } while (opcao != '0');
 
@@ -43,6 +45,7 @@ char sub_menu_venda() {
     printf("**                      1 - Realizar uma venda                                 ** \n");
     printf("**                      2 - Relatorio de vendas                                ** \n");
     printf("**                      3 - Cancelar venda                                     ** \n");
+    printf("**                      4 - Vendas canceladas                                  ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -215,106 +218,104 @@ void gravar_venda(Venda* vend){
 
 
 
- 
-char realizar_venda(Venda* venda) {
-  double preco, quant, valor;
-  char preco_str[10];
-  char valort[10];
-  char op;
-    clearScreen();
-    printf("********************************************************************************* \n");
-    printf("**********************      R E A L I Z A R  V E N D A      ********************* \n");
-    printf("********************************************************************************* \n");
 
-    printf("Digite o número da venda:");
-    scanf("%s", venda->codigov);
-    printf("Digite CPF do funcionário:                                                     ** \n");
-    scanf(" %s", venda->cpff);
-    getchar();
-    char *nomeFuncionario = obterNomeFuncionario(venda->cpff);
-    if (nomeFuncionario != NULL) {
+
+
+void realizar_venda(Venda* venda) {
+
+  char op;
+  clearScreen();
+  printf("********************************************************************************* \n");
+  printf("**********************      R E A L I Z A R  V E N D A      ********************* \n");
+  printf("********************************************************************************* \n");
+
+  printf("Digite o número da venda: ");
+  scanf("%s", venda->codigov);
+
+  printf("Digite CPF do funcionário: ");
+  scanf(" %s", venda->cpff);
+  getchar();
+  char *nomeFuncionario = obterNomeFuncionario(venda->cpff);
+  if (nomeFuncionario != NULL) {
       printf("Nome do funcionário: %s\n", nomeFuncionario);
       strcpy(venda->nomef, nomeFuncionario);
       free(nomeFuncionario);
       printf("\n");
-    } else {
-        printf("CPF inválido.\n");
-    }
+  } else {
+      printf("CPF inválido.\n");
+      return;
+  }
 
-    printf("Digite CPF do cliente:                                                         ** \n");
-    scanf(" %s", venda->cpfc);
-    getchar();
+  printf("Digite CPF do cliente: ");
+  scanf(" %s", venda->cpfc);
+  getchar();
   char *nomeCliente = obterNomeCliente(venda->cpfc);
   if (nomeCliente != NULL) {
       printf("Nome do cliente: %s\n", nomeCliente);
       strcpy(venda->nomec, nomeCliente);
-      free(nomeCliente); // Liberar memória alocada para o nome do cliente
+      free(nomeCliente);
       printf("\n");
   } else {
       printf("CPF inválido.\n");
+      return;
   }
-  
-    printf("Digite código do produto:                                                      ** \n");
-    scanf(" %s", venda->codigo);
-    getchar();
-    char *nomeProduto = obterNomeProduto(venda->codigo);
-    if (nomeProduto != NULL) {
-        printf("Nome do produto: %s \n", nomeProduto);
-        strcpy(venda->nomep, nomeProduto);
-        free(nomeProduto);
-        printf("\n");
-    } else{
-       printf("Produto inválido.\n" );
-     }
-     printf("Digite a quantidade:                                                          ** \n");
-     scanf("%s", venda->quant_str);
 
-     char *precoProduto = obterValorProduto(venda->codigo);
-     if (precoProduto != NULL) {
-         // Converta o preço do produto para double
-         venda->preco = atof(precoProduto);
-         free(precoProduto);
-     }
-     char *precoUniProduto = obterValorProduto(venda->codigo);
-      if (precoProduto != NULL) {
-          // Converta o preço do produto para double
-          strcpy(venda->preco_str, precoUniProduto);
-          free(precoProduto);
-      }
-      
-     quant = atof(venda->quant_str);
-     sprintf(preco_str, "%.2lf", preco);
-     valor = quant * venda->preco; // Agora use venda->preco como valor numérico
+  printf("Digite código do produto: ");
+  scanf(" %s", venda->codigo);
+  getchar();
+  char *nomeProduto = obterNomeProduto(venda->codigo);
+  if (nomeProduto != NULL) {
+      printf("Nome do produto: %s \n", nomeProduto);
+      strcpy(venda->nomep, nomeProduto);
+      // Venda não possui 'nomep', ajuste para o campo correto
+      // strcpy(venda->nomep, nomeProduto);
+      free(nomeProduto);
+      printf("\n");
+  } else {
+      printf("Produto inválido.\n" );
+      return;
+  }
 
-     sprintf(valort, "%.2lf", venda->preco);
-     printf("Valor: %.2lf\n",valor);
-     sprintf(venda->valort,"%.2lf", valor);
-     printf("Deseja finalizar a venda? (S/N)\n");
-     scanf(" %c", &op);
-     if (op == 'S' || op == 's') {
-     // Subtrair a quantidade vendida do estoque
-     subtrairQuantidadeEstoque(venda->codigo, (int)quant);
-     printf("Estoque atualizado com sucesso.\n"); 
-       strcpy(venda->status, "OK");
-       printf("Status da venda: %s\n", venda->status);
-       gravar_venda(venda);
-      }
-     else {
-       printf("Venda não realizada.\n");
-      }
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
-    printf("\n");
-    scanf("%c", &op);
-    getchar();
-    limparBuffer();
-    return op;
-  
+  printf("Digite a quantidade: ");
+  scanf("%d", &venda->quant[0]);  // Aceita apenas uma quantidade
+
+  char *precoProduto = obterValorProduto(venda->codigo);
+  if (precoProduto != NULL) {
+      // Converta o preço do produto para float
+      printf("Preço do produto: R$ %s\n", precoProduto);
+      venda->preco[0] = atof(precoProduto);
+      free(precoProduto);
+  }
+
+  venda->valor[0] = venda->quant[0] * venda->preco[0];
+
+  // Correção do formato de impressão
+  printf("Valor: %d\n", venda->valor[0]);
+
+  printf("Deseja finalizar a venda? (S/N)\n");
+  scanf(" %c", &op);
+  if (op == 'S' || op == 's') {
+      // Subtrair a quantidade vendida do estoque
+      subtrairQuantidadeEstoque(venda->codigo, (int)venda->quant[0]);
+
+      printf("Estoque atualizado com sucesso.\n");
+      strcpy(venda->status, "OK");
+      printf("Status da venda: %s\n", venda->status);
+      gravar_venda(venda);
+  } else {
+      printf("Venda não realizada.\n");
+  }
+
+  printf("**                                                                             ** \n");
+  printf("********************************************************************************* \n");
+  printf("\n");
+  limparBuffer();
 }
 
-char relatorio_venda(Venda* venda) {
 
-  FILE* fp;
+
+void relatorio_venda() {
+  FILE *fp;
   Venda vend;
 
   fp = fopen("vendas.dat", "rb"); // Abra o arquivo para leitura binária
@@ -325,28 +326,26 @@ char relatorio_venda(Venda* venda) {
       exit(1);
   }
 
+  printf("************ Relatório de Vendas ************\n");
+
   while (fread(&vend, sizeof(Venda), 1, fp) == 1) {
-      printf("Código da venda: %s\n", vend.codigov);
-      printf("Vendedor: %s\n", vend.nomef);
-      printf("CPF do vendedor: %s\n", vend.cpff);
-      printf("Cliente: %s\n", vend.nomec);
-      printf("CPF do cliente: %s\n", vend.cpfc);
-      printf("Produto comprado: %s\n", vend.nomep);
-      printf("Código do produto: %s\n", vend.codigo);
-      printf("Preço unitário: R$ %s\n", vend.preco_str);
-      printf("Quantidade comprada: %s\n", vend.quant_str);
-      printf("Total da compra: R$ %s\n", vend.valort);
-      
-      printf("\n");
+      // Adicione a verificação se a venda está completa antes de imprimir os detalhes
+      if (strcmp(vend.status, "OK") == 0) {
+          printf("Código da venda: %s\n", vend.codigov);
+          printf("Vendedor: %s (CPF: %s)\n", vend.nomef, vend.cpff);
+          printf("Cliente: %s (CPF: %s)\n", vend.nomec, vend.cpfc);
+          printf("Produto comprado: %s (Código: %s)\n", vend.nomep, vend.codigo);
+          printf("Preço unitário: %.2f\n", vend.preco[0]);
+          printf("Quantidade comprada: %.2d\n", vend.quant[0]);
+          printf("Total da compra: R$ %.2d\n", vend.valor[0]);
+          printf("\n");
+      }
   }
 
   fclose(fp);
 
   printf("Pressione Enter para retornar ao menu principal...");
   getchar();
-
-  
- 
 }
 
 
@@ -355,25 +354,100 @@ char relatorio_venda(Venda* venda) {
 
 
 
-char edit_venda(Venda *venda) {
+void relatorio_vendaFil() {
+  FILE *fp;
+  Venda vend;
+
+  fp = fopen("vendas.dat", "rb"); // Abra o arquivo para leitura binária
+
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+  }
+
+  printf("******* Relatório de Vendas Canceladas *******\n");
+
+  while (fread(&vend, sizeof(Venda), 1, fp) == 1) {
+      // Adicione a verificação se a venda está completa antes de imprimir os detalhes
+      if (strcmp(vend.status, "NO") == 0) {
+          printf("Código da venda: %s\n", vend.codigov);
+          printf("Vendedor: %s (CPF: %s)\n", vend.nomef, vend.cpff);
+          printf("Cliente: %s (CPF: %s)\n", vend.nomec, vend.cpfc);
+          printf("Produto comprado: %s (Código: %s)\n", vend.nomep, vend.codigo);
+          printf("Preço unitário: %.2f\n", vend.preco[0]);
+          printf("Quantidade comprada: %.2d\n", vend.quant[0]);
+          printf("Total da compra: R$ %.2d\n", vend.valor[0]);
+          printf("\n");
+      }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}
+
+
+
+
+
+int deletar_venda(char *termo_busca) {
+  FILE *file = fopen("vendas.dat", "rb+");
+
+  if (file == NULL) {
+      printf("Erro ao abrir o arquivo para edição.\n");
+      return 0; // Falha na abertura do arquivo
+  }
+
+  Venda venda;
+
+  while (fread(&venda, sizeof(Venda), 1, file) == 1) {
+      if (strcmp(venda.codigov, termo_busca) == 0) {
+          printf("Venda encontrado. Os dados do produto serão substituídos por \"xxxx\":\n");
+
+          strcpy(venda.status, "NO");
+
+          printf(" Informações alteradas \n");
+          printf("********************************************************************************* \n");
+
+          fseek(file, -sizeof(Venda), SEEK_CUR); // Retroceder o ponteiro no arquivo
+          fwrite(&venda, sizeof(Venda), 1, file); // Gravar as informações editadas
+          fclose(file);
+
+          return 1; // Sucesso na edição
+      }
+  }
+
+  fclose(file);
+  return 0; // Venda não encontrada
+}
+void apaga_venda(){
     char op;
     clearScreen();
-    printf("********************************************************************************* \n");
-    printf("************************    C A N C E L A R  V E N D A    *********************** \n");
-    printf("********************************************************************************* \n");
-    printf("**                                                                             ** \n");
-    printf("**               Sobre a venda:                                                ** \n");
-    printf("**               Digite o código:                                              ** \n");
-    printf("**                                                                             ** \n");
-    printf("**               Deseja realmente cancelar a venda? (s/S|n/N)                  ** \n");
-    printf("**                                                                             ** \n");
-    printf("********************************************************************************* \n");
     printf("\n");
-    scanf("%c", &op);
+    printf("********************************************************************************* \n");
+    printf("************************   D E L E T A R  P R O D U T O   *********************** \n"); 
+    printf("********************************************************************************* \n");
+    char termo_busca[10];
+    printf("Digite o código da venda : ");
+    scanf(" %s", termo_busca);
+
+    if (deletar_venda(termo_busca)) {
+        printf("\n");
+        printf("Cliente deletado com sucesso!\n"); 
+
+    } else {
+        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+    }
+
+    printf("Pressione Enter para retornar\n");
     getchar();
-    return op;
-
-
 
 
 }
+
+
+
+
+
