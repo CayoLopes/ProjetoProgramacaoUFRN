@@ -90,37 +90,40 @@ char funcio_ja_cad(Funcionario* funcionario){
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
-    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n"); 
+    printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
     printf("********************************************************************************* \n");
     FILE* fp;
     Funcionario func;
     fp = fopen("funcionarios.dat", "rb"); // Abra o arquivo para leitura binária
 
     if (fp == NULL) {
-         printf("Ops! Erro na abertura do arquivo!\n");
-         printf("Não é possível continuar...\n");
-         exit(1);
-     }
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+    }
 
     while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
-        printf("Nome: %s\n", func.nome);
-        printf("CPF: %s\n", func.cpf);
-        printf("Cargo: %s\n", func.cargo);
-        printf("E-mail: %s\n", func.email);
-        printf("Endereço: %s\n", func.ender);
-        printf("\n");
-       }
+        if (strcmp(func.cpf, "xxxx") != 0) { // Adicione esta condição
+            printf("Nome: %s\n", func.nome);
+            printf("CPF: %s\n", func.cpf);
+            printf("Cargo: %s\n", func.cargo);
+            printf("E-mail: %s\n", func.email);
+            printf("Endereço: %s\n", func.ender);
+            printf("\n");
+        }
+    }
 
-     fclose(fp);
+    fclose(fp);
 
-     printf("Pressione Enter para retornar ao menu principal...");
-     getchar();
+    printf("Pressione Enter para retornar ao menu principal...");
+    getchar();
+  
     }
 
 
 char funcio_ja_cad_contr(Funcionario* funcionario){
 
-  clearScreen();
+    clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
     printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
@@ -139,11 +142,11 @@ char funcio_ja_cad_contr(Funcionario* funcionario){
 
     // Alocar memória dinâmica para armazenar funcionários
     Funcionario* funcionarios = NULL;
-    int numFuncionario = 0;
+    int numFuncionarios = 0;
 
     while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
-        // Realocar memória para armazenar o próximo funcionário
-        funcionarios = (Funcionario*)realloc(funcionarios, (numFuncionario + 1) * sizeof(Funcionario));
+        // Adicionar o funcionário ao vetor
+        funcionarios = (Funcionario*)realloc(funcionarios, (numFuncionarios + 1) * sizeof(Funcionario));
 
         if (funcionarios == NULL) {
             printf("Erro ao alocar memória!\n");
@@ -151,21 +154,22 @@ char funcio_ja_cad_contr(Funcionario* funcionario){
             exit(1);
         }
 
-        // Adicionar o funcionário ao vetor
-        funcionarios[numFuncionario] = func;
-        numFuncionario++;
+        funcionarios[numFuncionarios] = func;
+        numFuncionarios++;
     }
 
     fclose(fp);
 
     // Exibir os funcionários na ordem inversa
-    for (int i = numFuncionario - 1; i >= 0; i--) {
-        printf("Nome: %s\n", funcionarios[i].nome);
-        printf("CPF: %s\n", funcionarios[i].cpf);
-        printf("Cargo: %s\n", funcionarios[i].cargo);
-        printf("E-mail: %s\n", funcionarios[i].email);
-        printf("Endereço: %s\n", funcionarios[i].ender);
-        printf("\n");
+    for (int i = numFuncionarios - 1; i >= 0; i--) {
+        if (strcmp(funcionarios[i].cpf, "xxxx") != 0) { // Adicione esta condição
+            printf("Nome: %s\n", funcionarios[i].nome);
+            printf("CPF: %s\n", funcionarios[i].cpf);
+            printf("Cargo: %s\n", funcionarios[i].cargo);
+            printf("E-mail: %s\n", funcionarios[i].email);
+            printf("Endereço: %s\n", funcionarios[i].ender);
+            printf("\n");
+        }
     }
 
     // Liberar a memória alocada dinamicamente
