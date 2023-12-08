@@ -118,11 +118,13 @@ void produtos_cads(Produto* produto) {
     }
 
     while (fread(&prd, sizeof(Produto), 1, fp) == 1) {
-        printf("Nome: %s\n", prd.nome);
-        printf("Código: %s\n", prd.codigo);
-        printf("Preço: %s\n", prd.preco);
-        printf("Estoque: %s\n", prd.estoq);
-        printf("\n");
+        if (strcmp(prd.codigo, "xxxx") != 0) { // Adicione esta condição
+            printf("Nome: %s\n", prd.nome);
+            printf("Código: %s\n", prd.codigo);
+            printf("Preço: %s\n", prd.preco);
+            printf("Estoque: %s\n", prd.estoq);
+            printf("\n");
+        }
     }
 
     fclose(fp);
@@ -136,25 +138,26 @@ void produtos_cads(Produto* produto) {
 
 void produtos_cads_contr(Produto* produto) {
   clearScreen();
-      printf("\n");
-      printf("********************************************************************************* \n");
-      printf("***************   R E G I S T R O  D E  P R O D U T O S   *************** \n");
-      printf("********************************************************************************* \n");
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("***************   R E G I S T R O  D E  P R O D U T O S   *************** \n");
+  printf("********************************************************************************* \n");
 
-      FILE* fp;
-      Produto prod;
-      fp = fopen("produtos.dat", "rb"); // Abra o arquivo para leitura binária
+  FILE* fp;
+  Produto prod;
+  fp = fopen("produtos.dat", "rb"); // Abra o arquivo para leitura binária
 
-      if (fp == NULL) {
-          printf("Ops! Erro na abertura do arquivo!\n");
-          printf("Não é possível continuar...\n");
-          exit(1);
-      }
+  if (fp == NULL) {
+      printf("Ops! Erro na abertura do arquivo!\n");
+      printf("Não é possível continuar...\n");
+      exit(1);
+  }
 
-      Produto* produtosArray = NULL;
-      int numProdutos = 0;
+  Produto* produtosArray = NULL;
+  int numProdutos = 0;
 
-      while (fread(&prod, sizeof(Produto), 1, fp) == 1) {
+  while (fread(&prod, sizeof(Produto), 1, fp) == 1) {
+      if (strcmp(prod.codigo, "xxxx") != 0) { // Adicione esta condição
           produtosArray = realloc(produtosArray, (numProdutos + 1) * sizeof(Produto));
 
           if (produtosArray == NULL) {
@@ -165,20 +168,21 @@ void produtos_cads_contr(Produto* produto) {
           produtosArray[numProdutos] = prod;
           numProdutos++;
       }
+  }
 
-      fclose(fp);
+  fclose(fp);
 
-      for (int i = numProdutos - 1; i >= 0; i--) {
-          printf("Nome: %s\n", produtosArray[i].nome);
-          printf("Código: %s\n", produtosArray[i].codigo);
-          printf("Preço: %s\n", produtosArray[i].preco);
-          printf("Estoque: %s\n", produtosArray[i].estoq);
-          printf("\n");
-      }
+  for (int i = numProdutos - 1; i >= 0; i--) {
+      printf("Nome: %s\n", produtosArray[i].nome);
+      printf("Código: %s\n", produtosArray[i].codigo);
+      printf("Preço: %s\n", produtosArray[i].preco);
+      printf("Estoque: %s\n", produtosArray[i].estoq);
+      printf("\n");
+  }
 
-      free(produtosArray);
-      printf("Pressione Enter para retornar ao menu principal...");
-      getchar();
+  free(produtosArray);
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
   }
 
 
