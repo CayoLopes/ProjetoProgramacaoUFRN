@@ -4,6 +4,7 @@
 #include <string.h>
 #include "funcionarios.h"
 #include "util.h"
+#include "vendas.h"
 
 void clearScreen();
 
@@ -69,6 +70,7 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Funcionarios nativos                               ** \n");
+  printf("**                      4 - Funcionarios com vendas                            ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -80,6 +82,8 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
     funcio_ja_cad_contr(funcionario);
   else if (op == '3')
     funcio_inativo(funcionario);
+  else if (op == '4')
+    Funcionarios_com_vend(funcionario);
 
 
   
@@ -508,4 +512,61 @@ void apaga_func(){
      }
 
 
-  
+
+char* obterCPFFuncionario(const char *cpff) {
+    FILE *file = fopen("vendas.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return NULL; // Falha na abertura do arquivo
+    }
+
+    Venda venda;
+    char *cpfRetornado = NULL;
+
+    while (fread(&venda, sizeof(Venda), 1, file) == 1) {
+        if (strcmp(venda.cpff, cpff) == 0) {
+            cpfRetornado = malloc(strlen(venda.cpff) + 1);
+            strcpy(cpfRetornado, venda.cpff);
+            break; // Sucesso, cliente encontrado
+        }
+    }
+
+    fclose(file);
+    return cpfRetornado; // Retorna o CPF encontrado ou NULL se não encontrado
+}
+
+void Funcionarios_com_vend() {
+  FILE *fp;
+  Funcionario func;
+  fp = fopen("funcionarios.dat", "rb");
+  if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+  }
+
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("****************  F U N C I O N A R I O S  C O M  V E N D A S  ***************** \n");
+  printf("********************************************************************************* \n");
+
+  while (fread(&func, sizeof(Funcionario), 1, fp) == 1) {
+    char *cpff = obterCPFFuncionario(func.cpf);
+    if (cpff != NULL) {
+         printf("****************************************\n");
+         printf("Nome: %s\n", func.nome);
+         printf("CPF: %s\n", cpff);
+         printf("E-mail: %s\n", func.email);
+         printf("Cargo: %s\n", func.cargo);
+         printf("Endereço: %s\n", func.ender);
+         printf("****************************************\n");
+         printf("\n");
+         free(cpff); // Libera a memória alocada
+    }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}

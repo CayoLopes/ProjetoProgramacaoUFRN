@@ -21,3 +21,6 @@ int editar_func(char *termo_busca);
 void edit_func();
 int deletar_func(char *termo_busca);
 void apaga_func();
+
+void Funcionarios_com_vend();
+char* obterCPFFuncionario(const char *cpff);
