@@ -20,3 +20,7 @@ int editar_cliente(char *termo_busca);
 void edit_cliente();
 int apagar_cliente(char *termo_busca);
 void apaga_cliente();
+
+
+char* obterCPFCliente(const char *cpfc);
+void Cliente_com_venda();

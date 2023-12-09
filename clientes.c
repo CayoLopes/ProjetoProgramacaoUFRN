@@ -4,6 +4,7 @@
 #include "clientes.h"
 #include <string.h>
 #include "util.h"
+#include "vendas.h"
 
 void clearScreen();
 
@@ -26,6 +27,7 @@ void modulo_cliente(void){
                         break;
             case '5':   apaga_cliente();
                         break;
+        
         }
     } while (opcao != '0');
 }
@@ -73,6 +75,7 @@ char sub_menu_cliente_cads(Cliente* cliente){
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Clientes inativos                                  ** \n");
+  printf("**                      4 - Clientes com compras                               ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -84,6 +87,9 @@ char sub_menu_cliente_cads(Cliente* cliente){
     cliente_ja_cad_contr(cliente);
   else if (op == '3')
     cliente_inativo(cliente);
+  else if (op == '4')
+    Cliente_com_venda(cliente);
+
  
   
 }
@@ -490,4 +496,68 @@ void apaga_cliente() {
     printf("Pressione Enter para retornar\n");
     getchar();
 }
+
+
+
+
+char* obterCPFCliente(const char *cpfc) {
+    FILE *file = fopen("vendas.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return NULL; // Falha na abertura do arquivo
+    }
+
+    Venda venda;
+    char *cpfRetornado = NULL;
+
+    while (fread(&venda, sizeof(Venda), 1, file) == 1) {
+        if (strcmp(venda.cpfc, cpfc) == 0) {
+            cpfRetornado = malloc(strlen(venda.cpfc) + 1);
+            strcpy(cpfRetornado, venda.cpfc);
+            break; // Sucesso, cliente encontrado
+        }
+    }
+
+    fclose(file);
+    return cpfRetornado; // Retorna o CPF encontrado ou NULL se não encontrado
+}
+
+void Cliente_com_venda() {
+  FILE *fp;
+  Cliente clin;
+  fp = fopen("clientes.dat", "rb");
+  if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+  }
+
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("******************   C L I E N T E S   C O M   C O M P R A S   ****************** \n"); 
+  printf("********************************************************************************* \n");
+
+  while (fread(&clin, sizeof(Cliente), 1, fp) == 1) {
+    char *cpfc = obterCPFCliente(clin.cpf);
+    if (cpfc != NULL) {
+         printf("Nome: %s\n", clin.nome);
+         printf("CPF: %s\n", cpfc);
+         printf("E-mail: %s\n", clin.email);
+         printf("Endereço: %s\n", clin.ender);
+         printf("****************************************\n");
+         printf("\n");
+         free(cpfc); // Libera a memória alocada
+    }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
+}
+
+
+
+
+
 
