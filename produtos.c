@@ -4,7 +4,7 @@
 #include "produtos.h"
 #include "util.h"
 #include <string.h>
-
+#include "vendas.h"
 
 void clearScreen();
 
@@ -26,7 +26,7 @@ void modulo_produto(void){
             case '4':   edit_produto();
                         break;
             case '5':   apaga_produto();
-                        break;            
+                        break;                       
         }
     } while (opcao != '0');
 
@@ -81,6 +81,7 @@ char sub_menu_produto_cads(Produto* produto){
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Inativos                                           ** \n");
+  printf("**                      4 - Produtos vendidos                                  ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -92,6 +93,8 @@ char sub_menu_produto_cads(Produto* produto){
     produtos_cads_contr(produto);
   else if (op == '3')
     produtos_inativos(produto);
+  else if (op == '4')
+    Produtos_com_vend(produto);
 
 
   
@@ -473,5 +476,63 @@ void apaga_produto(){
     getchar();
 
 
+}
+
+
+char* obterCodProduto(const char *codigo) {
+    FILE *file = fopen("vendas.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return NULL; // Falha na abertura do arquivo
+    }
+
+    Venda venda;
+    char *codRetornado = NULL;
+
+    while (fread(&venda, sizeof(Venda), 1, file) == 1) {
+        if (strcmp(venda.codigo, codigo) == 0) {
+            codRetornado = malloc(strlen(venda.codigo) + 1);
+            strcpy(codRetornado, venda.codigo);
+            break; // Sucesso, cliente encontrado
+        }
+    }
+
+    fclose(file);
+    return codRetornado; // Retorna o CPF encontrado ou NULL se não encontrado
+}
+
+void Produtos_com_vend() {
+  FILE *fp;
+  Produto prod;
+  fp = fopen("produtos.dat", "rb");
+  if (fp == NULL) {
+        printf("Ops! Erro na abertura do arquivo!\n");
+        printf("Não é possível continuar...\n");
+        exit(1);
+  }
+
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("************************  P R O D U T O S  V E N D I D O S  ********************* \n");
+  printf("********************************************************************************* \n");
+
+  while (fread(&prod, sizeof(Produto), 1, fp) == 1) {
+    char *codigo = obterCodProduto(prod.codigo);
+    if (codigo != NULL) {
+         printf("****************************************\n");
+         printf("Nome: %s\n", prod.nome);
+         printf("Codigo : %s\n", codigo);
+         printf("Preço : %s\n", prod.preco);
+         printf("Estoque: %s\n", prod.estoq);
+         printf("****************************************\n");
+         printf("\n");
+         free(codigo); // Libera a memória alocada
+    }
+  }
+
+  fclose(fp);
+
+  printf("Pressione Enter para retornar ao menu principal...");
+  getchar();
 }
 
