@@ -26,6 +26,8 @@ void modulo_funcionario(void) {
                         break;
             case '5':   apaga_func();
                         break;
+            case '6':  recuperar_func();
+                        break;
         }
     } while (opcao != '0');
 }
@@ -48,6 +50,7 @@ char sub_menu_funcionario(){
     printf("**                      3 - Pesquisar funcionario                              ** \n");
     printf("**                      4 - Editar ficha do funcionario                        ** \n");
     printf("**                      5 - Apagar ficha do funcionario                        ** \n");
+    printf("**                      6 - Recuperar ficha do funcionario                     ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");    
@@ -520,6 +523,69 @@ void apaga_func(){
         printf("Pressione Enter para retornar\n");
         getchar();
      }
+
+
+
+int recupera_func(char *termo_busca) {
+  FILE *file = fopen("funcionarios.dat", "rb+");
+
+  if (file == NULL) {
+      printf("Erro ao abrir o arquivo para edição.\n");
+      return 0; // Falha na abertura do arquivo
+  }
+
+  Funcionario funcionario;
+
+  while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
+      if (strcmp(funcionario.cpf, termo_busca) == 0 || strcmp(funcionario.nome, termo_busca) == 0) {
+          printf("Funcionario encontrado. Os status do funcionario serão substituidos por \"OK\":\n");
+
+
+          strcpy(funcionario.status, "OK");
+
+          getchar();
+
+          printf("Dados alterados com sucesso!\n");
+          printf("********************************************************************************* \n");
+
+          fseek(file, -sizeof(Funcionario), SEEK_CUR); // Retroceder o ponteiro no arquivo
+          fwrite(&funcionario, sizeof(Funcionario), 1, file); // Gravar as informações editadas
+          fclose(file);
+
+          return 1; // Sucesso na edição
+      }
+  }
+
+  fclose(file);
+
+  return 0; // Funcionario não encontrado
+}
+
+
+void recuperar_func(){
+  clearScreen();
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*****************   R E C U P E R A R  F U N C I O N A R I O   ****************** \n"); 
+  printf("********************************************************************************* \n");
+  char termo_busca[50];
+      printf("Digite o nome ou CPF do funcionário a ser recuperado: ");
+      scanf(" %s", termo_busca);
+
+      if (recupera_func(termo_busca)) {
+          printf("\n");
+          printf("Funcionário recuperado com sucesso!\n"); 
+
+      } else {
+          printf("Funcionário não encontrado ou erro na exclusão.\n"); 
+      }
+
+      printf("Pressione Enter para retornar\n");
+      getchar();
+   }
+
+
+
 
 
 
