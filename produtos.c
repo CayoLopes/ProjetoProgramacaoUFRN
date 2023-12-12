@@ -600,10 +600,13 @@ void listar_em_ordem_alfabeticaP(FILE* fp) {
 }
 
 void listar_produto(struct produto u){
-  printf("Nome: %s\n", u.nome);
-  printf("Código: %s\n", u.codigo);
-  printf("Preço: %s\n", u.preco);
-  printf("Estoque: %s\n", u.estoq);
-  printf("**\n");
-  printf("\n");
+  if (strcmp(u.status, "NO") != 0){
+    printf("****************************************\n");
+    printf("Nome: %s\n", u.nome);
+    printf("Código: %s\n", u.codigo);
+    printf("Preço: %s\n", u.preco);
+    printf("Estoque: %s\n", u.estoq);
+    printf("****************************************\n");
+    printf("\n");
+  }
 }
