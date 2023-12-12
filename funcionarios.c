@@ -69,7 +69,7 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
   printf("********************************************************************************* \n");
   printf("**                      1 - Dos mais antigos                                   ** \n");
   printf("**                      2 - Dos mais recentes                                  ** \n");
-  printf("**                      3 - Funcionarios nativos                               ** \n");
+  printf("**                      3 - Funcionarios inativos                              ** \n");
   printf("**                      4 - Funcionarios com vendas                            ** \n");
   printf("**                      5 - Funcionarios em ordem alfabética                   ** \n");
   printf("**                      0 - Voltar                                             ** \n");
@@ -631,11 +631,14 @@ void listar_em_ordem_alfabeticaF(FILE* fp) {
 }
 
 void listar_func(struct funcionario u){
-  printf("Nome: %s\n", u.nome);
-  printf("CPF: %s\n", u.cpf);
-  printf("Cargo: %s\n", u.cargo);
-  printf("E-mail: %s\n", u.email);
-  printf("EndereÃ§o: %s\n", u.ender);
-  printf("**\n");
-  printf("\n");
+  if (strcmp(u.status, "NO") != 0){
+    printf("****************************************\n");
+    printf("Nome: %s\n", u.nome);
+    printf("CPF: %s\n", u.cpf);
+    printf("Cargo: %s\n", u.cargo);
+    printf("E-mail: %s\n", u.email);
+    printf("EndereÃ§o: %s\n", u.ender);
+    printf("****************************************\n");
+    printf("\n");
+  }
 }
