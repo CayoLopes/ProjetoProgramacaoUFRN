@@ -76,6 +76,7 @@ char sub_menu_cliente_cads(Cliente* cliente){
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Clientes inativos                                  ** \n");
   printf("**                      4 - Clientes com compras                               ** \n");
+  printf("**                      5 - Clientes em ordem alfabética                       ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -89,7 +90,16 @@ char sub_menu_cliente_cads(Cliente* cliente){
     cliente_inativo(cliente);
   else if (op == '4')
     Cliente_com_venda(cliente);
-
+  else if (op == '5'){ 
+    FILE *fp = fopen("clientes.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+    }
+    listar_em_ordem_alfabetica(fp);
+    fclose(fp);
+    getchar();
+  }
+   
  
   
 }
@@ -561,3 +571,63 @@ void Cliente_com_venda() {
 
 
 
+/* 
+Código feito a partir da função feita por Gustavo Douglas disponivel em: https://github.com/Gustavo-DSC/ProgamacaoProjetoUFRN.git
+*/
+
+// Função inserir_em_ordem modificada
+Elemento* inserir_em_ordem(Elemento* inicio, struct cliente dados) {
+    Elemento* novo_elemento = (Elemento*)malloc(sizeof(Elemento));
+    novo_elemento->dados = dados;
+    novo_elemento->proximo = NULL;
+
+    if (inicio == NULL || strcmp(dados.nome, inicio->dados.nome) < 0) {
+        novo_elemento->proximo = inicio;
+        return novo_elemento;
+    }
+
+    Elemento* atual = inicio;
+    while (atual->proximo != NULL && strcmp(dados.nome, atual->proximo->dados.nome) > 0) {
+        atual = atual->proximo;
+    }
+
+    novo_elemento->proximo = atual->proximo;
+    atual->proximo = novo_elemento;
+
+    return inicio;
+}
+
+
+
+
+
+void listar_em_ordem_alfabetica(FILE* fp) {
+  Elemento* inicio = NULL;
+  struct cliente Cliente;
+  while (fread(&Cliente, sizeof(struct cliente ), 1, fp)) {
+    inicio = inserir_em_ordem(inicio, Cliente);
+  }
+  Elemento* atual = inicio;
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n");
+  printf("********************************************************************************* \n");
+  while (atual != NULL) {
+    listar_cliente(atual->dados);
+    atual = atual->proximo;
+  }
+  while (inicio != NULL) {
+    Elemento* temp = inicio;
+    inicio = inicio->proximo;
+    free(temp);
+  }
+}
+
+void listar_cliente(struct cliente u){
+  printf("Nome: %s\n", u.nome);
+  printf("CPF: %s\n", u.cpf);
+  printf("E-mail: %s\n", u.email);
+  printf("EndereÃ§o: %s\n", u.ender);
+  printf("**\n");
+  printf("\n");
+}

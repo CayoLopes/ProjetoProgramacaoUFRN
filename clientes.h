@@ -6,6 +6,10 @@ struct cliente {
   char ender[100];
   char status[3];
 };
+
+
+
+
 void modulo_cliente(void);
 char sub_menu_cliente();
 char sub_menu_cliente_cads();
@@ -24,3 +28,14 @@ void apaga_cliente();
 
 char* obterCPFCliente(const char *cpfc);
 void Cliente_com_venda();
+
+
+
+typedef struct Elemento {
+    struct cliente dados;
+    struct Elemento* proximo;
+} Elemento;
+
+Elemento* inserir_em_ordem(Elemento* inicio, struct cliente dados);
+void listar_em_ordem_alfabetica();
+void listar_cliente(struct cliente u);
