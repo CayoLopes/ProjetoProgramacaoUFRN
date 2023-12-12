@@ -24,3 +24,12 @@ void apaga_func();
 
 void Funcionarios_com_vend();
 char* obterCPFFuncionario(const char *cpff);
+
+typedef struct Elementof {
+    struct funcionario dados;
+    struct Elementof* proximo;
+} Elementof;
+
+Elementof* inserir_em_ordemF(Elementof* inicio, struct funcionario dados);
+void listar_em_ordem_alfabeticaF();
+void listar_func(struct funcionario u);

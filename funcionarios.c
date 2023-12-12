@@ -71,6 +71,7 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Funcionarios nativos                               ** \n");
   printf("**                      4 - Funcionarios com vendas                            ** \n");
+  printf("**                      5 - Funcionarios em ordem alfabética                   ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -84,6 +85,15 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
     funcio_inativo(funcionario);
   else if (op == '4')
     Funcionarios_com_vend(funcionario);
+  else if (op == '5'){ 
+    FILE *fp = fopen("funcionarios.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+    }
+    listar_em_ordem_alfabeticaF(fp);
+    fclose(fp);
+    getchar();
+  }
 
 
   
@@ -527,7 +537,7 @@ char* obterCPFFuncionario(const char *cpff) {
         if (strcmp(venda.cpff, cpff) == 0) {
             cpfRetornado = malloc(strlen(venda.cpff) + 1);
             strcpy(cpfRetornado, venda.cpff);
-            break; // Sucesso, cliente encontrado
+            break; // Sucesso, funcionario encontrado
         }
     }
 
@@ -569,4 +579,63 @@ void Funcionarios_com_vend() {
 
   printf("Pressione Enter para retornar ao menu principal...");
   getchar();
+}
+
+
+
+Elementof* inserir_em_ordemF(Elementof* inicio, struct funcionario dados) {
+    Elementof* novo_elemento = (Elementof*)malloc(sizeof(Elementof));
+    novo_elemento->dados = dados;
+    novo_elemento->proximo = NULL;
+
+    if (inicio == NULL || strcmp(dados.nome, inicio->dados.nome) < 0) {
+        novo_elemento->proximo = inicio;
+        return novo_elemento;
+    }
+
+    Elementof* atual = inicio;
+    while (atual->proximo != NULL && strcmp(dados.nome, atual->proximo->dados.nome) > 0) {
+        atual = atual->proximo;
+    }
+
+    novo_elemento->proximo = atual->proximo;
+    atual->proximo = novo_elemento;
+
+    return inicio;
+}
+
+
+
+
+
+void listar_em_ordem_alfabeticaF(FILE* fp) {
+  Elementof* inicio = NULL;
+  struct funcionario Funcionario;
+  while (fread(&Funcionario, sizeof(struct funcionario ), 1, fp)) {
+    inicio = inserir_em_ordemF(inicio, Funcionario);
+  }
+  Elementof* atual = inicio;
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
+  printf("********************************************************************************* \n");
+  while (atual != NULL) {
+    listar_func(atual->dados);
+    atual = atual->proximo;
+  }
+  while (inicio != NULL) {
+    Elementof* temp = inicio;
+    inicio = inicio->proximo;
+    free(temp);
+  }
+}
+
+void listar_func(struct funcionario u){
+  printf("Nome: %s\n", u.nome);
+  printf("CPF: %s\n", u.cpf);
+  printf("Cargo: %s\n", u.cargo);
+  printf("E-mail: %s\n", u.email);
+  printf("EndereÃ§o: %s\n", u.ender);
+  printf("**\n");
+  printf("\n");
 }
