@@ -21,6 +21,8 @@ int editar_produto(char *termo_busca);
 void edit_produto(); //Faz a edição do produto
 int deletar_produto(char *termo_busca);
 void apaga_produto(); //Apaga o produto do estoque
+int recupera_produto(char *termo_busca);
+void recuperar_produto();
 
 char* obterCodProduto(const char *codigo);
 void Produtos_com_vend();

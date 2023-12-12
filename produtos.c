@@ -26,7 +26,9 @@ void modulo_produto(void){
             case '4':   edit_produto();
                         break;
             case '5':   apaga_produto();
-                        break;                       
+                        break;             
+            case '6': recuperar_produto();
+                        break;
         }
     } while (opcao != '0');
 
@@ -50,6 +52,7 @@ char sub_menu_produto(){
     printf("**                      3 - Pesquisar produto                                  ** \n");
     printf("**                      4 - Editar produto                                     ** \n");
     printf("**                      5 - Apagar produto                                     ** \n");
+    printf("**                      6 - Recuperar produto                                  ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -487,6 +490,72 @@ void apaga_produto(){
 
 
 }
+
+
+
+int recupera_produto(char *termo_busca) {
+    FILE *file = fopen("produtos.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Produto produto;
+
+    while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+        if (strcmp(produto.codigo, termo_busca) == 0 || strcmp(produto.nome, termo_busca) == 0) {
+            printf("Produto encontrado. Os status do produto serão substituidos por \"OK\":\n");
+
+
+            strcpy(produto.status, "OK");
+            getchar();
+
+            printf("Dados alterados com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Produto), SEEK_CUR); // Retroceder o ponteiro no arquivo
+            fwrite(&produto, sizeof(Produto), 1, file); // Gravar as informações editadas
+            fclose(file);
+
+            return 1; // Sucesso na edição
+        }
+    }
+
+    fclose(file);
+
+    return 0; // Cliente não encontrado
+}
+
+
+void recuperar_produto(){
+    char op;
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************   R E C U P E R A R  P R O D U T O   ********************* \n"); 
+    printf("********************************************************************************* \n");
+    char termo_busca[50];
+    printf("Digite o nome ou código do produto a ser recuperado: ");
+    scanf(" %s", termo_busca);
+
+    if (recupera_produto(termo_busca)) {
+        printf("\n");
+        printf("Cliente recuperado com sucesso!\n"); 
+
+    } else {
+        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+    }
+
+    printf("Pressione Enter para retornar\n");
+    getchar();
+
+
+}
+
+
+
+
 
 
 char* obterCodProduto(const char *codigo) {
