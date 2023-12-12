@@ -27,6 +27,8 @@ void modulo_cliente(void){
                         break;
             case '5':   apaga_cliente();
                         break;
+            case '6':  recuperar_cliente();
+                        break;
         
         }
     } while (opcao != '0');
@@ -51,6 +53,7 @@ char sub_menu_cliente(){
     printf("**                      3 - Pesquisar cliente                                  ** \n");
     printf("**                      4 - Editar ficha do cliente                            ** \n");
     printf("**                      5 - Apagar ficha do cliente                            ** \n");
+    printf("**                      6 - Recuperar ficha do cliente                         ** \n");
     printf("**                      0 - Voltar                                             ** \n");
     printf("********************************************************************************* \n");
     printf("\n");
@@ -501,6 +504,66 @@ void apaga_cliente() {
         
     } else {
         printf("Cliente não encontrado ou erro na exclusão.\n"); 
+    }
+
+    printf("Pressione Enter para retornar\n");
+    getchar();
+}
+
+
+int recupera_cliente(char *termo_busca) {
+    FILE *file = fopen("clientes.dat", "rb+");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo para edição.\n");
+        return 0; // Falha na abertura do arquivo
+    }
+
+    Cliente cliente;
+
+    while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
+        if (strcmp(cliente.cpf, termo_busca) == 0 || strcmp(cliente.nome, termo_busca) == 0) {
+            printf("Cliente encontrado. Os status do cliente serão substituidos por \"OK\":\n");
+
+
+            strcpy(cliente.status, "OK");
+
+            getchar();
+
+            printf("Dados alterados com sucesso!\n");
+            printf("********************************************************************************* \n");
+
+            fseek(file, -sizeof(Cliente), SEEK_CUR); // Retroceder o ponteiro no arquivo
+            fwrite(&cliente, sizeof(Cliente), 1, file); // Gravar as informações editadas
+            fclose(file);
+
+            return 1; // Sucesso na edição
+        }
+    }
+
+    fclose(file);
+
+    return 0; // Cliente não encontrado
+}
+
+
+
+void recuperar_cliente() {
+    clearScreen();
+    printf("\n");
+    printf("********************************************************************************* \n");
+    printf("**********************   R E C U P E R A R  C L I E N T E   ********************* \n"); 
+    printf("********************************************************************************* \n");
+    char termo_busca[50];
+    printf("Digite o nome ou CPF do cliente a ser recuperado: ");
+    scanf(" %s", termo_busca);
+
+    if (recupera_cliente(termo_busca)) {
+        printf("\n");
+        printf("Cliente recuperado com sucesso!\n"); 
+
+    } else {
+        printf("Cliente não encontrado ou erro na recuperação.\n"); 
     }
 
     printf("Pressione Enter para retornar\n");

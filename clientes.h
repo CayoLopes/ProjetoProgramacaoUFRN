@@ -24,6 +24,8 @@ int editar_cliente(char *termo_busca);
 void edit_cliente();
 int apagar_cliente(char *termo_busca);
 void apaga_cliente();
+int recupera_cliente(char *termo_busca);
+void recuperar_cliente();
 
 
 char* obterCPFCliente(const char *cpfc);
