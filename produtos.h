@@ -24,3 +24,12 @@ void apaga_produto(); //Apaga o produto do estoque
 
 char* obterCodProduto(const char *codigo);
 void Produtos_com_vend();
+
+typedef struct Elementop {
+    struct produto dados;
+    struct Elementop* proximo;
+} Elementop;
+
+Elementop* inserir_em_ordemP(Elementop* inicio, struct produto dados);
+void listar_em_ordem_alfabeticaP();
+void listar_produto(struct produto u);

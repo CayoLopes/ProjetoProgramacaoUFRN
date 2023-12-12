@@ -82,6 +82,7 @@ char sub_menu_produto_cads(Produto* produto){
   printf("**                      2 - Dos mais recentes                                  ** \n");
   printf("**                      3 - Inativos                                           ** \n");
   printf("**                      4 - Produtos vendidos                                  ** \n");
+  printf("**                      5 - Produtos em ordem alfabética                       ** \n");
   printf("**                      0 - Voltar                                             ** \n");
   printf("********************************************************************************* \n");
   printf("\n");
@@ -95,6 +96,15 @@ char sub_menu_produto_cads(Produto* produto){
     produtos_inativos(produto);
   else if (op == '4')
     Produtos_com_vend(produto);
+  else if (op == '5'){ 
+    FILE *fp = fopen("produtos.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+    }
+    listar_em_ordem_alfabeticaP(fp);
+    fclose(fp);
+    getchar();
+  }
 
 
   
@@ -493,7 +503,7 @@ char* obterCodProduto(const char *codigo) {
         if (strcmp(venda.codigo, codigo) == 0) {
             codRetornado = malloc(strlen(venda.codigo) + 1);
             strcpy(codRetornado, venda.codigo);
-            break; // Sucesso, cliente encontrado
+            break; // Sucesso, produto encontrado
         }
     }
 
@@ -536,3 +546,64 @@ void Produtos_com_vend() {
   getchar();
 }
 
+
+/* 
+Código feito a partir da função feita por Gustavo Douglas disponivel em: https://github.com/Gustavo-DSC/ProgamacaoProjetoUFRN.git
+*/
+
+// Função inserir_em_ordem modificada
+Elementop* inserir_em_ordemP(Elementop* inicio, struct produto dados) {
+    Elementop* novo_elemento = (Elementop*)malloc(sizeof(Elementop));
+    novo_elemento->dados = dados;
+    novo_elemento->proximo = NULL;
+
+    if (inicio == NULL || strcmp(dados.nome, inicio->dados.nome) < 0) {
+        novo_elemento->proximo = inicio;
+        return novo_elemento;
+    }
+
+    Elementop* atual = inicio;
+    while (atual->proximo != NULL && strcmp(dados.nome, atual->proximo->dados.nome) > 0) {
+        atual = atual->proximo;
+    }
+
+    novo_elemento->proximo = atual->proximo;
+    atual->proximo = novo_elemento;
+
+    return inicio;
+}
+
+
+
+
+
+void listar_em_ordem_alfabeticaP(FILE* fp) {
+  Elementop* inicio = NULL;
+  struct produto Cliente;
+  while (fread(&Cliente, sizeof(struct produto ), 1, fp)) {
+    inicio = inserir_em_ordemP(inicio, Cliente);
+  }
+  Elementop* atual = inicio;
+  printf("\n");
+  printf("********************************************************************************* \n");
+  printf("*******************   R E G I S T R O  D E  P R O D U T O S   ******************* \n");
+  printf("********************************************************************************* \n");
+  while (atual != NULL) {
+    listar_produto(atual->dados);
+    atual = atual->proximo;
+  }
+  while (inicio != NULL) {
+    Elementop* temp = inicio;
+    inicio = inicio->proximo;
+    free(temp);
+  }
+}
+
+void listar_produto(struct produto u){
+  printf("Nome: %s\n", u.nome);
+  printf("Código: %s\n", u.codigo);
+  printf("Preço: %s\n", u.preco);
+  printf("Estoque: %s\n", u.estoq);
+  printf("**\n");
+  printf("\n");
+}
