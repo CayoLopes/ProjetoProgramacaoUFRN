@@ -550,6 +550,7 @@ void Cliente_com_venda() {
   while (fread(&clin, sizeof(Cliente), 1, fp) == 1) {
     char *cpfc = obterCPFCliente(clin.cpf);
     if (cpfc != NULL) {
+         printf("****************************************\n");
          printf("Nome: %s\n", clin.nome);
          printf("CPF: %s\n", cpfc);
          printf("E-mail: %s\n", clin.email);
@@ -624,10 +625,13 @@ void listar_em_ordem_alfabetica(FILE* fp) {
 }
 
 void listar_cliente(struct cliente u){
-  printf("Nome: %s\n", u.nome);
-  printf("CPF: %s\n", u.cpf);
-  printf("E-mail: %s\n", u.email);
-  printf("EndereÃ§o: %s\n", u.ender);
-  printf("**\n");
-  printf("\n");
+  if (strcmp(u.status, "NO") != 0){ 
+    printf("****************************************\n");
+    printf("Nome: %s\n", u.nome);
+    printf("CPF: %s\n", u.cpf);
+    printf("E-mail: %s\n", u.email);
+    printf("EndereÃ§o: %s\n", u.ender);
+    printf("****************************************\n");
+    printf("\n");
+  }
 }
