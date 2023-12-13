@@ -102,6 +102,8 @@ char sub_menu_cliente_cads(Cliente* cliente){
     fclose(fp);
     getchar();
   }
+  else if (op != '0')
+    limparBuffer();
    
  
   

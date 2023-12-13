@@ -97,6 +97,8 @@ char sub_menu_funcionario_cads(Funcionario* funcionario){
     fclose(fp);
     getchar();
   }
+  else if (op != '0')
+    limparBuffer();
 
 
   

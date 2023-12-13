@@ -108,6 +108,8 @@ char sub_menu_produto_cads(Produto* produto){
     fclose(fp);
     getchar();
   }
+  else if (op != '0')
+    limparBuffer();
 
 
   
