@@ -290,6 +290,7 @@ Cliente* cadas_cliente(void){
     strcpy(clien->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
+    printf("Pressione Enter para retornar\n");
     printf("\n");    
     getchar();
     return clien;
@@ -439,7 +440,7 @@ void edit_cliente() {
     printf("********************************************************************************* \n");
 
     char termo_busca[50];
-    printf("Digite o nome ou CPF do cliente a ser editado: ");
+    printf("Digite o CPF do cliente a ser editado: ");
     scanf(" %s", termo_busca);
 
     if (editar_cliente(termo_busca)) {
@@ -499,7 +500,7 @@ void apaga_cliente() {
     printf("************************   D E L E T A R  C L I E N T E   *********************** \n"); 
     printf("********************************************************************************* \n");
     char termo_busca[50];
-    printf("Digite o nome ou CPF do cliente a ser deletado: ");
+    printf("Digite o CPF do cliente a ser deletado: ");
     scanf(" %s", termo_busca);
 
     if (deletar_cliente(termo_busca)) {
@@ -559,7 +560,7 @@ void recuperar_cliente() {
     printf("**********************   R E C U P E R A R  C L I E N T E   ********************* \n"); 
     printf("********************************************************************************* \n");
     char termo_busca[50];
-    printf("Digite o nome ou CPF do cliente a ser recuperado: ");
+    printf("Digite o CPF do cliente a ser recuperado: ");
     scanf(" %s", termo_busca);
 
     if (recupera_cliente(termo_busca)) {
@@ -609,6 +610,7 @@ void Cliente_com_venda() {
         exit(1);
   }
 
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("******************   C L I E N T E S   C O M   C O M P R A S   ****************** \n"); 
@@ -699,6 +701,7 @@ void listar_em_ordem_alfabetica(FILE* fp) {
     inicio = inserir_em_ordem(inicio, Cliente);
   }
   Elemento* atual = inicio;
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("*******************   R E G I S T R O  D E  C L I E N T E S   ******************* \n");

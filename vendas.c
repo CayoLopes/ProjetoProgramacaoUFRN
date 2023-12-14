@@ -328,11 +328,15 @@ void relatorio_venda() {
       exit(1);
   }
 
+  clearScreen();
+  printf("*********************************************\n");
   printf("************ Relatório de Vendas ************\n");
+  printf("*********************************************\n");
 
   while (fread(&vend, sizeof(Venda), 1, fp) == 1) {
       // Adicione a verificação se a venda está completa antes de imprimir os detalhes
       if (strcmp(vend.status, "OK") == 0) {
+          printf("*********************************************\n");
           printf("Código da venda: %s\n", vend.codigov);
           printf("Vendedor: %s (CPF: %s)\n", vend.nomef, vend.cpff);
           printf("Cliente: %s (CPF: %s)\n", vend.nomec, vend.cpfc);
@@ -340,6 +344,7 @@ void relatorio_venda() {
           printf("Preço unitário: %.2f\n", vend.preco[0]);
           printf("Quantidade comprada: %.2d\n", vend.quant[0]);
           printf("Total da compra: R$ %.2d\n", vend.valor[0]);
+          printf("*********************************************\n");
           printf("\n");
       }
   }
@@ -368,11 +373,15 @@ void relatorio_vendaFil() {
       exit(1);
   }
 
+  clearScreen();
+  printf("*********************************************\n");
   printf("******* Relatório de Vendas Canceladas *******\n");
+  printf("*********************************************\n");
 
   while (fread(&vend, sizeof(Venda), 1, fp) == 1) {
       // Adicione a verificação se a venda está completa antes de imprimir os detalhes
       if (strcmp(vend.status, "NO") == 0) {
+          printf("*********************************************\n");
           printf("Código da venda: %s\n", vend.codigov);
           printf("Vendedor: %s (CPF: %s)\n", vend.nomef, vend.cpff);
           printf("Cliente: %s (CPF: %s)\n", vend.nomec, vend.cpfc);
@@ -380,6 +389,7 @@ void relatorio_vendaFil() {
           printf("Preço unitário: %.2f\n", vend.preco[0]);
           printf("Quantidade comprada: %.2d\n", vend.quant[0]);
           printf("Total da compra: R$ %.2d\n", vend.valor[0]);
+          printf("*********************************************\n");
           printf("\n");
       }
   }

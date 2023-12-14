@@ -283,6 +283,7 @@ Produto* cadas_produto(void){
     strcpy(prd->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
+    printf("Pressione Enter para retornar\n");
     printf("\n");
     getchar();
     return prd;
@@ -482,7 +483,7 @@ void apaga_produto(){
     printf("************************   D E L E T A R  P R O D U T O   *********************** \n"); 
     printf("********************************************************************************* \n");
     char termo_busca[50];
-    printf("Digite o nome ou código do produto a ser deletado: ");
+    printf("Digite o código do produto a ser deletado: ");
     scanf(" %s", termo_busca);
 
     if (deletar_produto(termo_busca)) {
@@ -552,7 +553,7 @@ void recuperar_produto(){
         printf("Cliente recuperado com sucesso!\n"); 
 
     } else {
-        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+        printf("Cliente não encontrado ou erro na recuperação.\n"); 
     }
 
     printf("Pressione Enter para retornar\n");
@@ -598,6 +599,7 @@ void Produtos_com_vend() {
         exit(1);
   }
 
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("************************  P R O D U T O S  V E N D I D O S  ********************* \n");
@@ -684,6 +686,7 @@ void listar_em_ordem_alfabeticaP(FILE* fp) {
     inicio = inserir_em_ordemP(inicio, Cliente);
   }
   Elementop* atual = inicio;
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("*******************   R E G I S T R O  D E  P R O D U T O S   ******************* \n");

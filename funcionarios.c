@@ -298,6 +298,7 @@ Funcionario* cadas_func(void){
     strcpy(func->status, "OK");
     printf("**                                                                             ** \n");
     printf("********************************************************************************* \n");
+    printf("Pressione Enter para retornar\n");
     printf("\n");    
     getchar();
     return func;
@@ -456,7 +457,7 @@ void edit_func() {
     printf("********************************************************************************* \n");
 
     char termo_busca[50];
-    printf("Digite o nome ou CPF do funcionário a ser editado: ");
+    printf("Digite o CPF do funcionário a ser editado: ");
     scanf(" %s", termo_busca);
 
     if (editar_func(termo_busca)) {
@@ -513,7 +514,7 @@ void apaga_func(){
     printf("********************   D E L E T A R  F U N C I O N A R I O   ******************* \n"); 
     printf("********************************************************************************* \n");
     char termo_busca[50];
-        printf("Digite o nome ou CPF do funcionário a ser deletado: ");
+        printf("Digite o CPF do funcionário a ser deletado: ");
         scanf(" %s", termo_busca);
 
         if (deletar_func(termo_busca)) {
@@ -573,7 +574,7 @@ void recuperar_func(){
   printf("*****************   R E C U P E R A R  F U N C I O N A R I O   ****************** \n"); 
   printf("********************************************************************************* \n");
   char termo_busca[50];
-      printf("Digite o nome ou CPF do funcionário a ser recuperado: ");
+      printf("Digite o CPF do funcionário a ser recuperado: ");
       scanf(" %s", termo_busca);
 
       if (recupera_func(termo_busca)) {
@@ -581,7 +582,7 @@ void recuperar_func(){
           printf("Funcionário recuperado com sucesso!\n"); 
 
       } else {
-          printf("Funcionário não encontrado ou erro na exclusão.\n"); 
+          printf("Funcionário não encontrado ou erro na recuperação.\n"); 
       }
 
       printf("Pressione Enter para retornar\n");
@@ -625,6 +626,7 @@ void Funcionarios_com_vend() {
         exit(1);
   }
 
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("****************  F U N C I O N A R I O S  C O M  V E N D A S  ***************** \n");
@@ -707,6 +709,7 @@ void listar_em_ordem_alfabeticaF(FILE* fp) {
     inicio = inserir_em_ordemF(inicio, Funcionario);
   }
   Elementof* atual = inicio;
+  clearScreen();
   printf("\n");
   printf("********************************************************************************* \n");
   printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
