@@ -27,7 +27,7 @@ void apaga_cliente();
 int recupera_cliente(char *termo_busca);
 void recuperar_cliente();
 
-
+int cpfClienJaCadastrado(const char *cpf);
 char* obterCPFCliente(const char *cpfc);
 void Cliente_com_venda();
 

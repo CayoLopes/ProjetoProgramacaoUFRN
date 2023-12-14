@@ -263,15 +263,17 @@ Cliente* cadas_cliente(void){
        }
     }while (!validarNome(clien->nome));
     do {
-      printf("**          Digite o CPF:...                                                   ** \n");
+      printf("** Digite o CPF:... \n");
       scanf(" %s", clien->cpf);
       getchar();
-      if (validarCPF(clien->cpf)) {
+      if (cpfClienJaCadastrado(clien->cpf)) {
+          printf("CPF já cadastrado. Tente novamente.\n");
+      } else if (validarCPF(clien->cpf)) {
           printf("\n");
-      } else{
-         printf("CPF inválido.\n" );
+      } else {
+          printf("CPF inválido.\n");
       }
-    } while (!validarCPF(clien->cpf));     
+    }while (!validarCPF(clien->cpf) || cpfClienJaCadastrado(clien->cpf));     
     do{
       printf("**          Digite o email:...                                                 ** \n");
       scanf(" %s", clien->email);
@@ -632,6 +634,29 @@ void Cliente_com_venda() {
   getchar();
 }
 
+
+
+
+
+int cpfClienJaCadastrado(const char *cpf) {
+    FILE *file = fopen("clientes.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return 0;  // Considerando que 0 indica "CPF não cadastrado"
+    }
+
+    Cliente cliente;
+
+    while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
+        if (strcmp(cliente.cpf, cpf) == 0) {
+            fclose(file);
+            return 1;  // CPF já cadastrado
+        }
+    }
+
+    fclose(file);
+    return 0;  // CPF não cadastrado
+}
 
 
 
