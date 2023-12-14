@@ -69,6 +69,12 @@ char* obterNomeCliente(const char *cpf) {
     Cliente cliente;
 
     while (fread(&cliente, sizeof(Cliente), 1, file) == 1) {
+        if (strcmp(cliente.status, "NO") == 0){
+          printf("Esse cliente está inativo.\n");
+          printf("Pressione ENTER para voltar ao menu de vendas.\n");
+          getchar();
+          return NULL;        
+        }
         if (strcmp(cliente.cpf, cpf) == 0) {
             fclose(file);
             char *nome = malloc(strlen(cliente.nome) + 1);
@@ -92,6 +98,12 @@ char* obterNomeProduto(const char *codigo) {
     Produto produto;
 
     while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+        if (strcmp(produto.status, "NO") == 0){
+         printf("Esse produto está inativo.\n");
+         printf("Pressione ENTER para voltar ao menu de vendas.\n");
+         getchar();
+         return NULL; // Produto não está ativo
+       }
         if (strcmp(produto.codigo, codigo) == 0) {
             fclose(file);
             char *nome = malloc(strlen(produto.nome) + 1);
@@ -115,7 +127,7 @@ char* obterValorProduto(const char *codigo) {
 
     Produto produto;
 
-    while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+    while (fread(&produto, sizeof(Produto), 1, file) == 1) {      
         if (strcmp(produto.codigo, codigo) == 0) {
             fclose(file);
             char *preco = malloc(strlen(produto.preco) + 1);
@@ -127,6 +139,7 @@ char* obterValorProduto(const char *codigo) {
     fclose(file);
     return NULL; // Produto não encontrado
 }
+
 
 
 
@@ -179,6 +192,13 @@ char* obterNomeFuncionario(const char *cpf) {
   Funcionario funcionario;
 
   while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
+      if (strcmp(funcionario.status, "NO") == 0){
+        printf("Esse funcionário está inativo.\n");
+        printf("Pressione ENTER para voltar ao menu de vendas.\n");
+        getchar();
+        return NULL; // Funcionário não está ativo
+      }
+    
       if (strcmp(funcionario.cpf, cpf) == 0) {
           fclose(file);
           char *nome = malloc(strlen(funcionario.nome) + 1);
