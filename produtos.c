@@ -268,8 +268,14 @@ Produto* cadas_produto(void){
           printf("Nome inválido.\n");  
        } 
     } while (!validarNome(prd->nome));
-    printf("**                 Digite o código:                                            ** \n");
-    scanf("%s", prd->codigo);
+    do {
+        printf("**                 Digite o código:                                            ** \n");
+        scanf("%s", prd->codigo);
+        getchar();  // Limpar o caractere de nova linha no buffer
+        if (ProdutoJaCadastrado(prd->codigo)) {
+            printf("Código já cadastrado. Tente novamente.\n");
+        }
+    } while (ProdutoJaCadastrado(prd->codigo));
     printf("**                 Digite o preço:                                             ** \n");
     scanf("%s", prd->preco);
     printf("**                 Digite o estoque:                                           ** \n");
@@ -616,6 +622,29 @@ void Produtos_com_vend() {
   printf("Pressione Enter para retornar ao menu principal...");
   getchar();
 }
+
+
+int ProdutoJaCadastrado(const char *codigo) {
+    FILE *file = fopen("produtos.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de produtos.\n");
+        return 0;  // Considerando que 0 indica "código não cadastrado"
+    }
+
+    Produto produto;
+
+    while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+        if (strcmp(produto.codigo, codigo) == 0) {
+            fclose(file);
+            return 1;  // código já cadastrado
+        }
+    }
+
+    fclose(file);
+    return 0;  // código não cadastrado
+}
+
+
 
 
 /* 

@@ -24,6 +24,7 @@ void apaga_produto(); //Apaga o produto do estoque
 int recupera_produto(char *termo_busca);
 void recuperar_produto();
 
+int ProdutoJaCadastrado(const char *codigo);
 char* obterCodProduto(const char *codigo);
 void Produtos_com_vend();
 
