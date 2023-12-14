@@ -270,13 +270,15 @@ Funcionario* cadas_func(void){
     do{
       printf("**          Digite o CPF:                                                      ** \n");
       scanf(" %s", func->cpf);
-      getchar();
-      if (validarCPF(func->cpf)) {
-          printf("\n");
-      } else{
-         printf("CPF inválido.\n" );
-      }
-    } while (!validarCPF(func->cpf));
+          getchar();
+          if (cpfFuncJaCadastrado(func->cpf)) {
+              printf("CPF já cadastrado. Tente novamente.\n");
+          } else if (validarCPF(func->cpf)) {
+              printf("\n");
+          } else {
+              printf("CPF inválido.\n");
+          }
+      } while (!validarCPF(func->cpf) || cpfFuncJaCadastrado(func->cpf));
     printf("**          Digite o cargo/função:                                             ** \n");
     scanf(" %s",func->cargo);
     getchar();
@@ -647,6 +649,28 @@ void Funcionarios_com_vend() {
 
   printf("Pressione Enter para retornar ao menu principal...");
   getchar();
+}
+
+
+
+int cpfFuncJaCadastrado(const char *cpf) {
+    FILE *file = fopen("funcionarios.dat", "rb");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo de funcionarios.\n");
+        return 0;  // Considerando que 0 indica "CPF não cadastrado"
+    }
+
+    Funcionario funcionario;
+
+    while (fread(&funcionario, sizeof(Funcionario), 1, file) == 1) {
+        if (strcmp(funcionario.cpf, cpf) == 0) {
+            fclose(file);
+            return 1;  // CPF já cadastrado
+        }
+    }
+
+    fclose(file);
+    return 0;  // CPF não cadastrado
 }
 
 

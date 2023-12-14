@@ -24,6 +24,7 @@ void apaga_func();
 int recupera_func(char *termo_busca);
 void recuperar_func();
 
+int cpfFuncJaCadastrado(const char *cpf);
 void Funcionarios_com_vend();
 char* obterCPFFuncionario(const char *cpff);
 
