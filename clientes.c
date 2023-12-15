@@ -10,6 +10,12 @@ void clearScreen();
 
 
 void modulo_cliente(void){
+  FILE* fp = fopen("clientes.dat", "ab");
+  if (fp == NULL) {
+    printf("Erro ao abrir o arquivo!\n");
+    return;
+  }
+  fclose(fp);
   Cliente* cliente;
   struct cliente Cliente;
     char opcao;

@@ -9,6 +9,12 @@
 void clearScreen();
 
 void modulo_funcionario(void) {
+  FILE* fp = fopen("funcionarios.dat", "ab");
+  if (fp == NULL) {
+    printf("Erro ao abrir o arquivo!\n");
+    return;
+  }
+  fclose(fp);
   Funcionario* funcionario;
   struct funcionario Funcionario;
     char opcao;

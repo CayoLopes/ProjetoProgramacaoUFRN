@@ -10,6 +10,12 @@ void clearScreen();
 
 
 void modulo_produto(void){
+  FILE* fp = fopen("produtos.dat", "ab");
+  if (fp == NULL) {
+    printf("Erro ao abrir o arquivo!\n");
+    return;
+  }
+  fclose(fp);
   Produto* produto;
   struct produto Produto;
   char opcao;
