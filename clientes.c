@@ -731,6 +731,7 @@ void listar_cliente(struct cliente u){
     printf("E-mail: %s\n", u.email);
     printf("EndereÃ§o: %s\n", u.ender);
     printf("****************************************\n");
+    printf("Pressione Enter para retornar...");
     printf("\n");
   }
 }

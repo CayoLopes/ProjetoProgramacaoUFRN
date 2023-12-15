@@ -716,6 +716,7 @@ void listar_produto(struct produto u){
     printf("Preço: %s\n", u.preco);
     printf("Estoque: %s\n", u.estoq);
     printf("****************************************\n");
+    printf("Pressione Enter para retornar...");
     printf("\n");
   }
 }
