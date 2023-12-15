@@ -166,6 +166,36 @@ void subtrairQuantidadeEstoque(const char *codigo, int quantidade) {
 
 
 
+void retornaQuantidadeEstoque(const char *codigo, int quantidade) {
+      FILE *file = fopen("produtos.dat", "rb+");
+
+      if (file == NULL) {
+          printf("Erro ao abrir o arquivo de produtos.\n");
+          return;
+      }
+
+      Produto produto;
+
+      while (fread(&produto, sizeof(Produto), 1, file) == 1) {
+          if (strcmp(produto.codigo, codigo) == 0) {
+              int estoqueAtual = atoi(produto.estoq);
+              estoqueAtual += quantidade;  // Adiciona a quantidade de volta ao estoque
+              sprintf(produto.estoq, "%d", estoqueAtual);
+
+              fseek(file, -sizeof(Produto), SEEK_CUR);
+              fwrite(&produto, sizeof(Produto), 1, file);
+
+              fclose(file);
+              return;
+          }
+      }
+
+      fclose(file);
+      printf("Produto não encontrado.\n");
+  }
+
+
+
 
 
 
@@ -404,36 +434,41 @@ void relatorio_vendaFil() {
 
 
 
-int deletar_venda(char *termo_busca) {
-  FILE *file = fopen("vendas.dat", "rb+");
+  int deletar_venda(char *termo_busca) {
+      FILE *file = fopen("vendas.dat", "rb+");
 
-  if (file == NULL) {
-      printf("Erro ao abrir o arquivo para edição.\n");
-      return 0; // Falha na abertura do arquivo
-  }
-
-  Venda venda;
-
-  while (fread(&venda, sizeof(Venda), 1, file) == 1) {
-      if (strcmp(venda.codigov, termo_busca) == 0) {
-          printf("Venda encontrado. Os dados do produto serão substituídos por \"xxxx\":\n");
-
-          strcpy(venda.status, "NO");
-
-          printf(" Informações alteradas \n");
-          printf("********************************************************************************* \n");
-
-          fseek(file, -sizeof(Venda), SEEK_CUR); // Retroceder o ponteiro no arquivo
-          fwrite(&venda, sizeof(Venda), 1, file); // Gravar as informações editadas
-          fclose(file);
-
-          return 1; // Sucesso na edição
+      if (file == NULL) {
+          printf("Erro ao abrir o arquivo para edição.\n");
+          return 0; // Falha na abertura do arquivo
       }
+
+      Venda venda;
+
+      while (fread(&venda, sizeof(Venda), 1, file) == 1) {
+          if (strcmp(venda.codigov, termo_busca) == 0) {
+              printf("Venda encontrado. Os dados do produto serão substituídos por \"xxxx\":\n");
+
+              // Restaura a quantidade vendida ao estoque
+              retornaQuantidadeEstoque(venda.codigo, (int)venda.quant[0]);
+
+              strcpy(venda.status, "NO");
+
+              printf(" Informações alteradas \n");
+              printf("********************************************************************************* \n");
+
+              fseek(file, -sizeof(Venda), SEEK_CUR); // Retroceder o ponteiro no arquivo
+              fwrite(&venda, sizeof(Venda), 1, file); // Gravar as informações editadas
+              fclose(file);
+
+              return 1; // Sucesso na edição
+          }
+      }
+
+      fclose(file);
+      return 0; // Venda não encontrada
   }
 
-  fclose(file);
-  return 0; // Venda não encontrada
-}
+  
 void apaga_venda(){
     char op;
     clearScreen();

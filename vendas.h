@@ -24,5 +24,6 @@ char* obterNomeCliente(const char *cpf);
 char* obterNomeProduto(const char *codigo);
 char* obterValorProduto(const char *codigo);
 void subtrairQuantidadeEstoque(const char *codigo, int quantidade);
+void retornaQuantidadeEstoque(const char *codigo, int quantidade);
 char* obterNomeFuncionario(const char *cpf);
 void gravar_venda(Venda*);
