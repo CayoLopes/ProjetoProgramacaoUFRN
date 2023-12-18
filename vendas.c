@@ -78,6 +78,8 @@ char* obterNomeCliente(const char *cpf) {
     }
 
     fclose(file);
+    printf("Cliente não encontrado, você retornará ao menu de vendas.\n");
+    getchar();
     return NULL; // Cliente não encontrado
 }
 
@@ -101,6 +103,8 @@ char* obterNomeProduto(const char *codigo) {
     }
 
     fclose(file);
+    printf("Produto não encontrado, você retornará ao menu de vendas.\n");
+    getchar();
     return NULL; // Produto não encontrado
 }
 
@@ -220,6 +224,8 @@ char* obterNomeFuncionario(const char *cpf) {
   }
 
   fclose(file);
+  printf("Funcionário não encontrado, você retornará ao menu de vendas.\n");
+  getchar();
   return NULL; // Funcionário não encontrado ou CPF inválido
 
 }
@@ -487,6 +493,7 @@ void apaga_venda(){
 
     } else {
         printf("Venda não encontrado ou erro na exclusão.\n"); 
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");

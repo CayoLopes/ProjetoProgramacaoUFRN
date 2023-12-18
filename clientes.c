@@ -453,6 +453,7 @@ void edit_cliente() {
         printf("Cliente editado com sucesso!\n");
     } else {
         printf("Cliente não encontrado ou erro na edição.\n");
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
@@ -515,6 +516,7 @@ void apaga_cliente() {
         
     } else {
         printf("Cliente não encontrado ou erro na exclusão.\n"); 
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
@@ -575,6 +577,7 @@ void recuperar_cliente() {
 
     } else {
         printf("Cliente não encontrado ou erro na recuperação.\n"); 
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");

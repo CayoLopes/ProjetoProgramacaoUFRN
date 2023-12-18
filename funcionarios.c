@@ -470,6 +470,7 @@ void edit_func() {
         printf("Funcionário editado com sucesso!\n");
     } else {
         printf("Funcionário não encontrado ou erro na edição.\n");
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
@@ -528,7 +529,8 @@ void apaga_func(){
             printf("Funcionário deletado com sucesso!\n"); 
 
         } else {
-            printf("Funcionário não encontrado ou erro na exclusão.\n"); 
+            printf("Funcionário não encontrado ou erro na exclusão.\n");
+            getchar(); 
         }
 
         printf("Pressione Enter para retornar\n");
@@ -589,6 +591,7 @@ void recuperar_func(){
 
       } else {
           printf("Funcionário não encontrado ou erro na recuperação.\n"); 
+          getchar();
       }
 
       printf("Pressione Enter para retornar\n");

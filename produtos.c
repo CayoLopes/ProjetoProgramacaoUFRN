@@ -439,6 +439,7 @@ void edit_produto() {
         printf("Produto editado com sucesso!\n");
     } else {
         printf("Produto não encontrado ou erro na edição.\n");
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
@@ -494,10 +495,11 @@ void apaga_produto(){
 
     if (deletar_produto(termo_busca)) {
         printf("\n");
-        printf("Cliente deletado com sucesso!\n"); 
+        printf("Produto deletado com sucesso!\n"); 
 
     } else {
-        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+        printf("Produto não encontrado ou erro na exclusão.\n"); 
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
@@ -556,10 +558,11 @@ void recuperar_produto(){
 
     if (recupera_produto(termo_busca)) {
         printf("\n");
-        printf("Cliente recuperado com sucesso!\n"); 
+        printf("Produto recuperado com sucesso!\n"); 
 
     } else {
-        printf("Cliente não encontrado ou erro na recuperação.\n"); 
+        printf("Produto não encontrado ou erro na recuperação.\n"); 
+        getchar();
     }
 
     printf("Pressione Enter para retornar\n");
