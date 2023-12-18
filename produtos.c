@@ -697,6 +697,7 @@ void listar_em_ordem_alfabeticaP(FILE* fp) {
   printf("********************************************************************************* \n");
   printf("*******************   R E G I S T R O  D E  P R O D U T O S   ******************* \n");
   printf("********************************************************************************* \n");
+  printf("\n");
   while (atual != NULL) {
     listar_produto(atual->dados);
     atual = atual->proximo;
@@ -716,7 +717,6 @@ void listar_produto(struct produto u){
     printf("Preço: %s\n", u.preco);
     printf("Estoque: %s\n", u.estoq);
     printf("****************************************\n");
-    printf("Pressione Enter para retornar...");
     printf("\n");
   }
 }

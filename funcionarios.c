@@ -720,6 +720,7 @@ void listar_em_ordem_alfabeticaF(FILE* fp) {
   printf("********************************************************************************* \n");
   printf("***************   R E G I S T R O  D E  F U N C I O N A R I O S   *************** \n");
   printf("********************************************************************************* \n");
+  printf("\n");
   while (atual != NULL) {
     listar_func(atual->dados);
     atual = atual->proximo;
@@ -740,7 +741,6 @@ void listar_func(struct funcionario u){
     printf("E-mail: %s\n", u.email);
     printf("EndereÃ§o: %s\n", u.ender);
     printf("****************************************\n");
-    printf("Pressione Enter para retornar...");
     printf("\n");
   }
 }
