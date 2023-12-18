@@ -446,7 +446,7 @@ void relatorio_vendaFil() {
 
       while (fread(&venda, sizeof(Venda), 1, file) == 1) {
           if (strcmp(venda.codigov, termo_busca) == 0) {
-              printf("Venda encontrado. Os dados do produto serão substituídos por \"xxxx\":\n");
+              printf("Venda encontrado. Os dados da venda serão substituídos por \"NO\":\n");
 
               // Restaura a quantidade vendida ao estoque
               retornaQuantidadeEstoque(venda.codigo, (int)venda.quant[0]);
@@ -455,6 +455,7 @@ void relatorio_vendaFil() {
 
               printf(" Informações alteradas \n");
               printf("********************************************************************************* \n");
+              getchar();
 
               fseek(file, -sizeof(Venda), SEEK_CUR); // Retroceder o ponteiro no arquivo
               fwrite(&venda, sizeof(Venda), 1, file); // Gravar as informações editadas
@@ -474,7 +475,7 @@ void apaga_venda(){
     clearScreen();
     printf("\n");
     printf("********************************************************************************* \n");
-    printf("************************   D E L E T A R  P R O D U T O   *********************** \n"); 
+    printf("**************************   D E L E T A R  V E N D A   ************************* \n"); 
     printf("********************************************************************************* \n");
     char termo_busca[10];
     printf("Digite o código da venda : ");
@@ -482,10 +483,10 @@ void apaga_venda(){
 
     if (deletar_venda(termo_busca)) {
         printf("\n");
-        printf("Cliente deletado com sucesso!\n"); 
+        printf("Venda deletado com sucesso!\n"); 
 
     } else {
-        printf("Cliente não encontrado ou erro na exclusão.\n"); 
+        printf("Venda não encontrado ou erro na exclusão.\n"); 
     }
 
     printf("Pressione Enter para retornar\n");
